@@ -1,0 +1,4 @@
+1) Le programme definit deux vecteur de la taille de la largeur et de la hauteur
+de l'image et effectue la somme de l'ensemble des elements des vecteurs.
+
+
