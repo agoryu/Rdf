@@ -53,19 +53,58 @@ rdfMomentCentre <- function (im, p, q) {
 }
 
 rdfMatriceInertie <-function (im) {
-  #creation de la matrice I
-  i1 <- c(dim(im)[1], 0)
-  i2 <- c(0, dim(im)[2])
-  z.mat = cbind(i1, i2)
+  u20 <- rdfMomentCentre(im, 2, 0)
+  u11 <- rdfMomentCentre(im, 1, 1)
+  u02 <- rdfMomentCentre(im, 0, 2)
+  mat <- matrix(data = c(u20, u11, u11, u02), nrow = 2)
+}
 
-  #recuperation valeur propre
-  p <- eigen(z.mat)
+# moment principal d'inertie
+rdfValeurPropre <- function(im) {
+  mat <-rdfMatriceInertie(im)
+  vpropre <- eigen(mat)
+  vpropre$valeurs
+}
 
-  #calcule de p-1
-  pinv <- solve(p$vectors)
-  print(pinv)
+# axe principal d'inertie
+rdfVecteurPropre <- function(im) {
+  mat <-rdfMatriceInertie(im)
+  vpropre <- eigen(mat)
+  vpropre$vectors
+}
 
-  #print(pinv)
-  #r.mat = pinv %*% z.mat %*% i1$vectors
-  #print(r.mat)
+# 3e partie
+rdfMomentCentreNormalise <- function(im, p, q) {
+  uij <- rdfMomentCentre(im, p, q)
+  u00 <- rdfMomentCentre(im, 0, 0)
+  nij <- uij / (u00 ^ (1 + (i+j) / 2))
+}
+
+rdfMatriceInertieN <-function (im) {
+  u20 <- rdfMomentCentreNormalise(im, 2, 0)
+  u11 <- rdfMomentCentreNormalise(im, 1, 1)
+  u02 <- rdfMomentCentreNormalise(im, 0, 2)
+  mat <- matrix(data = c(u20, u11, u11, u02), nrow = 2)
+}
+
+rdfValeurPropreN <- function(im) {
+  mat <-rdfMatriceInertieN(im)
+  vpropre <- eigen(mat)
+  vpropre$valeurs
+}
+
+rdfVecteurPropreN <- function(im) {
+  mat <-rdfMatriceInertieN(im)
+  vpropre <- eigen(mat)
+  vpropre$vectors
+}
+
+# 4e partie
+rdfMomentsInvariants <- function(im) {
+  n30 <- rdfMomentCentreNormalise(im, 3, 0)
+  n12 <- rdfMomentCentreNormalise(im, 1, 2)
+  n21 <- rdfMomentCentreNormalise(im, 2, 1)
+  n03 <- rdfMomentCentreNormalise(im, 0, 3)
+  
+  
 }
