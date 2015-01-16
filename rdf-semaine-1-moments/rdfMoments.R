@@ -63,7 +63,7 @@ rdfMatriceInertie <-function (im) {
 rdfValeurPropre <- function(im) {
   mat <-rdfMatriceInertie(im)
   vpropre <- eigen(mat)
-  vpropre$valeurs
+  vpropre$values
 }
 
 # axe principal d'inertie
@@ -77,7 +77,7 @@ rdfVecteurPropre <- function(im) {
 rdfMomentCentreNormalise <- function(im, p, q) {
   uij <- rdfMomentCentre(im, p, q)
   u00 <- rdfMomentCentre(im, 0, 0)
-  nij <- uij / (u00 ^ (1 + (i+j) / 2))
+  nij <- uij / (u00 ^ (1 + (p+q) / 2))
 }
 
 rdfMatriceInertieN <-function (im) {
@@ -90,7 +90,7 @@ rdfMatriceInertieN <-function (im) {
 rdfValeurPropreN <- function(im) {
   mat <-rdfMatriceInertieN(im)
   vpropre <- eigen(mat)
-  vpropre$valeurs
+  vpropre$values
 }
 
 rdfVecteurPropreN <- function(im) {

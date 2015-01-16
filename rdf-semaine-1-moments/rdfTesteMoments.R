@@ -22,12 +22,16 @@ library ("EBImage")
 source ("rdfMoments.R")
 
 # Chargement d'une image d'un seul objet
-nom <- "rdf-rectangle-diagonal-lisse.png";
+nom <- "rdf-chiffre-1.png";
 image <- rdfReadGreyImage (nom)
-if (interactive ()) {
-  display (image, nom)
-}
+#if (interactive ()) {
+#  display (image, nom)
+#}
 
 # Calcul de la surface
 surface <- rdfSurface (image)
-rdfMatriceInertie(image)
+print(rdfMatriceInertieN(image))
+print("moment principal = ")
+print(rdfValeurPropreN(image))
+print("axe principal = ")
+print(rdfVecteurPropreN(image))

@@ -27,6 +27,7 @@
 \usepackage{float}
 \usepackage{verbatim}
 \usepackage{fancyhdr}
+\usepackage{amsmath}
 
 
 % include pdf
@@ -63,7 +64,7 @@
 % --------------------------------------
 % Information
 % --------------------------------------
-\title{Compte-rendu TP1 Rdf}
+\title{Compte-rendu TP1 Rdf : Moments d'une forme}
 \author{Elliot VANEGUE et Gaëtan DEFLANDRE}
 % --------------------------------------
 
@@ -86,6 +87,133 @@
   \newpage
   \clearpage
   
+  %\section{Code R}
+  \section{Moments d'une forme}
+  Nous avons pu voir que les moments d'une forme représente la répartition du niveau de gris
+  dans une image. Dans un premier temps, nous allons voir que les moments d'une forme permettent
+  de calculer la matrice d'inertie. Cette matrice va pouvoir déterminer la direction de la forme.
+  Nous avons effectué le calcul de la matrice d'inertie sur plusieurs images représentant des 
+  rectangles dans des positions différentes.\\
+  
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    \textbf{image} & \textbf{matrice d'inertie} & \textbf{moments principaux} & \textbf{axe principale} \\
+    \hline
+    rectangle horizontal & $\begin{pmatrix}
+			    1360 & 0 \\
+			    0 & 80 
+			    \end{pmatrix}$ 
+			 & 1360; 80
+			 &  $\begin{pmatrix}
+			    -1 & 0 \\
+			    0 & -1 
+			    \end{pmatrix}$\\
+    \hline
+    rectangle vertical & $\begin{pmatrix}
+			    80 & 0 \\
+			    0 & 1360 
+			    \end{pmatrix}$
+			& 1360; 80
+			&  $\begin{pmatrix}
+			    0 & -1 \\
+			    1 & 0 
+			    \end{pmatrix}$\\
+    \hline
+    rectangle diagonal lisse & $\begin{pmatrix}
+			    745 & -647 \\
+			    -647 & 748,4 
+			    \end{pmatrix}$
+			 & 1394,7; 99,7
+			 &  $\begin{pmatrix}
+			    -0,7 & -0,7 \\
+			    0,7 & -0,7 
+			    \end{pmatrix}$\\
+    \hline
+    rectangle diagonal & $\begin{pmatrix}
+			    678,5 & -619,5 \\
+			    -619,5 & 678,5 
+			    \end{pmatrix}$
+			 & 1298; 59
+			 &  $\begin{pmatrix}
+			    -0,7 & -0,7 \\
+			    0,7 & -0,7 
+			    \end{pmatrix}$\\
+    \hline
+  \end{tabular}
+  
+  % TODO conclure sur les résultats obtenu
+  
+  \begin{center}
+    \begin{tabular}{|c|c|}
+      \hline
+      \textbf{image} & \textbf{moments principaux} \\
+      \hline
+      carré côté 6 & 105; 105 \\
+      \hline
+      carré côté 10 & 825; 825 \\
+      \hline
+      carré rotation 30deg & 843,3; 842,4 \\
+      \hline
+      carré rotation 45deg & 841,5; 838,5 \\
+      \hline
+      carré côté 20 & 13 300; 13 300 \\
+      \hline
+    \end{tabular}
+  \end{center}
+  
+  % TODO revoir -> la variation est minime pour la rotation
+  Suite à ces résultats, nous remarquons que les moments principaux prennent en compte 
+  la taille de la forme présente dans l'image ainsi que sa rotation.
+  Il faut donc trouver une autre solution pour que le calcul ne prenne pas en compte la rotation
+  et le changement d'échelle de la forme.
+  
+  \section{Moments normalisé}
+  Nous allons utiliser un calcul permettant de normaliser les moments principaux afin d'avoir
+  une diminution de la variation des résultats obtenu sur une même forme.\\
+  
+   \begin{center}
+    \begin{tabular}{|c|c|}
+      \hline
+      \textbf{image} & \textbf{moments principaux} \\
+      \hline
+      carré côté 6 & 0,081; 0,081 \\
+      \hline
+      carré côté 10 & 0,083; 0,083 \\
+      \hline
+      carré rotation 30deg & 0,084; 0,084 \\
+      \hline
+      carré rotation 45deg & 0,085; 0,085 \\
+      \hline
+      carré côté 20 & 0,083; 0,083 \\
+      \hline
+       & \\
+      \hline
+      rectangle horizontal & 0.332; 0,019 \\
+      \hline
+      rectangle vertical & 0.332; 0,019 \\
+      \hline
+      rectangle diagonal lisse & 0.335; 0,023 \\
+      \hline
+      rectangle diagonal & 0.385; 0.017 \\
+      \hline
+       & \\
+      \hline
+      triangle côté 10 & 0.100; 0.095\\
+      \hline
+      triangle rotation 15deg & 0.100; 0.095\\
+      \hline
+      triangle rotation 45deg & 0.100; 0.095\\
+      \hline
+      triangle rotation 60deg & 0.101; 0.093\\
+      \hline
+    \end{tabular}
+  \end{center}
+  
+  Les résultats montrent que le changement d'échelle fait nettement moins varier les moments
+  principaux. L'ensemble des moments principaux d'une forme pour des tailles et des rotations
+  différentes restent casiment égaux.\\
+  
+  \section{Moments invariant}
   
     
 \end{document}
