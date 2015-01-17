@@ -22,7 +22,7 @@ library ("EBImage")
 source ("rdfMoments.R")
 
 # Chargement d'une image d'un seul objet
-nom <- "rdf-chiffre-1.png";
+nom <- "rdf-chiffre-3.png";
 image <- rdfReadGreyImage (nom)
 #if (interactive ()) {
 #  display (image, nom)
@@ -35,3 +35,6 @@ print("moment principal = ")
 print(rdfValeurPropreN(image))
 print("axe principal = ")
 print(rdfVecteurPropreN(image))
+
+print("--------- Hu --------------")
+rdfMomentsInvariants(image)

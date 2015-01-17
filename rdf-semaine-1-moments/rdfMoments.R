@@ -105,6 +105,29 @@ rdfMomentsInvariants <- function(im) {
   n12 <- rdfMomentCentreNormalise(im, 1, 2)
   n21 <- rdfMomentCentreNormalise(im, 2, 1)
   n03 <- rdfMomentCentreNormalise(im, 0, 3)
+  n20 <- rdfMomentCentreNormalise(im, 2, 0)
+  n02 <- rdfMomentCentreNormalise(im, 0, 2)
+  n11 <- rdfMomentCentreNormalise(im, 1, 1)
   
+  inv1 <- n20 + n02
+  print("inv1 = ")
+  print(inv1)
+  
+  inv2 <- (n20 - n02)^2 + (n11)^2
+  print("inv2 = ")
+  print(inv2)
+  
+  inv3 <- (n30 - 3 * n12)^2 + (3 * n21 - n03)^2
+  print("inv3 = ")
+  print(inv3)
+  
+  inv4 <- (n30 + n12)^2 + (n21 + n03)^2
+  print("inv4 = ")
+  print(inv4)
+  
+  inv5 <- (n30 - 3 * n12) * (n30 + n12) * ((n30 + n12)^2 - 3*(n21 + n03)^2) + 
+    (3 * n21 - n03) * (n21 + n03) * (3 * (n30 + n12)^2 - (n21 + n03)^2)
+  print("inv5 = ")
+  print(inv5)
   
 }

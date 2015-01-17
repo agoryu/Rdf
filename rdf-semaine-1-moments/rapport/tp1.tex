@@ -88,60 +88,71 @@
   \clearpage
   
   %\section{Code R}
+  \section{Introduction}
+  Lors de ce TP nous allons voir comment exploiter les moments d'une forme. Les moments
+  d'une forme sont des valeurs que nous allons exploiter afin de différencier les formes
+  de base d'une image.
+  
   \section{Moments d'une forme}
-  Nous avons pu voir que les moments d'une forme représente la répartition du niveau de gris
-  dans une image. Dans un premier temps, nous allons voir que les moments d'une forme permettent
-  de calculer la matrice d'inertie. Cette matrice va pouvoir déterminer la direction de la forme.
-  Nous avons effectué le calcul de la matrice d'inertie sur plusieurs images représentant des 
-  rectangles dans des positions différentes.\\
+  Dans un premier temps, nous allons voir que les moments d'une forme permettent
+  de calculer la matrice d'inertie ainsi que les moments principaux et axe principale
+  d'inertie. Nous allons effectué les calcules sur des rectangles ayant des positions différentes.\\
+  %Cette matrice va pouvoir déterminer la direction de la forme.
+  %Nous avons effectué le calcul de la matrice d'inertie sur plusieurs images représentant des 
+  %rectangles dans des positions différentes.\\
   
-  \begin{tabular}{|c|c|c|c|}
-    \hline
-    \textbf{image} & \textbf{matrice d'inertie} & \textbf{moments principaux} & \textbf{axe principale} \\
-    \hline
-    rectangle horizontal & $\begin{pmatrix}
-			    1360 & 0 \\
-			    0 & 80 
-			    \end{pmatrix}$ 
-			 & 1360; 80
-			 &  $\begin{pmatrix}
-			    -1 & 0 \\
-			    0 & -1 
-			    \end{pmatrix}$\\
-    \hline
-    rectangle vertical & $\begin{pmatrix}
-			    80 & 0 \\
-			    0 & 1360 
-			    \end{pmatrix}$
-			& 1360; 80
-			&  $\begin{pmatrix}
-			    0 & -1 \\
-			    1 & 0 
-			    \end{pmatrix}$\\
-    \hline
-    rectangle diagonal lisse & $\begin{pmatrix}
-			    745 & -647 \\
-			    -647 & 748,4 
-			    \end{pmatrix}$
-			 & 1394,7; 99,7
-			 &  $\begin{pmatrix}
-			    -0,7 & -0,7 \\
-			    0,7 & -0,7 
-			    \end{pmatrix}$\\
-    \hline
-    rectangle diagonal & $\begin{pmatrix}
-			    678,5 & -619,5 \\
-			    -619,5 & 678,5 
-			    \end{pmatrix}$
-			 & 1298; 59
-			 &  $\begin{pmatrix}
-			    -0,7 & -0,7 \\
-			    0,7 & -0,7 
-			    \end{pmatrix}$\\
-    \hline
-  \end{tabular}
+  \begin{center}
+    \begin{tabular}{|c|c|c|c|}
+      \hline
+      \textbf{image} & \textbf{matrice d'inertie} & \textbf{moments principaux} & \textbf{axe principale} \\
+      \hline
+      rectangle horizontal & $\begin{pmatrix}
+			      1360 & 0 \\
+			      0 & 80 
+			      \end{pmatrix}$ 
+			  & 1360; 80
+			  &  $\begin{pmatrix}
+			      -1 & 0 \\
+			      0 & -1 
+			      \end{pmatrix}$\\
+      \hline
+      rectangle vertical & $\begin{pmatrix}
+			      80 & 0 \\
+			      0 & 1360 
+			      \end{pmatrix}$
+			  & 1360; 80
+			  &  $\begin{pmatrix}
+			      0 & -1 \\
+			      1 & 0 
+			      \end{pmatrix}$\\
+      \hline
+      rectangle diagonal lisse & $\begin{pmatrix}
+			      745 & -647 \\
+			      -647 & 748,4 
+			      \end{pmatrix}$
+			  & 1394,7; 99,7
+			  &  $\begin{pmatrix}
+			      -0,7 & -0,7 \\
+			      0,7 & -0,7 
+			      \end{pmatrix}$\\
+      \hline
+      rectangle diagonal & $\begin{pmatrix}
+			      678,5 & -619,5 \\
+			      -619,5 & 678,5 
+			      \end{pmatrix}$
+			  & 1298; 59
+			  &  $\begin{pmatrix}
+			      -0,7 & -0,7 \\
+			      0,7 & -0,7 
+			      \end{pmatrix}$\\
+      \hline
+    \end{tabular}
+  \end{center}
   
-  % TODO conclure sur les résultats obtenu
+  Suite aux résultats précédents nous voyons que l'axe d'inertie nous permet de déterminer la position horirontal
+  ou vertical de la forme mais ne permet pas de déternier l'angle de rotation lorsque l'objet est diagonal.
+  De plus, les moments principaux sont identique lorsque la forme est à l'horizontal ou à la vertical mais lorsque 
+  l'objet est en diagonal les moments principaux varie.\\
   
   \begin{center}
     \begin{tabular}{|c|c|}
@@ -163,9 +174,9 @@
   
   % TODO revoir -> la variation est minime pour la rotation
   Suite à ces résultats, nous remarquons que les moments principaux prennent en compte 
-  la taille de la forme présente dans l'image ainsi que sa rotation.
-  Il faut donc trouver une autre solution pour que le calcul ne prenne pas en compte la rotation
-  et le changement d'échelle de la forme.
+  la taille de la forme présente dans l'image.
+  Il faut donc trouver une autre solution pour que le calcul donne un résultat identique
+  pour une forme quelque soit l'homotéthie.
   
   \section{Moments normalisé}
   Nous allons utiliser un calcul permettant de normaliser les moments principaux afin d'avoir
