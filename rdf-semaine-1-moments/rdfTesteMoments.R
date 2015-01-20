@@ -22,7 +22,7 @@ library ("EBImage")
 source ("rdfMoments.R")
 
 # Chargement d'une image d'un seul objet
-nom <- "rdf-chiffre-3.png";
+nom <- "rdf-triangle-10-45deg.png";
 image <- rdfReadGreyImage (nom)
 #if (interactive ()) {
 #  display (image, nom)

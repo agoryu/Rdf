@@ -87,19 +87,15 @@
   \newpage
   \clearpage
   
-  %\section{Code R}
   \section{Introduction}
   Lors de ce TP nous allons voir comment exploiter les moments d'une forme. Les moments
   d'une forme sont des valeurs que nous allons exploiter afin de différencier les formes
   de base d'une image.
   
   \section{Moments d'une forme}
-  Dans un premier temps, nous allons voir que les moments d'une forme permettent
-  de calculer la matrice d'inertie ainsi que les moments principaux et axe principale
-  d'inertie. Nous allons effectué les calcules sur des rectangles ayant des positions différentes.\\
-  %Cette matrice va pouvoir déterminer la direction de la forme.
-  %Nous avons effectué le calcul de la matrice d'inertie sur plusieurs images représentant des 
-  %rectangles dans des positions différentes.\\
+  Dans un premier temps, nous allons voir que les moments d'une forme permettent de calculer 
+  la matrice d'inertie ainsi que les moments principaux et axe principal d'inertie. 
+  Nous allons effectuer les calcules sur des rectangles ayant des positions différentes.\\
   
   \begin{center}
     \begin{tabular}{|c|c|c|c|}
@@ -149,10 +145,11 @@
     \end{tabular}
   \end{center}
   
-  Suite aux résultats précédents nous voyons que l'axe d'inertie nous permet de déterminer la position horirontal
-  ou vertical de la forme mais ne permet pas de déternier l'angle de rotation lorsque l'objet est diagonal.
-  De plus, les moments principaux sont identique lorsque la forme est à l'horizontal ou à la vertical mais lorsque 
-  l'objet est en diagonal les moments principaux varie.\\
+  Suite aux résultats précédents nous voyons que l'axe d'inertie nous permet de déterminer 
+  la position horizontale ou verticale de la forme, mais ne permet pas de déterminer l'angle 
+  de rotation lorsque l'objet est diagonal. De plus, les moments principaux sont identiques 
+  lorsque la forme est à l'horizontale ou à la verticale, mais lorsque l'objet est en diagonale 
+  les moments principaux varies.\\
   
   \begin{center}
     \begin{tabular}{|c|c|}
@@ -172,15 +169,14 @@
     \end{tabular}
   \end{center}
   
-  % TODO revoir -> la variation est minime pour la rotation
-  Suite à ces résultats, nous remarquons que les moments principaux prennent en compte 
+  Avec ces résultats, nous remarquons que les moments principaux prennent en compte
   la taille de la forme présente dans l'image.
   Il faut donc trouver une autre solution pour que le calcul donne un résultat identique
-  pour une forme quelque soit l'homotéthie.
+  pour une forme quelle que soit sa taille.
   
   \section{Moments normalisé}
   Nous allons utiliser un calcul permettant de normaliser les moments principaux afin d'avoir
-  une diminution de la variation des résultats obtenu sur une même forme.\\
+  une diminution de la variation des résultats obtenus sur une même forme.\\
   
    \begin{center}
     \begin{tabular}{|c|c|}
@@ -222,7 +218,7 @@
   
   Les résultats montrent que le changement d'échelle fait nettement moins varier les moments
   principaux. L'ensemble des moments principaux d'une forme pour des tailles et des rotations
-  différentes restent casiment égaux.\\
+  différentes restent quasiment égaux.\\
   
   \section{Moments invariant}
   
