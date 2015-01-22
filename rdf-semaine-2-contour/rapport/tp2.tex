@@ -1,0 +1,102 @@
+% --------------------------------------
+% Document Class
+% --------------------------------------
+\documentclass{article}
+% --------------------------------------
+
+
+
+% --------------------------------------
+% Use Package
+% --------------------------------------
+
+% french, english
+\usepackage[francais]{babel}
+
+% font, french accent
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+
+% page layout
+\usepackage{geometry}
+
+% hypertext link
+\usepackage[pdfpagelabels]{hyperref}
+
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{verbatim}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+
+
+% include pdf
+\usepackage[final]{pdfpages}
+
+
+% --------------------------------------
+
+
+
+% --------------------------------------
+% Page setting
+% --------------------------------------
+%\pagestyle{empty}
+\setlength{\headheight}{15pt}
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{2}
+
+\makeatletter
+\@addtoreset{chapter}{part}
+\makeatother 
+
+\hypersetup{         % parametrage des hyperliens
+  colorlinks=true,      % colorise les liens
+  breaklinks=true,      % permet les retours à la ligne pour les liens trop longs
+  urlcolor= blue,       % couleur des hyperliens
+  linkcolor= black,     % couleur des liens internes aux documents (index, figures, tableaux, equations,...)
+  citecolor= green      % couleur des liens vers les references bibliographiques
+}
+
+% --------------------------------------
+
+% --------------------------------------
+% Information
+% --------------------------------------
+\title{Compte-rendu TP2 Rdf : Codage d'un contour}
+\author{Elliot VANEGUE et Gaëtan DEFLANDRE}
+% --------------------------------------
+
+
+
+% --------------------------------------
+% Begin content
+% --------------------------------------
+\begin{document}
+
+  % Set language to english
+  \selectlanguage{francais}
+
+  % Start the page counting
+  \pagenumbering{arabic}
+
+  \maketitle
+  
+  \mbox{}
+  \newpage
+  \clearpage
+  
+  \section{Introduction}
+  
+  \section{Code R}
+  La variable cont est un vecteur.
+  Le dernier parmaètre de plot permet de définir les limites de l'axe y. 
+  \section{Descripteurs de Fourier}
+  Z0 correspond au barycentre de la forme.
+  % C(t) = X(t)+ i.Y(t)
+  % TODO probleme avec l'addition de la constante complexe
+  \section{Réduction d'une chaîne de contour}
+  \section{Comparaison des deux approches}
+    
+\end{document}
