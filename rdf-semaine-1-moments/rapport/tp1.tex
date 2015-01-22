@@ -221,6 +221,62 @@
   différentes restent quasiment égaux.\\
   
   \section{Moments invariant}
+  Nous allons maintenant calculer les cinq premier moments de Hu afin de déterminer les atouts
+  et les inconvénient de cette méthode.
   
+  \begin{center}
+    \begin{tabular}{|c|c|c|c|c|c|}
+      \hline
+      \textbf{image} & \textbf{moments 1} & \textbf{moments 2} & \textbf{moments 3} & \textbf{moments 4} & \textbf{moments 5}\\
+      \hline
+      carré côté 6 & 0.162037 & 0 & 0 & 0 & 0 \\
+      \hline
+      carré côté 10 & 0.165 & 0 & 0 & 0 & 0 \\
+      \hline
+      carré rotation 30deg & 0.1681347 & $5.59215^{-09}$ & $2.74901^{-08}$ & $8.00053^{-10}$ & $-2.026355^{-18}$ \\
+      \hline
+      carré rotation 45deg & 0.1705641 & $2.586728^{-08}$ & $2.829153^{-08}$ & $4.322032^{-09}$ & $1.818075^{-18}$ \\
+      \hline
+      & & & & & \\
+      \hline
+      rectangle horizontal & 0.3515625 & 0.09765625 & 0 & 0 & 0 \\
+      \hline
+      rectangle vertical & 0.3515625 & 0.09765625 & 0 & 0 & 0 \\
+      \hline
+      rectangle diagonal lisse & 0.3589944 & 0.02419236 & $2.230677^{-06}$ & $1.792061^{-06}$ & $3.340324^{-12}$ \\
+      \hline
+      rectangle diagonal & 0.4033888 & 0.03391335 & 0 & 0 & 0 \\
+      \hline
+      & & & & & \\
+      \hline
+      triangle côté 10 & 0.1956167 & $3.103136^{-05}$ & 0.004551521 & $4.91483^{-07}$ & $-1.004697^{-11}$\\
+      \hline
+      triangle rotation 15deg & 0.1951716 & $1.482205^{-05}$ & 0.004574826 & $8.943819^{-07}$ & $2.253919^{-11}$\\
+      \hline
+      triangle rotation 45deg & 0.1956615 & $9.161456^{-06}$ & 0.004614545 & $1.474173^{-07}$ & $3.523543^{-12}$\\
+      \hline
+      & & & & & \\
+      \hline
+      0 & 0.4561521 & 0.01753315 & $7.632676^{-08}$ & $1.623057^{-07}$ & $-1.747216^{-14}$\\
+      \hline
+      1 & 0.6165951 & 0.2373792 & 0.01457684 & 0.002890858 & $1.288171^{-05}$\\
+      \hline
+      2 & 0.5967148 & 0.1315581 & 0.007449113 & 0.002414322 & $2.801895^{-06}$\\
+      \hline
+      3 & 0.5273825 & 0.08905541 & 0.016224 & 0.004589431 & $-3.616123^{-06}$\\
+      \hline
+    \end{tabular}
+  \end{center}
+  
+  Pour cette méthode, nous pouvons voir qu'il faut surtout prendre en compte les exposants des valeurs.
+  Cette méthode permet de reconnaitre une forme en faisant abstraction de sa taille. Par contre, lorsque 
+  la forme subit une rotation, certaines valeurs sont modifiées. On peut voir ce phénomène sur les rotations 
+  du carré et sur l'image du rectangle diagonal lisse.\\
+  
+  De plus, cette méthode ne permet pas de différencier les nombres, car pour bon nombre d'entre eux les moments d'Hu sont quasiment identiques.
+  
+  \section{Conclusion}
+  Pour conclure, la meilleure méthode de calcul de moment, parmi celle étudiée, pour faire de la reconnaissance 
+  de formes est le calcul de moment normalisé, car celui-ci reconnaît une forme sans prendre en compte sa rotation ou sa taille.
     
 \end{document}
