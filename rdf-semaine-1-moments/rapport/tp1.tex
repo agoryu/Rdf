@@ -94,14 +94,14 @@
   
   \section{Moments d'une forme}
   Dans un premier temps, nous allons voir que la matrice d'inertie d'une forme permet de calculer 
-  les moments principaux et axe principal d'inertie. Nous allons effectuer les calcules sur des 
+  les moments principaux et axe principal d'inertie. Nous allons effectuer les calculs sur des 
   rectangles ayant des positions différentes afin de voir quels impactes cela aura sur les 
-  élément cité précédement.\\
+  éléments cités précédemment.\\
   
   \begin{center}
     \begin{tabular}{|c|c|c|c|}
       \hline
-      \textbf{image} & \textbf{matrice d'inertie} & \textbf{moments principaux} & \textbf{axe principale} \\
+      \textbf{image} & \textbf{matrice d'inertie} & \textbf{moments principaux} & \textbf{axe principal} \\
       \hline
       rectangle horizontal & $\begin{pmatrix}
 			      1360 & 0 \\
@@ -149,8 +149,8 @@
   Suite aux résultats précédents nous voyons que l'axe d'inertie nous permet de déterminer 
   l'angle de rotation du rectangle afin de savoir si celui-ci est horizontal, vertical ou diagonal. 
   On peut également voir que les moments principaux sont presque identiques quelque soit la rotation 
-  du rectangle, et le fait que le rectangle soit lissé ou pas ne change rien aux valeurs et vecteurs 
-  propre.\\
+  du rectangle, et le fait que le rectangle soit lissé ou non, ne change pas les valeurs et vecteurs 
+  propres.\\
   
   \begin{center}
     \begin{tabular}{|c|c|}
@@ -170,7 +170,7 @@
     \end{tabular}
   \end{center}
   
-  Avec ces résultats, nous voyons l'inégalitée suivante:
+  Avec ces résultats, nous voyons l'inégalité suivante:
   $$
     valeurs\_propres\ carre\_cote\_6 < valeurs\_propres\ carre\_cote\_10 < valeurs\_propres\ carre\_cote\_20
   $$
@@ -178,11 +178,11 @@
   Nous remarquons, donc, que ces moments principaux ne sont pas invariants en échelle, mais 
   ils le sont en rotation.
   Il faut donc trouver une autre solution pour que le calcul donne un résultat identique
-  pour une forme quelle que soit son rapport homothétique.
+  pour une forme quelque soit son rapport homothétique.
   
   \newpage
   
-  \section{Moments normalisé}
+  \section{Moments normalisés}
   Nous allons utiliser un calcul permettant de normaliser les moments principaux afin d'avoir
   une invariance en rotation et en échelle.\\
   
@@ -225,25 +225,27 @@
   \end{center}
   
   Ces résultats montrent qu'en normalisant les moments principaux, le changement d'échelle les 
-  fait nettement moins varier. Donc, on obtient une méthode qui donne des résultats invariants 
+  fait nettement moins varier. Donc, nous obtenons une méthode qui donne des résultats invariants 
   en échelle et en rotation.\\
   
-  \section{Moments invariant}
-  Nous allons maintenant calculer les cinq premier moments de Hu afin de déterminer les atouts
-  et les inconvénient de cette méthode.
+   \newpage
+  
+  \section{Moments invariants}
+  Nous allons maintenant calculer les cinq premiers moments de Hu afin de déterminer les atouts
+  et les inconvénients de cette méthode.
   
   \begin{center}
     \begin{tabular}{|c|c|c|c|c|c|}
       \hline
-      \textbf{image} & \textbf{moments 1} & \textbf{moments 2} & \textbf{moments 3} & \textbf{moments 4} & \textbf{moments 5}\\
+      \textbf{image} & \textbf{moment 1} & \textbf{moment 2} & \textbf{moment 3} & \textbf{moment 4} & \textbf{moment 5}\\
       \hline
       carré côté 6 & 0.162037 & 0 & 0 & 0 & 0 \\
       \hline
       carré côté 10 & 0.165 & 0 & 0 & 0 & 0 \\
       \hline
-      carré rotation 30deg & 0.1681347 & $5.59215^{-09}$ & $2.74901^{-08}$ & $8.00053^{-10}$ & $-2.026355^{-18}$ \\
+      carré rotation 30deg & 0.1681347 & $7.378984e^{-09}$ & $2.74901e^{-08}$ & $8.00053e^{-10}$ & $-2.026355e^{-18}$ \\
       \hline
-      carré rotation 45deg & 0.1705641 & $2.586728^{-08}$ & $2.829153^{-08}$ & $4.322032^{-09}$ & $1.818075^{-18}$ \\
+      carré rotation 45deg & 0.1705641 & $9.160345e^{-08}$ & $2.829153e^{-08}$ & $4.322032e^{-09}$ & $1.818075e^{-18}$ \\
       \hline
       & & & & & \\
       \hline
@@ -251,27 +253,27 @@
       \hline
       rectangle vertical & 0.3515625 & 0.09765625 & 0 & 0 & 0 \\
       \hline
-      rectangle diagonal lisse & 0.3589944 & 0.02419236 & $2.230677^{-06}$ & $1.792061^{-06}$ & $3.340324^{-12}$ \\
+      rectangle diagonal lisse & 0.3589944 & 0.09676744 & $2.230677e^{-06}$ & $1.792061e^{-06}$ & $3.340324e^{-12}$ \\
       \hline
-      rectangle diagonal & 0.4033888 & 0.03391335 & 0 & 0 & 0 \\
-      \hline
-      & & & & & \\
-      \hline
-      triangle côté 10 & 0.1956167 & $3.103136^{-05}$ & 0.004551521 & $4.91483^{-07}$ & $-1.004697^{-11}$\\
-      \hline
-      triangle rotation 15deg & 0.1951716 & $1.482205^{-05}$ & 0.004574826 & $8.943819^{-07}$ & $2.253919^{-11}$\\
-      \hline
-      triangle rotation 45deg & 0.1956615 & $9.161456^{-06}$ & 0.004614545 & $1.474173^{-07}$ & $3.523543^{-12}$\\
+      rectangle diagonal & 0.4033888 & 0.1356534 & 0 & 0 & 0 \\
       \hline
       & & & & & \\
       \hline
-      0 & 0.4561521 & 0.01753315 & $7.632676^{-08}$ & $1.623057^{-07}$ & $-1.747216^{-14}$\\
+      triangle côté 10 & 0.1956167 & $3.524209e^{-05}$ & 0.004551521 & $4.91483e^{-07}$ & $-1.004697e^{-11}$\\
       \hline
-      1 & 0.6165951 & 0.2373792 & 0.01457684 & 0.002890858 & $1.288171^{-05}$\\
+      triangle rotation 15deg & 0.1951716 & $3.03244e^{-05}$ & 0.004574826 & $8.943819e^{-07}$ & $2.253919e^{-11}$\\
       \hline
-      2 & 0.5967148 & 0.1315581 & 0.007449113 & 0.002414322 & $2.801895^{-06}$\\
+      triangle rotation 45deg & 0.1956615 & $2.859357e^{-05}$ & 0.004614545 & $1.474173e^{-07}$ & $3.523543e^{-12}$\\
       \hline
-      3 & 0.5273825 & 0.08905541 & 0.016224 & 0.004589431 & $-3.616123^{-06}$\\
+      & & & & & \\
+      \hline
+      0 & 0.4561521 & 0.01753315 & $7.632676e^{-08}$ & $1.623057e^{-07}$ & $-1.747216e^{-14}$\\
+      \hline
+      1 & 0.6165951 & 0.2460521 & 0.01457684 & 0.002890858 & $1.288171e^{-05}$\\
+      \hline
+      2 & 0.5967148 & 0.1355688 & 0.007449113 & 0.002414322 & $2.801895e^{-06}$\\
+      \hline
+      3 & 0.5273825 & 0.08907071 & 0.016224 & 0.004589431 & $-3.616123e^{-06}$\\
       \hline
     \end{tabular}
   \end{center}
@@ -281,19 +283,19 @@
   %la forme subit une rotation, certaines valeurs sont modifiées. On peut voir ce phénomène sur les rotations 
   %du carré et sur l'image du rectangle diagonal lisse.\\
   
-  Avec la méthode de Hu, on constate que les moments 1 et 2 sont invariant en translation, en 
-  rotation et en chargement d'échelle. On voit quelques petite variance sur l'ensemble des 
-  moments liés à l'anticrénelage des images. Ces varience sont négligables.\\
+  Avec la méthode de Hu, nous constatons que les moments 1 et 2 sont invariants en translation, en 
+  rotation et en chargement d'échelle. Nous voyons quelques petites variances sur l'ensemble des 
+  moments liés à l'anticrénelage des images. Ces variances sont négligeables.\\
   
-  De plus, on remarque que les exposants restent malgrè tout assez proche pour les formes identiques.\\ 
+  De plus, on remarque que les exposants restent malgré tout assez proche pour les formes identiques.\\ 
   
   On peut donc dire, que cette méthode ne permet pas de dire que deux formes sont identiques, mais 
   elle permet de savoir si elles sont différentes. Par exemple, certains résultats des chiffres sont 
   proches.
   
   \section{Conclusion}
-  Pour conclure, la meilleure méthode de calcul de moment, parmi celle étudiée, pour faire de la 
-  reconnaissance  de formes est le calcul de moment normalisé, car celui-ci reconnaît une forme 
+  Pour conclure, la meilleure méthode de calcul de moments, parmi celles étudiées, pour faire de la 
+  reconnaissance  de formes est le calcul de moments normalisés, car celui-ci reconnaît une forme 
   sans prendre en compte sa rotation ou son échelle.
     
 \end{document}
