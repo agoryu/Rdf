@@ -1,7 +1,7 @@
 % --------------------------------------
 % Document Class
 % --------------------------------------
-\documentclass{article}
+\documentclass[11pt]{article}
 % --------------------------------------
 
 
@@ -88,15 +88,54 @@
   \clearpage
   
   \section{Introduction}
+  Lors de ce TP, nous allons utiliser différent algorithme permettant de déterminer
+  les contours d'une forme afin de connaitre les avantages et inconvénient de chacun
+  d'eux.
   
-  \section{Code R}
-  La variable cont est un vecteur.
-  Le dernier parmaètre de plot permet de définir les limites de l'axe y. 
   \section{Descripteurs de Fourier}
-  Z0 correspond au barycentre de la forme.
-  % C(t) = X(t)+ i.Y(t)
-  % TODO probleme avec l'addition de la constante complexe
+  Dans un premier temps nous allons calculer les descripteurs de Fourier. Lorsque
+  nous normalisons et que nous inversons les résultat de ce calcul, nous optenons
+  à nouveau la position des points du contour.\\ 
+  % TODO comment on le determine
+  %On peut voir, suite à ces résultats
+  %que le descripteur Z0 est le barycentre 
+  
+  Nous avons ensuite développé une méthode de filtrage des descripteur de Fourier dans
+  le but de réduire le nombre de point pris en compte pour le calcul de ces descripteur.
+  Nous remarquons que moins il y a de point, plus le carré se transforme en cercle.
+  
+  \begin{center}
+    \begin{figure}[!h]
+      \includegraphics[width=15cm]{../resultat/carre-fourier-20.png}
+      \caption{Image du carré avec 80\% des points supprimés}
+    \end{figure}
+  \end{center}
+
   \section{Réduction d'une chaîne de contour}
+  Nous allons maintenant nous intéresser à l'algorithme de la corde. Cette algorithme va
+  suivre les contours de la forme avec un certain nombre de point. Pour effectuer ce
+  calcul, nous avons besoin de connaitre la distance des points avec la corde. Nous avons
+  effectuer le calcul suivant pour trouver ces distances : 
+  $abs(Im((cont - debut) * Conj(fin - debut))) / Mod(fin - debut)$.
+  Cela nous a permit d'obtenir des contours plus ou moins précis en fonction du nombre
+  de point.
+  
+  \begin{center}
+    \begin{figure}[!h]
+      \includegraphics[width=15cm]{../resultat/cercle-corde-5.png}
+      \caption{Image du cercle avec une distance maximum de 0.5 pixel}
+    \end{figure}
+  \end{center}
+  
+  \begin{center}
+    \begin{figure}[!h]
+      \includegraphics[width=15cm]{../resultat/cercle-corde-10.png}
+      \caption{Image du cercle avec une distance maximum de 1 pixel}
+    \end{figure}
+  \end{center}
+  
+  \newpage
+  
   \section{Comparaison des deux approches}
   rect :
     fourier -> 1
