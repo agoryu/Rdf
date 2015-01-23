@@ -148,8 +148,9 @@
   
   Suite aux résultats précédents nous voyons que l'axe d'inertie nous permet de déterminer 
   l'angle de rotation du rectangle afin de savoir si celui-ci est horizontal, vertical ou diagonal. 
-  On peut également voir que les moments principaux sont presque identiques quelque soit la rotation du rectangle,
-  et le fait que le rectangle soit flouté ou pas ne change rien aux valeurs et vecteurs propre.\\
+  On peut également voir que les moments principaux sont presque identiques quelque soit la rotation 
+  du rectangle, et le fait que le rectangle soit lissé ou pas ne change rien aux valeurs et vecteurs 
+  propre.\\
   
   \begin{center}
     \begin{tabular}{|c|c|}
@@ -169,14 +170,21 @@
     \end{tabular}
   \end{center}
   
-  Avec ces résultats, nous remarquons que les moments principaux prennent en compte
-  la taille de la forme présente dans l'image.
+  Avec ces résultats, nous voyons l'inégalitée suivante:
+  $$
+    valeurs\_propres\ carre\_cote\_6 < valeurs\_propres\ carre\_cote\_10 < valeurs\_propres\ carre\_cote\_20
+  $$
+  
+  Nous remarquons, donc, que ces moments principaux ne sont pas invariants en échelle, mais 
+  ils le sont en rotation.
   Il faut donc trouver une autre solution pour que le calcul donne un résultat identique
-  pour une forme quelle que soit sa taille.
+  pour une forme quelle que soit son rapport homothétique.
+  
+  \newpage
   
   \section{Moments normalisé}
   Nous allons utiliser un calcul permettant de normaliser les moments principaux afin d'avoir
-  une diminution de la variation des résultats obtenus sur une même forme.\\
+  une invariance en rotation et en échelle.\\
   
    \begin{center}
     \begin{tabular}{|c|c|}
@@ -216,9 +224,9 @@
     \end{tabular}
   \end{center}
   
-  Les résultats montrent que le changement d'échelle fait nettement moins varier les moments
-  principaux. L'ensemble des moments principaux d'une forme pour des tailles et des rotations
-  différentes restent quasiment égaux.\\
+  Ces résultats montrent qu'en normalisant les moments principaux, le changement d'échelle les 
+  fait nettement moins varier. Donc, on obtient une méthode qui donne des résultats invariants 
+  en échelle et en rotation.\\
   
   \section{Moments invariant}
   Nous allons maintenant calculer les cinq premier moments de Hu afin de déterminer les atouts
@@ -268,15 +276,24 @@
     \end{tabular}
   \end{center}
   
-  Pour cette méthode, nous pouvons voir qu'il faut surtout prendre en compte les exposants des valeurs.
-  Cette méthode permet de reconnaitre une forme en faisant abstraction de sa taille. Par contre, lorsque 
-  la forme subit une rotation, certaines valeurs sont modifiées. On peut voir ce phénomène sur les rotations 
-  du carré et sur l'image du rectangle diagonal lisse.\\
+  %Pour cette méthode, nous pouvons voir qu'il faut surtout prendre en compte les exposants des valeurs.
+  %Cette méthode permet de reconnaitre une forme en faisant abstraction de sa taille. Par contre, lorsque 
+  %la forme subit une rotation, certaines valeurs sont modifiées. On peut voir ce phénomène sur les rotations 
+  %du carré et sur l'image du rectangle diagonal lisse.\\
   
-  De plus, cette méthode ne permet pas de différencier les nombres, car pour bon nombre d'entre eux les moments d'Hu sont quasiment identiques.
+  Avec la méthode de Hu, on constate que les moments 1 et 2 sont invariant en translation, en 
+  rotation et en chargement d'échelle. On voit quelques petite variance sur l'ensemble des 
+  moments liés à l'anticrénelage des images. Ces varience sont négligables.\\
+  
+  De plus, on remarque que les exposants restent malgrè tout assez proche pour les formes identiques.\\ 
+  
+  On peut donc dire, que cette méthode ne permet pas de dire que deux formes sont identiques, mais 
+  elle permet de savoir si elles sont différentes. Par exemple, certains résultats des chiffres sont 
+  proches.
   
   \section{Conclusion}
-  Pour conclure, la meilleure méthode de calcul de moment, parmi celle étudiée, pour faire de la reconnaissance 
-  de formes est le calcul de moment normalisé, car celui-ci reconnaît une forme sans prendre en compte sa rotation ou sa taille.
+  Pour conclure, la meilleure méthode de calcul de moment, parmi celle étudiée, pour faire de la 
+  reconnaissance  de formes est le calcul de moment normalisé, car celui-ci reconnaît une forme 
+  sans prendre en compte sa rotation ou son échelle.
     
 \end{document}
