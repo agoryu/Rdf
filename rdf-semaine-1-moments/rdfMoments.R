@@ -113,7 +113,7 @@ rdfMomentsInvariants <- function(im) {
   print("inv1 = ")
   print(inv1)
   
-  inv2 <- (n20 - n02)^2 + (n11)^2
+  inv2 <- (n20 - n02)^2 + (2*n11)^2
   print("inv2 = ")
   print(inv2)
   

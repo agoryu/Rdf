@@ -22,19 +22,19 @@ library ("EBImage")
 source ("rdfContours.R")
 
 # Chargement d'un contour
-nom <- "rdf-cercle-80.txt"
-cont <- rdfChargeFichierContour (nom)
-#nom <- "rdf-carre-20.png"
-#cont <- rdfContour (rdfReadGreyImage (nom))
+#nom <- "rdf-cercle-80.txt"
+#cont <- rdfChargeFichierContour (nom)
+nom <- "rdf-croix.png"
+cont <- rdfContour (rdfReadGreyImage (nom))
 size <- length(cont)
 
 # fourier
 fourier <- rdfTransformeFourier(cont)
-fourierAnn <- rdfAnnuleDescFourier(fourier, 0.2)
+fourierAnn <- rdfAnnuleDescFourier(fourier, 1)
 fourierInv <- fft(fourierAnn, TRUE)
 
 #corde
-corde <- rdfAlgorithmeCorde(cont, 1)
+corde <- rdfAlgorithmeCorde(cont, 0.1)
 #corde2 <- rdfAlgorithmeCorde(cont, 0.8)
 #corde3 <- rdfAlgorithmeCorde(cont, 1)
 
@@ -42,7 +42,4 @@ corde <- rdfAlgorithmeCorde(cont, 1)
 plot (corde, main = nom, type = "o", asp = 1, col = "red",
       ylim = rev (range (Im (cont))))
 
-#matpoints (corde2, main = nom, type = "o", asp = 1, col = "blue")
-
-#matpoints (corde3, main = nom, type = "o", asp = 1, col = "green",
-#           ylim = rev (range (Im (cont))))
+lines(fourierInv, asp = 1, col = "blue")
