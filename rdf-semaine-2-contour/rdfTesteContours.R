@@ -24,13 +24,13 @@ source ("rdfContours.R")
 # Chargement d'un contour
 #nom <- "rdf-cercle-80.txt"
 #cont <- rdfChargeFichierContour (nom)
-nom <- "rdf-croix.png"
+nom <- "rdf-rectangle-horizontal.png"
 cont <- rdfContour (rdfReadGreyImage (nom))
 size <- length(cont)
 
 # fourier
 fourier <- rdfTransformeFourier(cont)
-fourierAnn <- rdfAnnuleDescFourier(fourier, 1)
+fourierAnn <- rdfAnnuleDescFourier(fourier, 0.9)
 fourierInv <- fft(fourierAnn, TRUE)
 
 #corde
@@ -42,4 +42,4 @@ corde <- rdfAlgorithmeCorde(cont, 0.1)
 plot (corde, main = nom, type = "o", asp = 1, col = "red",
       ylim = rev (range (Im (cont))))
 
-lines(fourierInv, asp = 1, col = "blue")
+lines(fourierInv, type = "o", asp = 1, col = "blue")
