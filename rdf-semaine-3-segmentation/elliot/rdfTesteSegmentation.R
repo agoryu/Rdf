@@ -22,36 +22,35 @@ library ("EBImage")
 source ("rdfSegmentation.R")
 
 # Chargement d'une image
-nom <- "rdf-2-classes-texture-0.png"
-nom1 <- "rdf-2-classes-texture-1.png"
-nom2 <- "rdf-2-classes-texture-2.png"
-nom3 <- "rdf-2-classes-texture-3.png"
-nom4 <- "rdf-2-classes-texture-4.png"
+#nom <- "rdf-2-classes-texture-0.png"
+#nom <- "rdf-2-classes-texture-1.png"
+#nom <- "rdf-2-classes-texture-2.png"
+#nom <- "rdf-2-classes-texture-3.png"
+nom <- "rdf-2-classes-texture-4.png"
 reference <- "rdf-masque-ronds.png"
 image <- rdfReadGreyImage (nom)
-image1 <- rdfReadGreyImage (nom1)
-image2 <- rdfReadGreyImage (nom2)
-image3 <- rdfReadGreyImage (nom3)
-image4 <- rdfReadGreyImage (nom4)
 imRef <- rdfReadGreyImage (reference)
 
 # Calcul et affichage de son histogramme
 nbins <- 256
 #h <- hist (as.vector (image), breaks = seq (0, 1, 1 / nbins))
-h1 <- hist (as.vector (image1), breaks = seq (0, 1, 1 / nbins))
-#h2 <- hist (as.vector (image2), breaks = seq (0, 1, 1 / nbins))
-#h3 <- hist (as.vector (image3), breaks = seq (0, 1, 1 / nbins))
-#h4 <- hist (as.vector (image4), breaks = seq (0, 1, 1 / nbins))
 
 # Segmentation par binarisation
 seuil <- 0.5
-binaire <- (image1 - seuil) >= 0
-#binaire <- (image1 - seuil) < 0
+binaire <- (image - seuil) >= 0
+#binaire <- (image - seuil) < 0
 
-rdfPourcentage(binaire, imRef)
+#rdfPourcentage(binaire, imRef)
+
+texture <- rdfTextureEcartType(image, 2)
+
+h2 <- rdfCalculeHistogramme2D(image, nbins, texture, nbins)
 
 # Affichage des deux images
 if (interactive ()) {
-  #display (image1, nom1)
-  display (binaire, "image binaire")
+  #display (image, nom1)
+  #display (binaire, "image binaire")
+  #display (texture, "texture")
+  #h <- hist (as.vector (texture), breaks = seq (0, 1, 1 / nbins))
+  display(h2, "test")
 }
