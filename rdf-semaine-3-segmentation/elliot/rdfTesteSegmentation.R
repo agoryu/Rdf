@@ -44,13 +44,13 @@ binaire <- (image - seuil) >= 0
 
 texture <- rdfTextureEcartType(image, 2)
 
-h2 <- rdfCalculeHistogramme2D(image, nbins, texture, nbins)
+#h2 <- rdfCalculeHistogramme2D(image, nbins, texture, nbins)
 
 # Affichage des deux images
 if (interactive ()) {
-  #display (image, nom1)
+  #display (image, nom)
   #display (binaire, "image binaire")
   #display (texture, "texture")
-  #h <- hist (as.vector (texture), breaks = seq (0, 1, 1 / nbins))
-  display(h2, "test")
+  h <- hist (as.vector (texture), breaks = seq (0, 1, 1 / nbins))
+  #display(h2, "test")
 }
