@@ -69,7 +69,7 @@ rdfPourcentage <- function (image, reference) {
   diff <- image != reference
   sumDiff <- sum(diff)
 
-  pourcentage <- sumDiff / size * 100
+  pourcentage <- (sumDiff / size) * 100
 
   print(pourcentage)
   

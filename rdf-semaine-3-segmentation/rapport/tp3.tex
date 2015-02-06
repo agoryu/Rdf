@@ -1,0 +1,111 @@
+% --------------------------------------
+% Document Class
+% --------------------------------------
+\documentclass[11pt]{article}
+% --------------------------------------
+
+
+
+% --------------------------------------
+% Use Package
+% --------------------------------------
+
+% french, english
+\usepackage[francais]{babel}
+
+% font, french accent
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+
+% page layout
+\usepackage{geometry}
+
+% hypertext link
+\usepackage[pdfpagelabels]{hyperref}
+
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{verbatim}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+
+
+% include pdf
+\usepackage[final]{pdfpages}
+
+
+% --------------------------------------
+
+
+
+% --------------------------------------
+% Page setting
+% --------------------------------------
+%\pagestyle{empty}
+\setlength{\headheight}{15pt}
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{2}
+
+\makeatletter
+\@addtoreset{chapter}{part}
+\makeatother 
+
+\hypersetup{         % parametrage des hyperliens
+  colorlinks=true,      % colorise les liens
+  breaklinks=true,      % permet les retours à la ligne pour les liens trop longs
+  urlcolor= blue,       % couleur des hyperliens
+  linkcolor= black,     % couleur des liens internes aux documents (index, figures, tableaux, equations,...)
+  citecolor= green      % couleur des liens vers les references bibliographiques
+}
+
+% --------------------------------------
+
+% --------------------------------------
+% Information
+% --------------------------------------
+\title{Compte-rendu TP3 RdF : Segmentation par binarisation}
+\author{Elliot VANEGUE et Gaëtan DEFLANDRE}
+% --------------------------------------
+
+
+
+% --------------------------------------
+% Begin content
+% --------------------------------------
+\begin{document}
+
+  % Set language to english
+  \selectlanguage{francais}
+
+  % Start the page counting
+  \pagenumbering{arabic}
+
+  \maketitle
+  
+  \mbox{}
+  \newpage
+  \clearpage
+  
+  \section{Introduction}
+  Lors de ce TP, nous allons aborder différentes manières de segmenter une image par 
+  classification de ses pixels. Le but de la segmentation concerver les pixels d'un 
+  objet et ignorer les pixels du font.
+  Nous metterons en avant, plusier méthodes de binarisation, afin de montrer leurs 
+  avantages et inconvénients.
+  D'abord, le seillage est une binarisation par classification des pixels selon leurs
+  niveau de gris.
+  Puis, nous verrons la segmentation des pixels en fonction du niveau de texture...
+  
+  
+  \section{Histogramme des niveaux de gris}
+  
+  \section{Histogramme des niveaux de texture}
+  
+  \section{Histogramme conjoint}
+  
+    
+  \section{Conclusion}
+
+
+\end{document}
