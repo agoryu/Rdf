@@ -94,8 +94,8 @@
   de la corde.
   
   \section{Descripteurs de Fourier}
-  Dans un premier temps nous allons calculer les descripteurs de Fourier. Pour cela
-  Nous allons charger un fichier texte et calculer les descripteurs avec la méthode
+  Dans un premier temps, nous allons calculer les descripteurs de Fourier. Pour cela
+  nous allons charger un fichier texte et calculer les descripteurs avec la méthode
   fft disponible dans la bibliothèque du langage R. Nous pouvons voir que lorsque
   nous normalisons et que nous inversons les résultats de ce calcul, nous obtenons
   à nouveau la position des points du contour.\\ 
@@ -105,7 +105,7 @@
   
   Nous avons ensuite développé une méthode de filtrage des descripteurs de Fourier dans le
   but d'en éliminer pour rendre le codage d'une forme plus simple à calculer.
-  Nous remarquons que moins il y a de descripteur, plus la forme du carré se transforme en cercle.
+  Nous remarquons que moins il y a de descripteurs, plus la forme du carré se transforme en cercle.
   Cela se produit, car nous perdons en précision lorsque nous réduisons le nombre de descripteurs.
   
   \begin{figure}[!h]
@@ -122,7 +122,7 @@
   Cet algorithme va tracer des segments qui vont suivre les contours d'une forme. Ces segments 
   devront être le plus proche possible des contours de celle-ci. La distance entre ces segments 
   et les points de la forme sera un paramètre que l'on pourra modifier afin d'avoir le niveau de 
-  précision qui convient le mieux. Sur une majorité des formes, plus on demandera une distance petite, 
+  précision qui convient le mieux. Sur une majorité des formes, plus on demandera une distance courte, 
   plus l'algorithme devra calculer de points.\\ 
   
   
@@ -134,7 +134,7 @@
   \end{figure}
   
   
-  Sur l'image ci-dessus les cercles représentent les points d'une forme et la droite correspond
+  Sur l'image ci-dessus, les cercles représentent les points d'une forme et la droite correspond
   à un des segments de la corde. Il faut donc calculer la distance entre chaque point et la corde
   afin de déterminer les contours d'une forme.
   Pour calculer cette distance, nous avons utilisé la formule suivante :
@@ -152,7 +152,7 @@
     \begin{center}
       \includegraphics[width=10cm]{../resultat/cercle-corde-10.png}
      \end{center}
-    \caption{Image du cercle avec une distance maximum de 1 pixels}
+    \caption{Image du cercle avec une distance maximum de 1 pixel}
   \end{figure}
   
   \newpage
@@ -168,7 +168,7 @@
   Dans la suite de ce rapport, la courbe bleue représentera le tracé des descripteurs de Fourier 
   et la courbe rouge le tracé de l'algorithme de la corde. 
   
-  
+    \subsection{Comparaison sur le rectangle et le carré}
     \begin{figure}[!h]
       \begin{center}
 	\includegraphics[width=10cm]{../resultat/comp_rect.png}\\
@@ -180,30 +180,32 @@
   \newpage
   
   Pour le rectangle et le carré, les deux méthodes sont aussi efficaces l'un que l'autre. Cependant, l'algorithme de la corde
-  fonctionne très bien avec un minimum de point à calculer.
+  fonctionne très bien avec un minimum de points à calculer.
   De plus, lorsque nous éliminons quelques descripteurs de Fourier, l'algorithme n'est plus capable de
   retrouver la forme, que ce soit pour le rectangle ou le carré.\\
   
   \begin{center}
     \begin{figure}[!h]
       \includegraphics[width=15cm]{../resultat/comp_rate_rect.png}
-      \caption{Comparaison sur le rectangle horizontal avec 90\% de descripteurs gardé}
+      \caption{Comparaison sur le rectangle horizontal avec 90\% de descripteurs gardés}
     \end{figure}
   \end{center}
   
+  \subsection{Comparaison sur le triangle}
   Pour le triangle, le calcul des descripteurs de Fourier n'est pas très efficace même si nous gardons
   l'ensemble des descripteurs. L'algorithme de la corde quant à lui a besoin d'une distance minimale de 0.7 pixels pour
-  reconnaitre parfaitement le triangle.
+  reconnaître parfaitement le triangle.
   
   \begin{center}
     \begin{figure}[!h]
       \includegraphics[width=15cm]{../resultat/comp_triangle.png}
-      \caption{Comparaison sur le rectangle horizontal avec 90\% de descripteurs gardé}
+      \caption{Comparaison sur le triangle}
     \end{figure}
   \end{center}
   
   \newpage
   
+  \subsection{Comparaison sur la croix}
   Pour la croix, les observations sont les mêmes que pour le carré et le rectangle. Il faut tous
   les descripteurs de Fourier pour avoir un contour correct et la distance pour l'algorithme de la
   corde n'a pas d'importance.
@@ -217,29 +219,32 @@
   
   \newpage
   
+  \subsection{Comparaison sur la patatoïde}
   Pour la patatoïde, les deux algorithmes sont efficaces, mais la distance pour l'algorithme de 
-  la corde fait varier la précision du contour. Pour un contour parfait il faut une distance de 0.1 pixel.
+  la corde fait varier la précision du contour. Pour un contour parfait il faut une distance de 0.1 pixels.
   
-  \begin{center}
+  
     \begin{figure}[!h]
-      \includegraphics[width=15cm]{../resultat/comp_patate_impreci.png}
-      \includegraphics[width=15cm]{../resultat/comp_patate_preci.png}
+    \begin{center}
+      \includegraphics[width=12cm]{../resultat/comp_patate_impreci.png}
+      \includegraphics[width=12cm]{../resultat/comp_patate_preci.png}
       \caption{Comparaison sur la patate avec deux niveaux de précision pour l'algorithme de la corde}
+    \end{center}
     \end{figure}
-  \end{center}
+  
   
   \newpage
     
   \section{Conclusion}
-  Suite au résultat que nous avons collecté précédemment, on peut voir que les descripteurs de Fourier sont assez 
+  Suite aux résultats que nous avons collecté précédemment, on peut voir que les descripteurs de Fourier sont assez 
   efficaces pour des formes circulaires où l'on peut même éliminer des descripteurs pour améliorer les performances 
   de l'algorithme. Pour le reste des formes, il est efficace à condition d'avoir tous ses descripteurs. L'algorithme 
   de la corde est très efficace sur les formes rectangulaires où il a besoin de très peu de points pour obtenir un 
   contour parfait. Sur les formes arrondies par contre, il faut que la distance entre la corde et les points de la forme 
   soit très petite pour que le contour soit bien reconnu.\\
   
-  Donc l'algorithme de la corde est peut-être plus intéressant que le calcul des descripteurs Fourier, car cette méthode 
-  peut-être très efficace avec un minimum de calcul sur certaines formes et il est au moins aussi efficace que la méthode 
+  Donc l'algorithme de la corde est peut-être plus intéressant que le calcul des descripteurs de Fourier, car cette méthode 
+  peut-être très efficace avec un minimum de calculs sur certaines formes et il est au moins aussi efficace que la méthode 
   de Fourier sur des formes plus complexes.
   
 \end{document}
