@@ -144,9 +144,9 @@
   
   \section{Histogramme des niveaux de gris}
   
-  Dans le but conserver uniquement pixels des disques, pour les images d'exemples. Nous allons segmenter ces
-  images avec la techniques du seuillages. Seuiller ou binariser une image consiste conserver les pixels dont
-  la valeur est au-dessus d'un seuil et rejeter les pixels de valeurs infèrieurs ou égales à ce seuil.\\
+  Dans le but de conserver uniquement pixels les disques, pour les images d'exemples. Nous allons segmenter ces
+  images avec la technique du seuillage. Seuiller ou binariser une image consiste à conserver les pixels dont
+  la valeur est au-dessus d'un seuil et rejeter les pixels de valeurs inférieures ou égales à ce seuil.\\
   
   \begin{figure}[H]
     \center
@@ -160,7 +160,7 @@
   
   Pour déterminer la valeur du seuil, nous allons nous intéresser à l'histogramme des niveaux de gris. Pour 
   afficher l'histogramme en langage R, nous utilisons la fonction \textit{hist} des bibliothèques du langage.
-  En R, l'intensité des pixels varis de 0 à 1 et une image 8 bits est consistitué de 256 niveaux de gris.
+  En R, l'intensité des pixels varie de 0 à 1 et une image 8 bits est consistituée de 256 niveaux de gris.
   Il faut alors donne en paramètre à l'histogramme tous les niveaux. C'est la fonction \textit{seq} qui
   découpe l'intervalle [0;1] en \textit{nbins}, avec \textit{nbins} le nombre de niveaux de gris (256).\\
   
@@ -177,8 +177,8 @@ image <- rdfReadGreyImage (nom)
 nbins <- 256
 h <- hist (as.vector (image), breaks = seq (0, 1, 1 / nbins))\end{lstlisting}
 
-  Une fois l'histogramme afficher, nous remarquons que, pour les premières textures, deux pics apparaisent. 
-  Ils conrespondent aux niveaux de gris des disques et aux niveaux de gris du fond. Nous prennons une valeur 
+  Une fois l'histogramme affiché, nous remarquons que, pour les premières textures, deux pics apparaissent. 
+  Ils correspondent au niveau de gris des disques et au niveau de gris du fond. Nous prenons une valeur 
   entre ces deux pics comme seuil, pour binariser nos images.
   
   \begin{figure}[H]
