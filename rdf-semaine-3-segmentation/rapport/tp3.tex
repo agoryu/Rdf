@@ -290,20 +290,81 @@ h <- hist (as.vector (o), breaks = seq (0, 1, 1 / nbins))\end{lstlisting}
   
   \section{Histogramme conjoint}
   
+  L'histogramme conjoint est calculé avec \textbf{l'image} et \textbf{l'écart-type de la texture de 
+  l'image}. C'est un histogramme 2D qui représent la variation des niveaux de gris et de texture au 
+  sein d'une image. En abscisses, nous retrouvons les niveaux de gris puis les niveaux de textures en
+  ordonnées.\\
+  
+  \begin{figure}[H]
+    \center
+    \includegraphics[width=4cm]{texture-0/texture-0.png}
+    \includegraphics[width=4cm]{texture-0/texture-0-5-ecart-type.png}
+    \includegraphics[width=4cm]{hist2D.png}
+    \caption{\small{A gauche, l'image. Au centre, l'écart-type de la texture. A droite, l'histogramme 2D.}}
+  \end{figure}
+  
+  \newpage
+  
+  Pour les deux premières images, nous pouvons couper l'histogramme 2D avec une équation horizontale,
+  c'est-à-dire $x$ restera fixe quelque soit la valeur de $y$. Cela veut dire que pour segmenter l'image 
+  seul l'histogramme des niveaux de gris suffit.
+  
+  \begin{figure}[H]
+    \center
+    \shortstack{\includegraphics[width=4cm]{texture-0/texture-0-6-h2d.png} \\ \tiny{rdf-2-classes-texture-0.png}}
+    \shortstack{\includegraphics[width=4cm]{texture-1/texture-1-6-h2d.png} \\ \tiny{rdf-2-classes-texture-1.png}}
+    \caption{Segmentation avec équation horizontale.}
+  \end{figure}
+  
+  Inversement, pour les deux dernières images, il est possible de couper les histogramme 2D de manière 
+  verticale. Ici, seulement l'histogramme des niveaux de textures suffit à la segmentation.
+  
+  \begin{figure}[H]
+    \center
+    \shortstack{\includegraphics[width=4cm]{texture-3/texture-3-6-h2d.png} \\ \tiny{rdf-2-classes-texture-3.png}}
+    \shortstack{\includegraphics[width=4cm]{texture-4/texture-4-6-h2d.png} \\ \tiny{rdf-2-classes-texture-4.png}}
+    \caption{Segmentation avec équation horizontale.}
+  \end{figure}
+  
+  Pour l'image numéro 2, il est impossible de sépararer l'histogramme 2D sans passer par une fonction 
+  du type $z=ax+by+c$. Nous voyons q'il est possible de séparer l'histogramme avec une fonction de 
+  coefficient directement égales à 1 et une ordonnée à l'origine positive. Un simple addition de 
+  l'image et de sa texture suffit donc à obtenir l'image z.
+  
+  \begin{lstlisting}[caption=L'équation de la droite en language R.]
+# image: l'image source, o: l'ecart-type de la texture de l'image
+z = 1*image + 1*o
+# Normalisation
+z = z / max(z)\end{lstlisting}
+
+  Nous pouvons, ensuite, déterminer le seuil avec un histogramme classique sur l'image résultante.
+  
+  \begin{figure}[H]
+    \center
+    \shortstack{\includegraphics[width=4.5cm]{texture2-hist2D.png} \\ \small{rdf-2-classes-texture-2.png}}
+    \shortstack{\includegraphics[width=4cm]{texture-2/texture-2-7-equation.png} \\ \small{z = image + $\sigma$}}
+    \includegraphics[width=5cm]{texture-2/texture-2-8-eq-hist.png}
+    \caption{Segmentation avec fonction affine.}
+  \end{figure}
+  
+  
+  
+  \section{Récapitulatif des résultats}
+  
   \begin{center}
     \begin{tabular}{|c|c|c|c|}
       \hline
-      \textbf{Image source} & \textbf{Image écart-type} & \textbf{Histogramme 2D} & \textbf{Taux erreurs (\%)}\\
+      \textbf{Image source} & \textbf{Classification} & \textbf{Image binarisée} & \textbf{Taux erreurs (\%)}\\
       \hline
-      \shortstack{\includegraphics[width=3cm]{texture-0/texture-0.png} \\ \tiny{rdf-2-classes-texture-0.png}} & \includegraphics[width=3cm]{texture-0/texture-0-5-ecart-type.png} & \includegraphics[width=3cm]{texture-0/texture-0-6-h2d.png} & ?\\
+      \shortstack{\includegraphics[width=3cm]{texture-0/texture-0.png} \\ \tiny{rdf-2-classes-texture-0.png}} & \small{Niveaux de gris} & \shortstack{\includegraphics[width=3cm]{texture-0/texture-0-2-bin-gris.png} \\ \small{Seuil: 0,5}} & 0.1159668\\
       \hline
-      \shortstack{\includegraphics[width=3cm]{texture-1/texture-1.png} \\ \tiny{rdf-2-classes-texture-1.png}} & \includegraphics[width=3cm]{texture-1/texture-1-5-ecart-type.png} & \includegraphics[width=3cm]{texture-1/texture-1-6-h2d.png} & ?\\
+      \shortstack{\includegraphics[width=3cm]{texture-1/texture-1.png} \\ \tiny{rdf-2-classes-texture-1.png}} & \small{Niveaux de gris} & \shortstack{\includegraphics[width=3cm]{texture-1/texture-1-2-bin-gris.png} \\ \small{Seuil: 0,58}} & 0.8850098\\
       \hline
-      \shortstack{\includegraphics[width=3cm]{texture-2/texture-2.png} \\ \tiny{rdf-2-classes-texture-2.png}} & \includegraphics[width=3cm]{texture-2/texture-2-5-ecart-type.png} & \includegraphics[width=3cm]{texture-2/texture-2-6-h2d.png} & ?\\
+      \shortstack{\includegraphics[width=3cm]{texture-2/texture-2.png} \\ \tiny{rdf-2-classes-texture-2.png}} & \shortstack{\includegraphics[width=3cm]{texture-2/texture-2-6-h2d.png} \\ \small{Equation}} & \shortstack{\includegraphics[width=3cm]{texture-2/texture-2-6-bin-eq.png} \\ \small{Seuil: 0,42}} & 3.759766\\
       \hline
-      \shortstack{\includegraphics[width=3cm]{texture-3/texture-3.png} \\ \tiny{rdf-2-classes-texture-3.png}} & \includegraphics[width=3cm]{texture-3/texture-3-5-ecart-type.png} & \includegraphics[width=3cm]{texture-3/texture-3-6-h2d.png} & ?\\
+      \shortstack{\includegraphics[width=3cm]{texture-3/texture-3.png} \\ \tiny{rdf-2-classes-texture-3.png}} & \shortstack{\includegraphics[width=3cm]{texture-3/texture-3-5-ecart-type.png} \\ \small{Niveaux de textures}} & \shortstack{\includegraphics[width=3cm]{texture-3/texture-3-4-bin-tex.png} \\ \small{Seuil: 0,36}} & 3.747559\\
       \hline
-      \shortstack{\includegraphics[width=3cm]{texture-4/texture-4.png} \\ \tiny{rdf-2-classes-texture-4.png}} & \includegraphics[width=3cm]{texture-4/texture-4-5-ecart-type.png} & \includegraphics[width=3cm]{texture-4/texture-4-6-h2d.png} & ?\\
+      \shortstack{\includegraphics[width=3cm]{texture-4/texture-4.png} \\ \tiny{rdf-2-classes-texture-4.png}} & \shortstack{\includegraphics[width=3cm]{texture-4/texture-4-5-ecart-type.png} \\ \small{Niveaux de textures}} & \shortstack{\includegraphics[width=3cm]{texture-4/texture-4-4-bin-tex.png} \\ \small{Seuil: 0,35}} & 3.057861\\
       \hline
     \end{tabular}
   \end{center}

@@ -23,7 +23,7 @@ source ("rdfSegmentation.R")
 
 
 # Chargement d'une image
-nom <- "rdf-2-classes-texture-3.png"
+nom <- "rdf-2-classes-texture-2.png"
 nomref <- "rdf-masque-ronds.png"
 image <- rdfReadGreyImage (nom)
 ref <- rdfReadGreyImage (nomref)
@@ -31,19 +31,39 @@ ref <- rdfReadGreyImage (nomref)
 o <- rdfTextureEcartType(image, 2)
 
 if (interactive ()) {
-  display (o, "image ecart type")
+#  display (o, "image ecart type")
 }
 
 # Calcul et affichage de son histogramme
 nbins <- 256
-h <- hist (as.vector (o), breaks = seq (0, 1, 1 / nbins))
+#h <- hist (as.vector (o), breaks = seq (0, 1, 1 / nbins))
 
 # histogramme 2D
 h2d <- rdfCalculeHistogramme2D(image, nbins, o, nbins);
 if (interactive ()) {
-  display (h2d, "histogramme 2D")
+#  display (h2d, "histogramme 2D")
 }
 
+# z(x,y) = a*x + b*y +c
+# image 0 -> meilleur solution hist gris
+#z = 1*image + 0*o
+# image 1 -> meilleur solution hist gris
+#z = 1*image + 0*o
+# image 2 -> meilleur solution équation
+z = 1*image + 1*o
+# image 3 -> meilleur solution texture
+#z = 0*image + 1*o
+# image 4 -> meilleur solution texture
+#z = 0*image + 1*o
+
+# Normaliser
+z = z / max(z)
+
+if (interactive ()) {
+  display (z, "équation")
+}
+
+h <- hist (as.vector (z), breaks = seq (0, 1, 1 / nbins))
 
 # Segmentation par binarisation
 # avec hist niveau de gris
@@ -59,15 +79,22 @@ seuil2t <- 0.42
 seuil3t <- 0.36
 seuil4t <- 0.35
 
-seuil <- seuil4g
-binaire <- (image - seuil) >= 0
-# image 2 image 3
-#binaire <- (image - seuil) < 0
+# histogramme seuil équation
+seuil0e <- 0.5
+seuil1e <- 0.58
+seuil2e <- 0.43
+seuil3e <- 0.36
+seuil4e <- 0.35
+
+seuil <- seuil2e
+#binaire <- (z - seuil) >= 0
+# gris2 girs3 tex1 tex2 tex3 tex4 eq2
+binaire <- (z - seuil) < 0
 
 # Affichage des deux images
 if (interactive ()) {
 #  display (image, nom)
-#  display (binaire, "image binaire")
+  display (binaire, "image binaire")
 }
 
 #imgerr <- xor(binaire, ref)

@@ -83,8 +83,7 @@ faire mieux avec un seuillage.
 Par conséquent, la méthodes de ségmentation avec l'histogramme des textures, 
 permet de retrouver un seuil pour segmenter une image quand l'histogramme de 
 gris ne le permet pas, mais les résultat ne sont pas fiable dans tous les 
-cas. 
-dans tous les cas.
+cas.
 
 
 ## Histogramme conjoint
