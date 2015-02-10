@@ -141,11 +141,10 @@
   fiable pour la segmentation.\\
   
   
-  
   \section{Histogramme des niveaux de gris}
-  
-  Dans le but de conserver uniquement pixels les disques, pour les images d'exemples. Nous allons segmenter ces
-  images avec la technique du seuillage. Seuiller ou binariser une image consiste à conserver les pixels dont
+  %Dans le but de conserver uniquement pixels les disques, pour les images d'exemples.
+  Le but est de conserver uniquement les pixels des disques pour les images fournies en exemple. 
+  Nous allons segmenter ces images avec la technique du seuillage. Seuiller ou binariser une image consiste à conserver les pixels dont
   la valeur est au-dessus d'un seuil et rejeter les pixels de valeurs inférieures ou égales à ce seuil.\\
   
   \begin{figure}[H]
@@ -160,8 +159,8 @@
   
   Pour déterminer la valeur du seuil, nous allons nous intéresser à l'histogramme des niveaux de gris. Pour 
   afficher l'histogramme en langage R, nous utilisons la fonction \textit{hist} des bibliothèques du langage.
-  En R, l'intensité des pixels varie de 0 à 1 et une image 8 bits est consistituée de 256 niveaux de gris.
-  Il faut alors donne en paramètre à l'histogramme tous les niveaux. C'est la fonction \textit{seq} qui
+  Ici, l'intensité des pixels varie de 0 à 1 et une image 8 bits est consistituée de 256 niveaux de gris.
+  Il faut alors donner en paramètre à l'histogramme tous les niveaux. C'est la fonction \textit{seq} qui
   découpe l'intervalle [0;1] en \textit{nbins}, avec \textit{nbins} le nombre de niveaux de gris (256).\\
   
   \newpage
@@ -187,6 +186,9 @@ h <- hist (as.vector (image), breaks = seq (0, 1, 1 / nbins))\end{lstlisting}
     \caption{Histogramme des gris de la texture 0}
   \end{figure}
 
+  Il est possible de calculer un pourcentage d'erreur en comparant les pixels de l'image
+  binarisé obtenu et l'image de référence. Ainsi nous verrons si la segmentation est correcte
+  ou si elle est insuffisante.
   
    \begin{center}
     \begin{tabular}{|c|c|c|c|}
@@ -212,7 +214,7 @@ h <- hist (as.vector (image), breaks = seq (0, 1, 1 / nbins))\end{lstlisting}
   pics précedemment cités et un creux entre les deux. Celà nous permettant d'obtenir un seuil assez fiable.\\
 
   Cependant quand les images à binariser sont trop détériorer (texutre 2 et 3), avec beaucoup de bruit. 
-  L'histogramme des niveaux de gris, ne nous permet pas de déterminer un seuil précisément. \\
+  L'histogramme des niveaux de gris, ne nous permet pas de déterminer précisément un seuil. \\
 
   Pour la texture 4, en plus d'être fortement bruitée, les niveaux de gris de l'image sont proches. Il est 
   impossible de déterminer un seuil uniquement avec son histogramme.\\
@@ -220,8 +222,8 @@ h <- hist (as.vector (image), breaks = seq (0, 1, 1 / nbins))\end{lstlisting}
   \section{Histogramme des niveaux de texture}
   
   Une autre alternative, pour la classification des pixels est de déterminer le seuil à l'aide de 
-  l'histogramme des niveaux de texture. Pour trouver cette histogramme il faut calculer l'écart-type,
-  obtenu grâce à la fonction \textit{rdfTextureEcartType}, diffèrent de écart-type de l'image, car ici 
+  l'histogramme des niveaux de texture. Pour trouver cette histogramme il faut calculer l'écart-type de la texture,
+  obtenu grâce à la fonction \textit{rdfTextureEcartType}. Celui-ci est diffèrent de écart-type de l'image, car ici 
   c'est la diffèrence entre l'image et l'image moyenné qui est utilisée. L'image moyenné est obtenu avec 
   la fonction \textit{rdfMoyenneImage}.\\
   
@@ -234,7 +236,7 @@ h <- hist (as.vector (image), breaks = seq (0, 1, 1 / nbins))\end{lstlisting}
   
   La moyenne de l'image effectué sur un voisinnage. La dimension de la matrice de voisin peut être contrôler 
   grace au paramètre \textit{taille} passé aux fonctions. Ce paramètre, tel un rayon, indique le nombre de 
-  pixels à prendre en compte autour du pixel cible. Si le taille = 2 alors masque sera une matrice de 5*5 
+  pixels à prendre en compte autour du pixel cible. Si le taille = 2 alors le masque sera une matrice de 5*5 
   pixels.\\
   
   \newpage
@@ -351,14 +353,15 @@ z = z / max(z)\end{lstlisting}
   
   \section{Récapitulatif des résultats}
   
+  %niveau de gris à ajouter?
   \begin{center}
     \begin{tabular}{|c|c|c|c|}
       \hline
       \textbf{Image source} & \textbf{Classification} & \textbf{Image binarisée} & \textbf{Taux erreurs (\%)}\\
       \hline
-      \shortstack{\includegraphics[width=3cm]{texture-0/texture-0.png} \\ \tiny{rdf-2-classes-texture-0.png}} & \small{Niveaux de gris} & \shortstack{\includegraphics[width=3cm]{texture-0/texture-0-2-bin-gris.png} \\ \small{Seuil: 0,5}} & 0.1159668\\
+      \shortstack{\includegraphics[width=3cm]{texture-0/texture-0.png} \\ \tiny{rdf-2-classes-texture-0.png}} & \shortstack{\includegraphics[width=3cm]{texture-0/texture-0-1-hist.png} \\ \small{Niveaux de gris}} & \shortstack{\includegraphics[width=3cm]{texture-0/texture-0-2-bin-gris.png} \\ \small{Seuil: 0,5}} & 0.1159668\\
       \hline
-      \shortstack{\includegraphics[width=3cm]{texture-1/texture-1.png} \\ \tiny{rdf-2-classes-texture-1.png}} & \small{Niveaux de gris} & \shortstack{\includegraphics[width=3cm]{texture-1/texture-1-2-bin-gris.png} \\ \small{Seuil: 0,58}} & 0.8850098\\
+      \shortstack{\includegraphics[width=3cm]{texture-1/texture-1.png} \\ \tiny{rdf-2-classes-texture-1.png}} & \shortstack{\includegraphics[width=3cm]{texture-1/texture-1-1-hist.png} \\ \small{Niveaux de gris}} & \shortstack{\includegraphics[width=3cm]{texture-1/texture-1-2-bin-gris.png} \\ \small{Seuil: 0,58}} & 0.8850098\\
       \hline
       \shortstack{\includegraphics[width=3cm]{texture-2/texture-2.png} \\ \tiny{rdf-2-classes-texture-2.png}} & \shortstack{\includegraphics[width=3cm]{texture-2/texture-2-6-h2d.png} \\ \small{Equation}} & \shortstack{\includegraphics[width=3cm]{texture-2/texture-2-6-bin-eq.png} \\ \small{Seuil: 0,42}} & 3.759766\\
       \hline
@@ -370,6 +373,9 @@ z = z / max(z)\end{lstlisting}
   \end{center}
     
   \section*{Conclusion}
-
+  Pour obtenir une binarisation correcte d'une image, dans le but d'effectuer des algorithmes de reconnaissance de forme, il est possible
+  de classifier les pixels selon différent attributs, comme le niveau de gris ou la texture. Nous avons vu dans ce TP qu'une méthode de 
+  segmentation n'est pas toujours efficace seul, mais qu'il est possible de les combiner afin d'obtenir une binarisation correcte 
+  d'une image bruitée.
 
 \end{document}
