@@ -131,12 +131,12 @@
   
   \section*{Introduction}
   Lors de ce TP, nous allons aborder différentes manières de segmenter une image par 
-  classification de ses pixels. Le but de la segmentation est de  conserver les pixels d'un 
-  objet et ignorer les pixels du fond. Nous mettrons en avant, plusieurs méthodes permettant 
+  classification de ses pixels. Le but de la segmentation est de conserver les pixels d'un 
+  objet et d'ignorer les pixels du fond. Nous mettrons en avant plusieurs méthodes permettant 
   de déterminer un seuil de binarisation. Nous verrons ainsi leurs avantages et inconvénients.\\
   
   D'abord, nous chercherons le meilleur seuil à partir de l'histogramme de niveaux de gris.
-  Ensuite, nous fixerons ce seuil à l'aide de l'histogramme de niveaux de texture.
+  Ensuite, nous fixerons ce seuil à l'aide de l'histogramme de niveaux de textures.
   Enfin, nous combinerons les deux techniques afin d'obtenir une méthode encore plus 
   fiable pour la segmentation.\\
   
@@ -176,8 +176,8 @@ image <- rdfReadGreyImage (nom)
 nbins <- 256
 h <- hist (as.vector (image), breaks = seq (0, 1, 1 / nbins))\end{lstlisting}
 
-  Une fois l'histogramme affiché, nous remarquons que, pour les premières textures, deux pics apparaissent. 
-  Ils correspondent au niveau de gris des disques et au niveau de gris du fond. Nous prenons une valeur 
+  Une fois l'histogramme affiché, nous remarquons que, pour les premières textures, deux pics apparaîssent. 
+  Ils correspondent aux niveaux de gris des disques et au niveaux de gris du fond. Nous prenons une valeur 
   entre ces deux pics comme seuil, pour binariser nos images.
   
   \begin{figure}[H]
@@ -187,7 +187,7 @@ h <- hist (as.vector (image), breaks = seq (0, 1, 1 / nbins))\end{lstlisting}
   \end{figure}
 
   Il est possible de calculer un pourcentage d'erreur en comparant les pixels de l'image
-  binarisé obtenu et l'image de référence. Ainsi nous verrons si la segmentation est correcte
+  binarisée obtenue et l'image de référence. Ainsi nous verrons si la segmentation est correcte
   ou si elle est insuffisante.
   
    \begin{center}
@@ -210,21 +210,21 @@ h <- hist (as.vector (image), breaks = seq (0, 1, 1 / nbins))\end{lstlisting}
   
   \subsection*{Conclusion sur les résultats de l'histogramme de niveaux de gris}
   
-  Lorsque les images sont de bonne qualité (texture 0 et 1) ont retrouve facilement sur l'histogramme, les deux 
-  pics précedemment cités et un creux entre les deux. Celà nous permettant d'obtenir un seuil assez fiable.\\
+  Lorsque les images sont de bonne qualité (texture 0 et 1) on retrouve facilement sur l'histogramme les deux 
+  pics précédemment cités et un creux entre les deux. Celà nous permettra d'obtenir un seuil assez fiable.\\
 
-  Cependant quand les images à binariser sont trop détériorer (texutre 2 et 3), avec beaucoup de bruit. 
-  L'histogramme des niveaux de gris, ne nous permet pas de déterminer précisément un seuil. \\
+  Cependant, quand les images à binariser sont trop détériorées (texutre 2 et 3), avec beaucoup de bruit, 
+  l'histogramme des niveaux de gris, ne nous permet pas de déterminer précisément un seuil. \\
 
   Pour la texture 4, en plus d'être fortement bruitée, les niveaux de gris de l'image sont proches. Il est 
   impossible de déterminer un seuil uniquement avec son histogramme.\\
   
-  \section{Histogramme des niveaux de texture}
+  \section{Histogramme des niveaux de textures}
   
   Une autre alternative, pour la classification des pixels est de déterminer le seuil à l'aide de 
-  l'histogramme des niveaux de texture. Pour trouver cette histogramme il faut calculer l'écart-type de la texture,
-  obtenu grâce à la fonction \textit{rdfTextureEcartType}. Celui-ci est diffèrent de écart-type de l'image, car ici 
-  c'est la diffèrence entre l'image et l'image moyenné qui est utilisée. L'image moyenné est obtenu avec 
+  l'histogramme des niveaux de textures. Pour trouver cette histogramme, il faut calculer l'écart-type de la texture
+  obtenu grâce à la fonction \textit{rdfTextureEcartType}. Celui-ci est diffèrent de l'écart-type de l'image, car ici 
+  c'est la diffèrence entre l'image et l'image moyennée qui est utilisée. L'image moyennée est obtenue avec 
   la fonction \textit{rdfMoyenneImage}.\\
   
   \begin{figure}[H]
@@ -234,15 +234,16 @@ h <- hist (as.vector (image), breaks = seq (0, 1, 1 / nbins))\end{lstlisting}
     \caption{A gauche, écart-type de la texture 0. A droite, écart-type de la texture 4.}
   \end{figure}
   
-  La moyenne de l'image effectué sur un voisinnage. La dimension de la matrice de voisin peut être contrôler 
-  grace au paramètre \textit{taille} passé aux fonctions. Ce paramètre, tel un rayon, indique le nombre de 
-  pixels à prendre en compte autour du pixel cible. Si le taille = 2 alors le masque sera une matrice de 5*5 
+  %La moyenne de l'image effectué sur un voisinnage. 
+  La dimension de la matrice de voisin peut être contrôlée 
+  grâce au paramètre \textit{taille} passé à la fonction. Ce paramètre, tel un rayon, indique le nombre de 
+  pixels à prendre en compte autour du pixel cible. Si la taille vaut 2, alors le masque sera une matrice de 5*5 
   pixels.\\
   
   \newpage
   
-  Ci-dessous les lignes permettant d'afficher l'histogramme de niveaux de texture d'une image :
-  \begin{lstlisting}[caption=Afficher l'histogramme de niveaux de texture d'une image]
+  Ci-dessous les lignes permettant d'afficher l'histogramme de niveaux de textures d'une image :
+  \begin{lstlisting}[caption=Afficher l'histogramme de niveaux de textures d'une image]
 # Chargement d'une image
 nom <- "rdf-2-classes-texture-3.png"
 image <- rdfReadGreyImage (nom)
@@ -277,23 +278,23 @@ h <- hist (as.vector (o), breaks = seq (0, 1, 1 / nbins))\end{lstlisting}
     \end{tabular}
   \end{center}
   
-  \subsection*{Conclusion sur les résultats de l'histogramme de niveaux de texture}
+  \subsection*{Conclusion sur les résultats de l'histogramme de niveaux de textures}
   Il est plus facile de déterminer un seuil avec l'histoigramme de texture, pour les images qui sont 
-  plus détérioré par le bruit. Néanmoins, le taux d'erreur n'est pas forcement plus faible. Nous 
+  plus détériorées par le bruit. Néanmoins, le taux d'erreur n'est pas forcement plus faible. Nous 
   pouvons noter que, pour la texture 4, même si son taux d'erreurs est plus élevé avec cette technique 
-  les disques sont mieux segmenter. Tous les pixels des disques de premier plan sont reconnu, or le 
-  fond n'est pas correctement ignoré. Ceci est directement lié à la technique du seuillage et aux ton 
+  les disques sont mieux segmentés. Tous les pixels des disques de premier plan sont reconnus, or le 
+  fond n'est pas correctement ignoré. Ceci est directement lié à la technique du seuillage et aux tons 
   de gris  très proches entre les pixels des disques et ceux du fond. On ne peut que difficilement 
   faire mieux avec un seuillage.\\
   
-  Par conséquent, la méthodes de ségmentation avec l'histogramme des textures, permet de retrouver 
-  un seuil pour segmenter une image quand l'histogramme de gris ne le permet pas, mais les résultat 
-  ne sont pas fiable dans tous les cas.\\
+  Par conséquent, la méthode de ségmentation avec l'histogramme des textures, permet de retrouver 
+  un seuil pour segmenter une image quand l'histogramme de gris ne le permet pas, mais les résultats 
+  ne sont pas fiables dans tous les cas.\\
   
   \section{Histogramme conjoint}
   
   L'histogramme conjoint est calculé avec \textbf{l'image} et \textbf{l'écart-type de la texture de 
-  l'image}. C'est un histogramme 2D qui représent la variation des niveaux de gris et de texture au 
+  l'image}. C'est un histogramme 2D qui représente la variation des niveaux de gris et de texture au 
   sein d'une image. En abscisses, nous retrouvons les niveaux de gris puis les niveaux de textures en
   ordonnées.\\
   
@@ -328,9 +329,9 @@ h <- hist (as.vector (o), breaks = seq (0, 1, 1 / nbins))\end{lstlisting}
     \caption{Segmentation avec équation horizontale.}
   \end{figure}
   
-  Pour l'image numéro 2, il est impossible de sépararer l'histogramme 2D sans passer par une fonction 
+  Pour l'image numéro 2, il est impossible de séparer l'histogramme 2D sans passer par une fonction 
   du type $z=ax+by+c$. Nous voyons q'il est possible de séparer l'histogramme avec une fonction de 
-  coefficient directement égales à 1 et une ordonnée à l'origine positive. Un simple addition de 
+  coefficient directement égale à 1 et une ordonnée à l'origine positive. Une simple addition de 
   l'image et de sa texture suffit donc à obtenir l'image z.
   
   \begin{lstlisting}[caption=L'équation de la droite en language R.]
@@ -349,11 +350,7 @@ z = z / max(z)\end{lstlisting}
     \caption{Segmentation avec fonction affine.}
   \end{figure}
   
-  
-  
   \section{Récapitulatif des résultats}
-  
-  %niveau de gris à ajouter?
   \begin{center}
     \begin{tabular}{|c|c|c|c|}
       \hline
@@ -374,8 +371,8 @@ z = z / max(z)\end{lstlisting}
     
   \section*{Conclusion}
   Pour obtenir une binarisation correcte d'une image, dans le but d'effectuer des algorithmes de reconnaissance de forme, il est possible
-  de classifier les pixels selon différent attributs, comme le niveau de gris ou la texture. Nous avons vu dans ce TP qu'une méthode de 
-  segmentation n'est pas toujours efficace seul, mais qu'il est possible de les combiner afin d'obtenir une binarisation correcte 
+  de classifier les pixels selon différents attributs, comme le niveau de gris ou la texture. Nous avons vu dans ce TP qu'une méthode de 
+  segmentation n'est pas toujours efficace seule, mais qu'il est possible de les combiner afin d'obtenir une binarisation correcte 
   d'une image bruitée.
 
 \end{document}
