@@ -52,7 +52,7 @@
 
 
 \lstset{
-    language=Scilab,
+    language=R,
     captionpos=b,
     extendedchars=true,
     frame=lines,
@@ -107,7 +107,7 @@
 % --------------------------------------
 % Information
 % --------------------------------------
-\title{Compte-rendu TP3 TI : Images discrètes}
+\title{Compte-rendu TP5 RdF : Segmentation automatique par analyse d’histogramme}
 \author{Elliot VANEGUE et Gaëtan DEFLANDRE}
 % --------------------------------------
 
@@ -131,11 +131,16 @@
   \clearpage
   
   \section*{Introduction}
-  Lors de ce TP, nous allons voir comment segmenter une image en niveau de gris en 
+  Lors de ce TP, nous allons voir comment segmenter une image en niveau de gris en
   créant des macros avec le langage R. Nous utiliserons le seuillage automatique 
   de Bayes afin de voir les avantages et les inconvénients de cette méthode.
+  
+  % Lors de ce TP, nous allons voir comment automatiser la segmention d'une image en niveau de gris en 
+  % utilisant le théorème de Bayes. Nous créerons des macros en language R 
+  % afin de voir les avantages et les inconvénients de cette méthode.
 
   \section{Seuillage fixe}
+  % nous avons testé plusieur seuils proches ..... , pour mettre en évidence l'importance de trouver un seuil précis. 
   Dans un premier temps, nous avons essayé trois seuils sur l'image \enquote{2classes\_100\_100\_8bits.png}.\\
   
   \begin{figure}[H]
@@ -143,7 +148,8 @@
     \includegraphics[width=5cm]{2classes_100_100_8bits.png}
     \caption{Image 2classes\_100\_100\_8bits.png}
   \end{figure}
-  
+  % Nous voyons que plus nous augmentons le seuil, plus le bruit est important dans la partie basse de l'image. 
+  % Inversement, le bruit diminu dans la partie haute de l'image.
   Nous avons pu voir que plus nous augmentons le seuil et plus il y avait plus de bruit dans l'image
   binarisé sur la partie du bas de l'image. Et à l'inverse lorsque nous diminuons le seuil, le bruit 
   se ressens d'avantage sur la partie du haut de l'image.\\
@@ -156,7 +162,7 @@
     \caption{Images binarisé avec un seuil de plus en plus grand}
   \end{figure}
   
-  Dans nos résultat nous avons utilisé des seuils correspondant aux valeurs se trouvant dans le creux
+  Dans nos résultats nous avons utilisé des seuils correspondant aux valeurs se trouvant dans le creux
   de l'histogramme de l'image que nous utilisons. Cela permet de séparer les deux pics lors de la 
   binarisation.\\
   
@@ -165,7 +171,13 @@
     \includegraphics[width=10cm]{resultat/hist_image_principal.png}
     \caption{Histogramme de l'image 2classes\_100\_100\_8bits.png}
   \end{figure}
-
+  
+  
+  % % Je sais pas, pour moi, on obtiendra le meilleur seuil avec Bayes, 
+  % % et de manière automatique. Avec cette méthodes le seui est valide 
+  % % que pour une image et c'est pas automatique. Mais je suis pas sur.
+  % % Je pense pas que Bayes prend en compte la position et le voisinnage 
+  % % des pixels, donc il ne corrigera pas les pixels de trop dans chaque classe.
   Donc le seuillage en utilisant l'histogramme de gris n'est pas la bonne solution pour 
   bien classer les pixels de l'image car les deux parties de celle-ci comporte des pixels
   dont le niveau de gris est similaire.
@@ -189,7 +201,7 @@
   \section{Seuillage automatique (Bayes) - Probabilité conditionnelle}
   Afin de calculer la probabilité d'erreur, nous avons besoin des probabilités conditionnelle des deux
   classes de l'image pour une valeur donnée. La valeur de X que nous avons utilisé durant nos calculs
-  est 79. Nous devons diviser le nombre de pixels d'un niveau de gris donné par le nombre total de
+  est 79. Nous devons diviser le nombre de pixels d'une classe d'un niveau de gris donné par le nombre total de
   pixels pour obtenir la probabilité conditionnelle. Ce qui nous donne les résulat suivant :
   
   $$P(79/I) = \frac{h(79)}{N} = 0.0362$$
@@ -234,6 +246,7 @@
   \section{Taux d’erreur de classification}
   
   \section*{Conclusion}
+  % Le problème avec Bayes c'est qu'on a besoin de connaitre l'histogramme de chacune des classes, donc pas très pratique
  
     
 \end{document}  
