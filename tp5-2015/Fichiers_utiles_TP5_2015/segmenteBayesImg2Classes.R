@@ -33,16 +33,20 @@ nbins <- 256
 h <- hist (as.vector (image), freq=FALSE, breaks = seq (0, 1, 1 / nbins))
 
 # Segmentation par binarisation 0.3
-seuil <- 0.49
-binaire30 <- (image - seuil) >= 0
+seuil <- 0.36
+binaire35 <- (image - 0.35) >= 0
+binaire36 <- (image - 0.36) >= 0
+binaire37 <- (image - 0.37) >= 0
 
 
 # Affichage des deux images
 if (interactive ()) {
-  #display (binaire30, "image binaire 0.3")
-  #display (binaire35, "image binaire 0.35")
-  #display (binaire40, "image binaire 0.4")
+  display (binaire35, "image binaire 0.35")
+  display (binaire36, "image binaire 0.36")
+  display (binaire37, "image binaire 0.37")
 }
+
+stop()
 
 # Chargement de l'image omega1
 
