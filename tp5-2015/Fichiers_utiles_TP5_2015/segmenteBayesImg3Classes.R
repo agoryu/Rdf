@@ -53,7 +53,7 @@ omega2 <- rdfReadGreyImage (nom)
 # Calcul et affichage de son histogramme
 h2 <- hist (as.vector (omega2), freq=FALSE, breaks = seq (0, 1, 1 / nbins))
 
-# Chargement de l'image omega2
+# Chargement de l'image omega3
 nom <- "3classes_100_156_8bits_omega3.png"
 omega3 <- rdfReadGreyImage (nom)
 # Calcul et affichage de son histogramme
@@ -65,7 +65,7 @@ p_omega2 = sum(h2$counts[0:255])/ sum(h$counts[0:255])
 p_omega3 = sum(h3$counts[0:255])/ sum(h$counts[0:255])
 print(paste("P(omega1) = ", p_omega1, ""))
 print(paste("P(omega2) = ", p_omega2, ""))
-print(paste("P(omega2) = ", p_omega3, ""))
+print(paste("P(omega3) = ", p_omega3, ""))
 
 
 
@@ -94,8 +94,8 @@ for (X in 1:255) {
     erreur[X+1] = somme1[X+1] + somme2[X+1]
     
 	# seuil corrrespondant à l'erreur minimale
-  	if (erreur[X+1] < minimum_erreur ) seuil_minimum_erreur_classes_1_2 = X
-  	if (erreur[X+1] < minimum_erreur ) minimum_erreur_classes_1_2 = erreur[X+1]
+  	if (erreur[X+1] < minimum_erreur_classes_1_2 ) seuil_minimum_erreur_classes_1_2 = X
+  	if (erreur[X+1] < minimum_erreur_classes_1_2 ) minimum_erreur_classes_1_2 = erreur[X+1]
 }
 
 # Deuxième passage
@@ -120,8 +120,8 @@ for (X in 1:255) {
     erreur[X+1] = somme1[X+1] + somme2[X+1]
     
 	# seuil corrrespondant à l'erreur minimale
-  	if (erreur[X+1] < minimum_erreur ) seuil_minimum_erreur_classes_2_3 = X
-  	if (erreur[X+1] < minimum_erreur ) minimum_erreur_classes_2_3 = erreur[X+1]
+  	if (erreur[X+1] < minimum_erreur_classes_2_3 ) seuil_minimum_erreur_classes_2_3 = X
+  	if (erreur[X+1] < minimum_erreur_classes_2_3 ) minimum_erreur_classes_2_3 = erreur[X+1]
 }
 print(paste("Seuil erreur minimum classes 1 et 2: ", seuil_minimum_erreur_classes_1_2, ""))
 print(paste("Taux d'erreur classes 1 et 2: ", minimum_erreur_classes_1_2, ""))
@@ -138,7 +138,7 @@ height = length(image[1,])
 binaire_Bayes = (image*0)
 
 for (y in 1:height) {
-    print(paste("RAW: ", y, ""))
+    #print(paste("RAW: ", y, ""))
     for (x in 1:width) {
         if(image[x,y]>seuil_1_2){
             binaire_Bayes[x,y] = 0.5
@@ -149,4 +149,21 @@ for (y in 1:height) {
     }
 }
 
-display (binaire_Bayes, "image binaire Bayes")
+# Question 7
+# ----------
+#il y a des valeurs négatives
+finErreur = ((binaire_Bayes - image) + 1) / 2
+print(finErreur)
+#histerr <- hist (as.vector (finErreur), freq=FALSE, breaks = seq (0, 1, 1 / nbins))
+display (finErreur, "erreur")
+accumul1 = histerr$density[2]
+accumul2 = 0
+
+for (i in 3:255) {
+  accumul1 = accumul1 + histerr$density[i]
+  accumul2 = accumul2 + histerr$density[i]
+}  
+print(accumul1)
+print(accumul2)
+print(accumul1/accumul2)
+#display (binaire_Bayes, "image binaire Bayes")
