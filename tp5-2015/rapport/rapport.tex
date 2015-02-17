@@ -192,20 +192,20 @@
     \center
     \includegraphics[width=5cm]{3classes_100_156_8bits_omega1.png}
     \includegraphics[width=5cm]{3classes_100_156_8bits_omega2.png}
-    \caption{Images des classes $\omega$1 (à gauche) et $\omega$2 (à droite)}
+    \caption{Images des classes $\omega_{1}$ (à gauche) et $\omega_{2}$ (à droite)}
   \end{figure}
   
   \begin{figure}[H]
     \center
     \includegraphics[width=6cm]{resultat/hist_omega1.png}
     \includegraphics[width=6cm]{resultat/hist_omega2.png}
-    \caption{Histogrammes des classes $\omega$1 (à gauche) et $\omega$2 (à droite)}
+    \caption{Histogrammes des classes $\omega_{1}$ (à gauche) et $\omega_{2}$ (à droite)}
   \end{figure}
   
-  Ensuite, pour calculer cette probabilité, nous divisons le nombre de pixels d'une classe ($N_k$) par
+  Ensuite, pour calculer cette probabilité, nous divisons le nombre de pixels d'une classe ($N_{\omega_k}$) par
   le nombre total de pixels ($N$). Ce qui nous donne les résultats suivants :
-  $$\frac{N_{w_1}}{N} = 0.56$$
-  $$\frac{N_{w_2}}{N} = 0.44$$\\
+  $$P(\omega_{1}) = \frac{ N_{\omega_{1}} }{ N } = 0.56$$
+  $$P(\omega_{2}) = \frac{ N_{\omega_{2}} }{ N } = 0.44$$\\
   
   Ce qui nous donne les macros suivante :\\
   
@@ -216,20 +216,34 @@
   \section{Seuillage automatique (Bayes) - Probabilité conditionnelle}
   Afin de calculer la probabilité d'erreur, nous avons besoin des probabilités conditionnelle des deux
   classes de l'image pour une valeur donnée. La valeur de X que nous avons utilisé durant nos calculs
-  est 79. Nous devons diviser le nombre de pixels d'une classe d'un niveau de gris donné par le nombre total de
-  pixels pour obtenir la probabilité conditionnelle. Ce qui nous donne les résulat suivant :
+  est 79. Nous devons diviser la densité de pixels de gris 79 par la probabilité $P(I)$ pour $P(79/I)$, 
+  $P(\omega_1)$ pour $P(79/\omega_1)$ et $P(\omega_2)$ pour $P(79/\omega_2)$. Il faut aussi prend en compte
+  que la densité est en pourcentage et les probabilité sont entre 0 et 1. Ce qui nous donne les résulat suivant :
+  %Nous devons diviser le nombre de pixels d'une classe d'un niveau de gris donné par le nombre total de
+  %pixels pour obtenir la probabilité conditionnelle. Ce qui nous donne les résulat suivant :
   
-  $$P(79/I) = \frac{h(79)}{N} = 0.0362$$
-  $$P(79/w_1) = \frac{h1(79)}{N} = 0.0362$$
-  $$P(79/w_2) = \frac{h2(79)}{N} = 0$$\\
+  $$P(79/I) = \frac{h.density(79)}{100} = 0.092672$$
+  $$P(79/\omega_1) = \frac{h1.density(79)}{p_{\omega_{1]} * 100} = 0.2955102$$
+  $$P(79/\omega_2) = \frac{h2.density(79)}{p_{\omega_{2}} * 100} = 0$$\\
+  
+  %$$P(79/I) = \frac{h(79)}{N} = 0.0362$$
+  %$$P(79/w_1) = \frac{h1(79)}{N} = 0.0362$$
+  %$$P(79/w_2) = \frac{h2(79)}{N} = 0$$\\
   
   Soit les macros suivante : \\
   
-  \begin{lstlisting}[caption=Macros de calcule de probabilité à priori des classe $N_{w_1}$ et $N_{w_2}$]
-  pI = h$counts[80] / sum(h$counts[0:255])
-  pw1 = h1$counts[80] / sum(h$counts[0:255])
-  pw2 = h2$counts[80] / sum(h$counts[0:255])
-  \end{lstlisting}
+  \begin{lstlisting}[caption=Macros de calcule de probabilités conditionnelles$]
+  X = 80;# gris à 79
+
+  p79_I  = h$density[X] / 100
+  p79_o1 = h1$density[X] / (p_omega1*100)
+  p79_o2 = h2$density[X] / (p_omega2*100)\end{lstlisting}
+  
+  %\begin{lstlisting}[caption=Macros de calcule de probabilité à priori des classe $N_{w_1}$ et $N_{w_2}$]
+  %pI = h$counts[80] / sum(h$counts[0:255])
+  %pw1 = h1$counts[80] / sum(h$counts[0:255])
+  %pw2 = h2$counts[80] / sum(h$counts[0:255])
+  %\end{lstlisting}
 
   
   %TODO explication resultat 

@@ -84,11 +84,11 @@ p_omega2= sum(h2$counts[0:255])/ sum(h$counts[0:255])
 #h$density[80]
 #h1$density[80]
 
-X = 91;# gris à 79
+X = 80;# gris à 79
 
-p79_I  = h$density[X]
-p79_o1 = h1$density[X] / p_omega1
-p79_o2 = h2$density[X] / p_omega2
+p79_I  = h$density[X] / 100
+p79_o1 = h1$density[X] / (p_omega1*100)
+p79_o2 = h2$density[X] / (p_omega2*100)
       
 
 
