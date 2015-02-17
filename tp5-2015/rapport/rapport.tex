@@ -184,9 +184,25 @@
   
   \section{Seuillage automatique (Bayes) - Probabilité a priori des classes}
   Nous allons maintenant calculer la probabilité à priori des deux classes présentes dans l'image
-  afin de pouvoir seuiller l'image grâce à la méthode de Bayes.\\
+  afin de pouvoir seuiller l'image grâce à la méthode de Bayes. Nous avons d'abord, besoin de séparer
+  les deux classes manuellement pour extraire le nombre de pixels de chacune d'elles, grâce à leurs 
+  histogramme.\\
   
-  Pour calculer cette probabilité, nous avons diviser le nombre de pixels d'une classe ($N_k$) par
+  \begin{figure}[H]
+    \center
+    \includegraphics[width=5cm]{3classes_100_156_8bits_omega1.png}
+    \includegraphics[width=5cm]{3classes_100_156_8bits_omega2.png}
+    \caption{Images des classes $\omega$1 (à gauche) et $\omega$2 (à droite)}
+  \end{figure}
+  
+  \begin{figure}[H]
+    \center
+    \includegraphics[width=6cm]{resultat/hist_omega1.png}
+    \includegraphics[width=6cm]{resultat/hist_omega2.png}
+    \caption{Histogrammes des classes $\omega$1 (à gauche) et $\omega$2 (à droite)}
+  \end{figure}
+  
+  Ensuite, pour calculer cette probabilité, nous divisons le nombre de pixels d'une classe ($N_k$) par
   le nombre total de pixels ($N$). Ce qui nous donne les résultats suivants :
   $$\frac{N_{w_1}}{N} = 0.56$$
   $$\frac{N_{w_2}}{N} = 0.44$$\\
@@ -195,8 +211,7 @@
   
   \begin{lstlisting}[caption=Macros de calcule de probabilité à priori des classe $N_{w_1}$ et $N_{w_2}$]
   p_omega1= sum(h1$counts[0:255])/ sum(h$counts[0:255])
-  p_omega2= sum(h2$counts[0:255])/ sum(h$counts[0:255])
-  \end{lstlisting}
+  p_omega2= sum(h2$counts[0:255])/ sum(h$counts[0:255])\end{lstlisting}
   
   \section{Seuillage automatique (Bayes) - Probabilité conditionnelle}
   Afin de calculer la probabilité d'erreur, nous avons besoin des probabilités conditionnelle des deux
@@ -215,6 +230,7 @@
   pw1 = h1$counts[80] / sum(h$counts[0:255])
   pw2 = h2$counts[80] / sum(h$counts[0:255])
   \end{lstlisting}
+
   
   %TODO explication resultat 
   \section{Seuillage automatique (Bayes) - probabilité d’erreur}
