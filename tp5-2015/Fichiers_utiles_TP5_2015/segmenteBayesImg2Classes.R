@@ -101,8 +101,6 @@ somme2 = 0:255
 erreur = 0:255
 
 
-stop()
-
 # recherche du minimum
 minimum_erreur = 1;
 seuil_minimum_erreur = 0;
@@ -112,7 +110,7 @@ for (X in 1:255) {
     somme1[X+1] = sum( h1$density[(X+1):256]) / sum(h1$density[1:256] )
     somme1[X+1] = somme1[X+1] * p_omega1
     #\sum_{\mathbf{X} \in \hat{\omega_1}} P(\mathbf{X}  / \omega_2). P(\omega_2)    
-    somme2[X+1] = sum( h2$density[(X+1):256]) / sum(h2$density[1:256] )
+    somme2[X+1] = sum( h2$density[1:(X+1)]) / sum(h2$density[1:256] )
     somme2[X+1] = somme2[X+1] * p_omega2
 
     erreur[X+1] = somme1[X+1] + somme2[X+1]
@@ -121,7 +119,8 @@ for (X in 1:255) {
   	if (erreur[X+1] < minimum_erreur ) seuil_minimum_erreur = X
   	if (erreur[X+1] < minimum_erreur ) minimum_erreur = erreur[X+1]
 }
-print(erreur)
+print(paste("Seuil erreur minimum: ", seuil_minimum_erreur, ""))
+print(paste("Taux d'erreur: ", minimum_erreur, ""))
 
 seuil = seuil_minimum_erreur/255 
 binaire_Bayes <- (image - seuil) >= 0
