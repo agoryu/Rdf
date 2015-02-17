@@ -190,8 +190,8 @@
   
   \begin{figure}[H]
     \center
-    \includegraphics[width=5cm]{3classes_100_156_8bits_omega1.png}
-    \includegraphics[width=5cm]{3classes_100_156_8bits_omega2.png}
+    \includegraphics[width=5cm]{2classes_100_100_8bits_omega1.png}
+    \includegraphics[width=5cm]{2classes_100_100_8bits_omega2.png}
     \caption{Images des classes $\omega_{1}$ (à gauche) et $\omega_{2}$ (à droite)}
   \end{figure}
   
@@ -295,13 +295,55 @@
   
   \section{Extraction de la région représentant le 0 par seuillage automatique (Bayes)}
   
+  Pour conserver des informations cohétentes sur les différentes classes liées au chiffre 0,
+  il ne faut pas tenir compte des pixels noirs. Ces pixels noirs font partis du fond et 
+  n'appartiennent pas aux classes $\omega_1$ et $\omega_2$.
+  
+  \begin{figure}[H]
+    \center
+    \shortstack{\includegraphics[width=3.5cm]{rdf-chiffre-0-8bits.png} \\ Image source}
+    \shortstack{\includegraphics[width=3.5cm]{rdf-chiffre-0-8bits_omega1.png} \\ Image $\omega_1$}
+    \shortstack{\includegraphics[width=3.5cm]{rdf-chiffre-0-8bits_omega2.png} \\ Image $\omega_2$}
+    \caption{Image et classes du chiffre 0}
+  \end{figure}
+  
+  Pour ne pas tenir compte des pixels de fond il suffit de les annuler, avec les 
+  opérations suivantes en R:
+  
+  \begin{lstlisting}[caption=Annuler les pixels de fond]
+  h1$count[1] = 0;
+  h1$density[1] = 0.0;
+  
+  h2$count[1] = 0;
+  h2$density[1] = 0.0;\end{lstlisting}
+  
+  \begin{figure}[H]
+    \center
+    \includegraphics[width=3cm]{resultat/binZeroBayes.png}
+    \caption{Image binarisée du chiffre 0}
+  \end{figure}
   
   \section{Seuillage automatique (Bayes) - Segmentation d’une image à 3 classes}
+  
+  \begin{figure}[H]
+    \center
+    \shortstack{\includegraphics[width=3.5cm]{3classes_100_156_8bits.png} \\ Image source}
+    \shortstack{\includegraphics[width=3.5cm]{3classes_100_156_8bits_omega1.png} \\ Image $\omega_1$}
+    \shortstack{\includegraphics[width=3.5cm]{3classes_100_156_8bits_omega2.png} \\ Image $\omega_2$}
+    \shortstack{\includegraphics[width=3.5cm]{3classes_100_156_8bits_omega3.png} \\ Image $\omega_3$}
+    \caption{Image et classes du rectangle à 3 classes}
+  \end{figure}
+  
+  \begin{figure}[H]
+    \center
+    \includegraphics[width=3.5cm]{resultat/bin3Classes.png}
+    \caption{Seuillage du rectangle avec deux seuils (Bayes)}
+  \end{figure}
   
   \section{Taux d’erreur de classification}
   
   \section*{Conclusion}
-  % Le problème avec Bayes c'est qu'on a besoin de connaitre l'histogramme de chacune des classes, donc pas très pratique
+  % Le problème avec Bayes c'est qu'on a besoin de connaitre l'histogramme de chacune des classes, donc pas très pratique.
  
     
 \end{document}  

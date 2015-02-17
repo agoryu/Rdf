@@ -23,8 +23,7 @@ source ("rdfSegmentation.R")
 
 # Chargement de l'image
 
-#nom <- "2classes_100_100_8bits.png" # carre 100x100
-nom <- "rdf-chiffre-0-8bits.png" # chiffre 0
+nom <- "3classes_100_156_8bits.png"
 image <- rdfReadGreyImage (nom)
 
 
@@ -36,20 +35,6 @@ image <- rdfReadGreyImage (nom)
 nbins <- 256
 h <- hist (as.vector (image), freq=FALSE, breaks = seq (0, 1, 1 / nbins))
 
-# Segmentation par binarisation 0.3
-seuil <- 0.36
-binaire35 <- (image - 0.35) >= 0
-binaire36 <- (image - 0.36) >= 0
-binaire37 <- (image - 0.37) >= 0
-
-
-# Affichage des deux images
-if (interactive ()) {
-  #display (binaire35, "image binaire 0.35")
-  #display (binaire36, "image binaire 0.36")
-  #display (binaire37, "image binaire 0.37")
-}
-
 
 
 # Question 2
@@ -57,57 +42,37 @@ if (interactive ()) {
 
 # Chargement de l'image omega1
 #nom <- "2classes_100_100_8bits_omega1.png"
-nom <- "rdf-chiffre-0-8bits_omega1.png"
+nom <- "3classes_100_156_8bits_omega1.png"
 omega1 <- rdfReadGreyImage (nom)
-
 # Calcul et affichage de son histogramme
 h1 <- hist (as.vector (omega1), freq=FALSE, breaks = seq (0, 1, 1 / nbins))
-# Pour le chiffre zero il faut enlever les pixels noir 
-# qui ne font pas parti de de la class 
-h1$count[1] = 0;
-h1$density[1] = 0.0;
 
 # Chargement de l'image omega2
-nom <- "rdf-chiffre-0-8bits_omega2.png"
+nom <- "3classes_100_156_8bits_omega2.png"
 omega2 <- rdfReadGreyImage (nom)
-
 # Calcul et affichage de son histogramme
 h2 <- hist (as.vector (omega2), freq=FALSE, breaks = seq (0, 1, 1 / nbins))
-# Idem avec h2
-h2$count[1] = 0;
-h2$density[1] = 0.0;
+
+# Chargement de l'image omega2
+nom <- "3classes_100_156_8bits_omega3.png"
+omega3 <- rdfReadGreyImage (nom)
+# Calcul et affichage de son histogramme
+h3 <- hist (as.vector (omega3), freq=FALSE, breaks = seq (0, 1, 1 / nbins))
 
 #  Calcul des probas a priori des classes
-#p_omega1= sum(h1$counts[0:255])/ sum(h$counts[0:255])
-#p_omega2= sum(h2$counts[0:255])/ sum(h$counts[0:255])
-
-# Pour le chiffre zero il faut enlever les pixels noir 
-# qui ne font pas parti de de la class 
-p_omega1= sum(h1$counts[0:255])/ sum(h$counts[0:255])
-p_omega2= sum(h2$counts[0:255])/ sum(h$counts[0:255])
+p_omega1 = sum(h1$counts[0:255])/ sum(h$counts[0:255])
+p_omega2 = sum(h2$counts[0:255])/ sum(h$counts[0:255])
+p_omega3 = sum(h3$counts[0:255])/ sum(h$counts[0:255])
 print(paste("P(omega1) = ", p_omega1, ""))
 print(paste("P(omega2) = ", p_omega2, ""))
+print(paste("P(omega2) = ", p_omega3, ""))
 
 
-# Question 3
+
+# Question 6
 # ----------
 
-#  Calcul des probas conditionnelles
-#h$counts[80]
-#h1$counts[80]
-#h$density[80]
-#h1$density[80]
-
-X = 80;# gris à 79
-
-pI  = h$density[X] / 100
-po1 = h1$density[X] / (p_omega1*100)
-po2 = h2$density[X] / (p_omega2*100)
-      
-
-
-# Question 4
-# ----------
+# Premier passage
 
 #  pour le seuil X calcul de l'erreur d'assignation
 somme1 = 0:255
@@ -115,8 +80,8 @@ somme2 = 0:255
 erreur = 0:255
 
 # recherche du minimum
-minimum_erreur = 1;
-seuil_minimum_erreur = 0;
+minimum_erreur_classes_1_2 = 1;
+seuil_minimum_erreur_classes_1_2 = 0;
 
 for (X in 1:255) {
     # (\sum_{\mathbf{X} \in \hat{\omega_2}} P(\mathbf{X} / \omega_1). P(\omega_1)  
@@ -129,12 +94,59 @@ for (X in 1:255) {
     erreur[X+1] = somme1[X+1] + somme2[X+1]
     
 	# seuil corrrespondant à l'erreur minimale
-  	if (erreur[X+1] < minimum_erreur ) seuil_minimum_erreur = X
-  	if (erreur[X+1] < minimum_erreur ) minimum_erreur = erreur[X+1]
+  	if (erreur[X+1] < minimum_erreur ) seuil_minimum_erreur_classes_1_2 = X
+  	if (erreur[X+1] < minimum_erreur ) minimum_erreur_classes_1_2 = erreur[X+1]
 }
-print(paste("Seuil erreur minimum: ", seuil_minimum_erreur, ""))
-print(paste("Taux d'erreur: ", minimum_erreur, ""))
 
-seuil = seuil_minimum_erreur/255 
-binaire_Bayes <- (image - seuil) >= 0
+# Deuxième passage
+
+#  pour le seuil X calcul de l'erreur d'assignation
+somme1 = 0:255
+somme2 = 0:255
+erreur = 0:255
+
+# recherche du minimum
+minimum_erreur_classes_2_3 = 1;
+seuil_minimum_erreur_classes_2_3 = 0;
+
+for (X in 1:255) {
+    # (\sum_{\mathbf{X} \in \hat{\omega_2}} P(\mathbf{X} / \omega_1). P(\omega_1)  
+    somme1[X+1] = sum( h2$density[(X+1):256]) / sum(h2$density[1:256] )
+    somme1[X+1] = somme1[X+1] * p_omega2
+    #\sum_{\mathbf{X} \in \hat{\omega_1}} P(\mathbf{X}  / \omega_2). P(\omega_2)    
+    somme2[X+1] = sum( h3$density[1:(X+1)]) / sum(h3$density[1:256] )
+    somme2[X+1] = somme2[X+1] * p_omega3
+
+    erreur[X+1] = somme1[X+1] + somme2[X+1]
+    
+	# seuil corrrespondant à l'erreur minimale
+  	if (erreur[X+1] < minimum_erreur ) seuil_minimum_erreur_classes_2_3 = X
+  	if (erreur[X+1] < minimum_erreur ) minimum_erreur_classes_2_3 = erreur[X+1]
+}
+print(paste("Seuil erreur minimum classes 1 et 2: ", seuil_minimum_erreur_classes_1_2, ""))
+print(paste("Taux d'erreur classes 1 et 2: ", minimum_erreur_classes_1_2, ""))
+print(paste("Seuil erreur minimum classes 2 et 3: ", seuil_minimum_erreur_classes_2_3, ""))
+print(paste("Taux d'erreur classes 2 et 3: ", minimum_erreur_classes_2_3, ""))
+
+seuil_1_2 = seuil_minimum_erreur_classes_1_2/255
+seuil_2_3 = seuil_minimum_erreur_classes_2_3/255
+
+width = length(image[,1])
+height = length(image[1,])
+
+# mettre tout en noir
+binaire_Bayes = (image*0)
+
+for (y in 1:height) {
+    print(paste("RAW: ", y, ""))
+    for (x in 1:width) {
+        if(image[x,y]>seuil_1_2){
+            binaire_Bayes[x,y] = 0.5
+        }
+        if(image[x,y]>seuil_2_3){
+            binaire_Bayes[x,y] = 1
+        }
+    }
+}
+
 display (binaire_Bayes, "image binaire Bayes")
