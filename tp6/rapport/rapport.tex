@@ -1,0 +1,240 @@
+% --------------------------------------
+% Document Class
+% --------------------------------------
+\documentclass[a4paper,11pt]{article}
+% --------------------------------------
+
+
+
+% --------------------------------------
+% Use Package
+% --------------------------------------
+
+
+\usepackage[francais]{babel}
+%\usepackage{ucs}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{makeidx}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[hidelinks]{hyperref} 
+\usepackage{geometry}
+%\usepackage{lastpage}
+%\usepackage{marginnote}
+\usepackage{fancyhdr}
+%\usepackage{titlesec}
+%\usepackage{framed}
+\usepackage{amsmath}
+\usepackage{empheq}
+\usepackage{array}
+\usepackage{multicol}
+%\usepackage{adjustbox}
+
+% insert code
+\usepackage{listings}
+
+% define our color
+\usepackage{xcolor}
+
+% code color
+\definecolor{ligthyellow}{RGB}{250,247,220}
+\definecolor{darkblue}{RGB}{5,10,85}
+\definecolor{ligthblue}{RGB}{1,147,128}
+\definecolor{darkgreen}{RGB}{8,120,51}
+\definecolor{darkred}{RGB}{160,0,0}
+
+% other color
+\definecolor{ivi}{RGB}{141,107,185}
+
+
+\lstset{
+    language=Scilab,
+    captionpos=b,
+    extendedchars=true,
+    frame=lines,
+    numbers=left,
+    numberstyle=\tiny,
+    numbersep=5pt,
+    keepspaces=true,
+    breaklines=true,
+    showspaces=false,
+    showstringspaces=false,
+    breakatwhitespace=false,
+    stepnumber=1,
+    showtabs=false,
+    tabsize=3,
+    basicstyle=\small\ttfamily,
+    backgroundcolor=\color{ligthyellow},
+    keywordstyle=\color{ligthblue},
+    morekeywords={include, printf, uchar},
+    identifierstyle=\color{darkblue},
+    commentstyle=\color{darkgreen},
+    stringstyle=\color{darkred},
+}
+
+
+% --------------------------------------
+
+
+
+% --------------------------------------
+% Page setting
+% --------------------------------------
+%\pagestyle{empty}
+\setlength{\headheight}{15pt}
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{2}
+
+\makeatletter
+\@addtoreset{chapter}{part}
+\makeatother 
+
+\hypersetup{         % parametrage des hyperliens
+  colorlinks=true,      % colorise les liens
+  breaklinks=true,      % permet les retours à la ligne pour les liens trop longs
+  urlcolor= blue,       % couleur des hyperliens
+  linkcolor= black,     % couleur des liens internes aux documents (index, figures, tableaux, equations,...)
+  citecolor= green      % couleur des liens vers les references bibliographiques
+}
+
+% --------------------------------------
+
+% --------------------------------------
+% Information
+% --------------------------------------
+\title{Compte-rendu TP6 Rdf : Classification supervisée par analyse discriminante}
+\author{Elliot VANEGUE et Gaëtan DEFLANDRE}
+% --------------------------------------
+
+\definecolor{myColor}{rgb}{0.5, 0.1, 0.75}
+
+% --------------------------------------
+% Begin content
+% --------------------------------------
+\begin{document}
+
+% Set language to english
+  \selectlanguage{francais}
+
+  % Start the page counting
+  \pagenumbering{arabic}
+
+  \maketitle
+  
+  \mbox{}
+  \newpage
+  \clearpage
+  
+  \section*{Introduction}
+  %revenir dessus
+  Lors de ce TP, nous allons utiliser une analyse discriminante dans le but de classifier les données
+  d'une image. Pour cela nous allons utiliser les données présentent dans un fichier Rdata afin 
+  de calculer des moyennes de co-variance, ...
+
+  \section{Classification de données gaussiennes}
+  \subsection{Affichage des données d'apprentissage et de test}
+  Les données d'apprentissage sont des informations qui vont nous permettre de diviser les points d'une
+  image en un nombre K ensemble. Pour cela chaque point possède une couleur qui représente l'ensemble
+  auquel il appartient.
+  %Pour cela nous représentons les points qui sont réélement dans un ensemble
+  %par une forme géométrique et par une couleur pour les points qui devrais appartenir à un ensemble.
+  Ce qui nous donne le graphe suivant pour les données d'apprentissage : 
+  
+  \begin{figure}[h]
+   \center
+   \includegraphics[width=10cm]{ensemble_apprentissage.png}
+   \caption{Graphe d'apprentissage}
+  \end{figure}
+
+  Nous pouvons également afficher les données de test afin de voir les différences avec les données d'apprentissage.
+  \newpage
+  \begin{figure}[h]
+   \center
+   \includegraphics[width=10cm]{ensemble_test.png}
+   \caption{Graphe de test}
+  \end{figure}
+   
+  \subsection{Estimation des moyennes et co-variance des observations d'apprentissage}
+  Nous avons ensuite estimé une moyenne des données d'apprentissage sur les attributs de chaque classe afin de les
+  comparé au moyennes des données test. Pour cela, nous avons une macro R sur chaque attribut de chaque classe.
+  
+  \begin{lstlisting}[caption=Estimation de la moyenne pour la classe d'apprentissage 1]
+  M1<-seq(1,2)
+  M1[1] = mean(x_app[classe_app==1,1])
+  \end{lstlisting}
+  \ \\
+  Ce qui nous a données les valeurs suivantes :\\
+  
+  \begin{center}
+    \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    \multicolumn{3}{|c|}{apprentissage} & \multicolumn{2}{c|}{test}\\
+    \hline
+    classe & attribut 1 & attribut 2 & attribut 1 & attribut 2\\
+    \hline
+    1 & 0.39 & 1.48 & 3.85 & 2.25\\
+    \hline
+    2 & 5.97 & 5.81 & 4.22 & 2.08\\
+    \hline
+    3 & 4.19 & 0.05 & 4.19 & 1.33\\
+    \hline
+    \end{tabular}
+  \end{center}
+  
+  Nous pouvons voir que les moyennes des données d'apprentissage sont assez différentes des moyenne
+  des données de test.\\
+  
+  Par la suite, nous avons calculer les matrices de covariance de chaque classe afin de calculer l'écart
+  qu'il y a entre les deux attributs de chaque valeur. Pour cela, nous avons utilisé la macro suivante :
+  
+  \begin{lstlisting}[caption=Calcul de covariance de la classe d'apprentissage 1]
+  Sigma1[i,j]=cov(as.vector(x_app[classe_app==1,i]), as.vector(x_app[classe_app==1,j]))
+  \end{lstlisting}
+  
+  \begin{center}
+    \begin{tabular}{|c|c|}
+    \hline
+    classe & matrice de covariance\\
+    \hline
+    1 & 
+    $\begin{pmatrix}
+     1.03 & -0.93\\
+     -0.93 & 2.46
+    \end{pmatrix}$\\
+    \hline
+    2 & 
+    $\begin{pmatrix}
+     9.15 & 0.73\\
+     0.73 & 1.16
+    \end{pmatrix}$\\
+    \hline
+    3 & 
+    $\begin{pmatrix}
+     1.59 & 0.29\\
+     0.29 & 2.91
+    \end{pmatrix}$\\
+    \hline
+    \end{tabular}
+  \end{center}
+  
+  \subsection{Analyse linéaire discriminante (LDA)}
+  
+  \begin{figure}[h]
+   \center
+   \includegraphics[width=10cm]{lineaire_discri.png}
+   \caption{Graphe de l'analyse linéaire discriminante des données test}
+  \end{figure}
+  
+  \subsection{Analyse quadratique discriminante (QDA)}
+  
+  \begin{figure}[h]
+   \center
+   \includegraphics[width=10cm]{quadratique.png}
+   \caption{Graphe de l'analyse quadratique discriminante des données test}
+  \end{figure}
+  
+\end{document}  
