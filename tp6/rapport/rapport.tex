@@ -130,15 +130,15 @@
   \clearpage
   
   \section*{Introduction}
-  %revenir dessus
   Lors de ce TP, nous allons utiliser une analyse discriminante dans le but de classifier les données
   d'une image. Pour cela nous allons utiliser les données présentent dans un fichier Rdata afin 
-  de calculer des moyennes de co-variance, ...
+  de calculer des moyennes de co-variance et effectuer des analyses linéaires. Nous séparerons
+  ainsi les données en plusieurs classes.
 
   \section{Classification de données gaussiennes}
   \subsection{Affichage des données d'apprentissage et de test}
   Les données d'apprentissage sont des informations qui vont nous permettre de diviser les points d'une
-  image en un nombre K ensemble. Pour cela chaque point possède une couleur qui représente l'ensemble
+  image en un nombre K d'ensemble. Pour cela chaque point possède une couleur qui représente l'ensemble
   auquel il appartient.
   %Pour cela nous représentons les points qui sont réélement dans un ensemble
   %par une forme géométrique et par une couleur pour les points qui devrais appartenir à un ensemble.
@@ -160,11 +160,12 @@
    
   \subsection{Estimation des moyennes et co-variance des observations d'apprentissage}
   Nous avons ensuite estimé une moyenne des données d'apprentissage sur les attributs de chaque classe afin de les
-  comparé au moyennes des données test. Pour cela, nous avons une macro R sur chaque attribut de chaque classe.
+  comparer au moyennes des données test. Pour cela, nous appliquons la macro R suivante sur chaque classe :
   
   \begin{lstlisting}[caption=Estimation de la moyenne pour la classe d'apprentissage 1]
   M1<-seq(1,2)
   M1[1] = mean(x_app[classe_app==1,1])
+  M1[2] = mean(x_app[classe_app==1,2])
   \end{lstlisting}
   \ \\
   Ce qui nous a données les valeurs suivantes :\\
@@ -186,7 +187,8 @@
   \end{center}
   
   Nous pouvons voir que les moyennes des données d'apprentissage sont assez différentes des moyenne
-  des données de test.\\
+  des données de test. C'est à cause de cela que nous allons devoir effectuer une analyse discriminante
+  sur les données.\\
   
   Par la suite, nous avons calculer les matrices de covariance de chaque classe afin de calculer l'écart
   qu'il y a entre les deux attributs de chaque valeur. Pour cela, nous avons utilisé la macro suivante :
@@ -195,6 +197,7 @@
   Sigma1[i,j]=cov(as.vector(x_app[classe_app==1,i]), as.vector(x_app[classe_app==1,j]))
   \end{lstlisting}
   
+  Ce qui nous donne les matrice de covariance
   \begin{center}
     \begin{tabular}{|c|c|}
     \hline
@@ -220,8 +223,13 @@
     \hline
     \end{tabular}
   \end{center}
+  %TODO voir pour l'éécart type
   
   \subsection{Analyse linéaire discriminante (LDA)}
+  
+  Nous avons ensuite appliqué une analyse linéaire discriminante sur les données afin de les 
+  classifier. Grâce à une macro nous avons pu déterminer que le taux de
+  bonne classification des données est de 84\%. Ce qui nous permet d'obtenir la LDA suivante :\\
   
   \begin{figure}[h]
    \center
@@ -229,7 +237,20 @@
    \caption{Graphe de l'analyse linéaire discriminante des données test}
   \end{figure}
   
+  Nous pouvons voir que les point ont deux attribut :
+  \begin{itemize}
+   \item la couleur qui correspond à la classe auquel devrait appartenir la donnée.
+   \item la forme qui correspond à la classe à laquel appartient la donnée.
+  \end{itemize}
+  
+  %Avec ce résultat, nous allons pouvoir déterminer la classe de chaque données test grâce à 
+  %une analyse quadratique discriminante.
+  
   \subsection{Analyse quadratique discriminante (QDA)}
+  
+  Nous avons appliqué une second analyse discriminante pour déterminer les classe des données tes.
+  Nous avons utilisé la même macro que précédement mais cette fois en passant par une analyse quadratique, 
+  ce qui nous a donné le résultat suivant :\\
   
   \begin{figure}[h]
    \center
@@ -237,4 +258,38 @@
    \caption{Graphe de l'analyse quadratique discriminante des données test}
   \end{figure}
   
+  Par cette méthode, nous obtenons un taux de bonne classification de 90\% pour les données test.
+  On peut voir que pour ces données, la meilleur analyse est la quadratique car elle à un meilleur
+  taux de bonne classification.
+  
+  \section{Classification de données réelles : Iris}
+  
+  \subsection{Analyse linéaire discriminante (LDA)}
+  
+  Nous allons maintenant appliquer l'analyse linéaire discriminante sur des données réelle afin
+  de voir si cette méthode est aussi efficace quelque soit le type de donnée. Nous obtenons pour les 
+  données de l'Iris un taux de bonne classification de 97\%, ce qui est supérieur à des données 
+  gaussiennes. Nous avons alors la classification suivante :\\
+  \newpage
+  \begin{figure}[h]
+   \center
+   \includegraphics[width=10cm]{iris_lineaire.png}
+   \caption{Graphe de l'analyse linéaire discriminante des données test de l'Iris}
+  \end{figure}
+  
+  \subsection{Analyse quadratique discriminante (QDA)}
+  
+  Nous avons également utilisé une analyse quadratique, ce qui nous a donné un taux de bonne 
+  classifiation de 96\%. On remarque que cette fois, sur des données réelles, l'analyse quadratique
+  est meilleur que l'analyse linéaire.
+  
+  \begin{figure}[h]
+   \center
+   \includegraphics[width=10cm]{iris_quadratique.png}
+   \caption{Graphe de l'analyse quadratique discriminante des données test de l'Iris}
+  \end{figure}
+  
+  %TODO inversion des données
+  
+  \section*{Conclusion}
 \end{document}  

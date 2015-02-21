@@ -5,7 +5,8 @@ library ("EBImage")
 library("MASS")
 library("lattice")
 
-(load(file='simul-2015.Rdata'))
+#(load(file='simul-2015.Rdata'))
+(load(file='Iris_x2_x4.Rdata'))
 
 #//////////// APPRENTISSAGE ////////////////
 couleur<-rep('red',n_app)
@@ -82,6 +83,7 @@ table_classification_test <-table(classe_test, assigne_test$class)
 diag(prop.table(table_classification_test, 1))
 # total percent correct
 taux_bonne_classif_test <-sum(diag(prop.table(table_classification_test)))
+print(paste("taux de bonne classification : ", taux_bonne_classif_test))
 
 # Creation du vecteur contenant le code de la forme des donnees test assignees aux classes - code initialise a 1
 shape<-rep(1,n_test)
@@ -126,6 +128,8 @@ m3[2] = mean(x_test[classe_app==3,2])
 print(paste("vecteur moyenne classe 3, attribut 1 : ", m3[1]))
 print(paste("vecteur moyenne classe 3, attribut 2 : ", m3[2]))
 
+#//////////////// quadratique ///////////////////////////
+
 # Grille d estimation de la densite de probabilite en 50 intervalles selon 1er attribut
 xp1<-seq(min(x_app[,1]),max(x_app[,1]),length=50)
 # Grille d estimation de la densite de probabilite en 50 intervalles selon 2eme attribut
@@ -141,6 +145,7 @@ table_classification_test <-table(classe_test, assigne_test$class)
 diag(prop.table(table_classification_test, 1))
 # total percent correct
 taux_bonne_classif_test <-sum(diag(prop.table(table_classification_test)))
+print(paste("taux de bonne classification : ", taux_bonne_classif_test))
 
 # Creation du vecteur contenant le code de la forme des donnees test assignees aux classes - code initialise a 1
 shape<-rep(1,n_test)
