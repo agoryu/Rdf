@@ -137,11 +137,9 @@
 
   \section{Classification de données gaussiennes}
   \subsection{Affichage des données d'apprentissage et de test}
-  Les données d'apprentissage sont des informations qui vont nous permettre de diviser les points d'une
+  Les données d'apprentissage sont des données qui vont nous permettre de diviser les points d'une
   image en un nombre K d'ensemble. Pour cela chaque point possède une couleur qui représente l'ensemble
   auquel il appartient.
-  %Pour cela nous représentons les points qui sont réélement dans un ensemble
-  %par une forme géométrique et par une couleur pour les points qui devrais appartenir à un ensemble.
   Ce qui nous donne le graphe suivant pour les données d'apprentissage : 
   
   \begin{figure}[h]
@@ -197,7 +195,7 @@
   Sigma1[i,j]=cov(as.vector(x_app[classe_app==1,i]), as.vector(x_app[classe_app==1,j]))
   \end{lstlisting}
   
-  Ce qui nous donne les matrice de covariance
+  Ce qui nous donne les matrices de covariance
   \begin{center}
     \begin{tabular}{|c|c|}
     \hline
@@ -237,18 +235,15 @@
    \caption{Graphe de l'analyse linéaire discriminante des données test}
   \end{figure}
   
-  Nous pouvons voir que les point ont deux attribut :
+  Nous pouvons voir que les point ont deux attributs :
   \begin{itemize}
    \item la couleur qui correspond à la classe auquel devrait appartenir la donnée.
    \item la forme qui correspond à la classe à laquel appartient la donnée.
   \end{itemize}
   
-  %Avec ce résultat, nous allons pouvoir déterminer la classe de chaque données test grâce à 
-  %une analyse quadratique discriminante.
-  
   \subsection{Analyse quadratique discriminante (QDA)}
   
-  Nous avons appliqué une second analyse discriminante pour déterminer les classe des données tes.
+  Nous avons appliqué une second analyse discriminante pour déterminer les classe des données test.
   Nous avons utilisé la même macro que précédement mais cette fois en passant par une analyse quadratique, 
   ce qui nous a donné le résultat suivant :\\
   
@@ -257,6 +252,10 @@
    \includegraphics[width=10cm]{quadratique.png}
    \caption{Graphe de l'analyse quadratique discriminante des données test}
   \end{figure}
+  
+  On voit que les séparations des classes, contrairement à l'analyse linéaire, sont courbe
+  et donc englobe mieux les données de chaque classe. C'est pourquoi il semble qu'il y est moins
+  d'erreur sur la classification de la classe rouge.\\
   
   Par cette méthode, nous obtenons un taux de bonne classification de 90\% pour les données test.
   On peut voir que pour ces données, la meilleur analyse est la quadratique car elle à un meilleur
@@ -270,6 +269,7 @@
   de voir si cette méthode est aussi efficace quelque soit le type de donnée. Nous obtenons pour les 
   données de l'Iris un taux de bonne classification de 97\%, ce qui est supérieur à des données 
   gaussiennes. Nous avons alors la classification suivante :\\
+  
   \newpage
   \begin{figure}[h]
    \center
@@ -289,7 +289,16 @@
    \caption{Graphe de l'analyse quadratique discriminante des données test de l'Iris}
   \end{figure}
   
+  On remarque une fois encore que l'analyse quadratique possède des séparations courbe,
+  mais cela n'intervient pas sur les données, car celle-ci se mélange très peu.
+  
   %TODO inversion des données
+  %Sa il faudrait que tu essaye parce que moi j'obtient un taux de bonne classifiation
+  %en linéaire qui est le même que le quadratique sans inversion.
   
   \section*{Conclusion}
+  Nous avons donc vu lors de ce TP, comment effectuer des analyses discriminantes dans le but
+  de classer les données d'une image. Cependant cette méthode nécessite d'avoir une base de connaissance % pour pas dire données d'apprentissage
+  pour effectuer la séparation des données. Nous avons également vu que l'analyse linéaire et quadratique
+  sont des méthodes très efficace mais qui sont plus performantes sur certain type de données. 
 \end{document}  
