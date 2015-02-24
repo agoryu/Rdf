@@ -130,35 +130,40 @@
   \clearpage
   
   \section*{Introduction}
-  Lors de ce TP, nous allons utiliser une analyse discriminante dans le but de classifier les données
-  d'une image. Pour cela, nous allons utiliser les données présentent dans un fichier Rdata afin 
-  de calculer des moyennes de covariance et effectuer des analyses linéaires. Nous séparerons
-  ainsi les données en plusieurs classes.
+  Lors de ce TP, nous allons utiliser une analyse discriminante dans
+  le but de classifier les données d'une image. Pour cela, nous allons
+  utiliser les données présentent dans un fichier Rdata afin de
+  calculer des moyennes de covariance et effectuer des analyses
+  linéaires. Nous séparerons ainsi les données en plusieurs classes.
 
   \section{Classification de données gaussiennes}
   \subsection{Affichage des données d'apprentissage et de test}
-  Les données d'apprentissage sont des données qui vont nous permettre de diviser les points d'une
-  image en un nombre K d'ensemble. Pour cela chaque point possède une couleur qui représente l'ensemble
-  auquel il appartient.
-  Ce qui nous donne le graphe suivant pour les données d'apprentissage : 
+  Les données d'apprentissage sont des données qui vont nous permettre
+  de diviser les points d'une image en un nombre K d'ensemble. Pour
+  cela chaque point possède une couleur qui représente l'ensemble
+  auquel il appartient.  Ce qui nous donne le graphe suivant pour les
+  données d'apprentissage :
   
-  \begin{figure}[h]
-   \center
+  \begin{figure}[H]
+   \centering
    \includegraphics[width=10cm]{ensemble_apprentissage.png}
    \caption{Graphe d'apprentissage}
   \end{figure}
 
-  Nous pouvons également afficher les données de test afin de voir les différences avec les données d'apprentissage.
+  Nous pouvons également afficher les données de test afin de voir les
+  différences avec les données d'apprentissage.
   \newpage
-  \begin{figure}[h]
-   \center
+  \begin{figure}[H]
+   \centering
    \includegraphics[width=10cm]{ensemble_test.png}
    \caption{Graphe de test}
   \end{figure}
    
   \subsection{Estimation des moyennes et co-variance des observations d'apprentissage}
-  Nous avons ensuite estimé une moyenne des données d'apprentissage sur les attributs de chaque classe afin de les
-  comparer aux moyennes des données test. Pour cela, nous appliquons la macro R suivante sur chaque classe :
+  Nous avons ensuite estimé une moyenne des données d'apprentissage
+  sur les attributs de chaque classe afin de les comparer aux moyennes
+  des données test. Pour cela, nous appliquons la macro R suivante sur
+  chaque classe :
   
   \begin{lstlisting}[caption=Estimation de la moyenne pour la classe d'apprentissage 1]
   M1<-seq(1,2)
@@ -184,12 +189,16 @@
     \end{tabular}
   \end{center}
   
-  Nous pouvons voir que les moyennes des données d'apprentissage sont assez différentes des moyennes
-  des données de test. C'est à cause de cela que nous allons devoir effectuer une analyse discriminante
-  sur les données.\\
+  Nous pouvons voir que les moyennes des données d'apprentissage sont
+  assez proches des moyennes des données de test, mais présentent
+  quelques différences. Nous allons donc effectuer une analyse
+  discriminante sur les données, afin de les segmenter de manière
+  automatique.\\
   
-  Par la suite, nous avons calculé les matrices de covariance de chaque classe afin de calculer l'écart
-  qu'il y a entre les deux attributs de chaque valeur. Pour cela, nous avons utilisé la macro suivante :
+  Par la suite, nous avons calculé les matrices de covariance de
+  chaque classe afin de calculer l'écart qu'il y a entre les deux
+  attributs de chaque valeur. Pour cela, nous avons utilisé la macro
+  suivante :
   
   \begin{lstlisting}[caption=Calcul de covariance de la classe d'apprentissage 1]
   Sigma1[i,j]=cov(as.vector(x_app[classe_app==1,i]), as.vector(x_app[classe_app==1,j]))
@@ -221,84 +230,104 @@
     \hline
     \end{tabular}
   \end{center}
-  %TODO voir pour l'écart type
   
+  Nous remarquons que les valeurs de l'écart-type pour les deux attributs sont présentes dans la matrice
+  de covariance :
+  \begin{itemize}
+   \item la valeur, en haut à gauche, représente l'écart-type pour l'attribut 1.
+   \item la valeur, en bas à droite, représente l'écart-type pour l'attribut 2.
+  \end{itemize}
+  
+
   \subsection{Analyse linéaire discriminante (LDA)}
   
-  Nous avons ensuite appliqué une analyse linéaire discriminante sur les données afin de les 
-  classifier. Grâce à une macro, nous avons pu déterminer que le taux de
-  bonne classification des données est de 84\%. Ce qui nous permet d'obtenir la LDA suivante :\\
-  
-  \begin{figure}[h]
-   \center
+  Nous avons ensuite appliqué une analyse linéaire discriminante sur
+  les données afin de les classifier. Grâce à une macro, nous avons pu
+  déterminer que le taux de bonne classification des données est de
+  84\%. Ce qui nous permet d'obtenir la LDA suivante :\\
+
+  \begin{figure}[H]
+   \centering
    \includegraphics[width=10cm]{lineaire_discri.png}
    \caption{Graphe de l'analyse linéaire discriminante des données test}
   \end{figure}
-  
+
   Nous représentons les points par deux caractéristiques :
   \begin{itemize}
    \item la couleur correspond à la classe à laquel devrait appartenir la donnée.
    \item la forme correspond à la classe à laquel appartient la donnée avec nos calculs.
   \end{itemize}
   
+  
   \subsection{Analyse quadratique discriminante (QDA)}
   
-  Nous avons appliqué une seconde analyse discriminante pour déterminer les classes des données test.
-  Nous avons utilisé la même macro que précédemment, mais cette fois en passant par une analyse quadratique, 
-  ce qui nous a donné le résultat suivant :\\
+  Nous avons appliqué une seconde analyse discriminante pour
+  déterminer les classes des données test.  Nous avons utilisé la même
+  macro que précédemment, mais cette fois en passant par une analyse
+  quadratique, ce qui nous a donné le résultat suivant :\\
   
-  \begin{figure}[h]
-   \center
+  \begin{figure}[H]
+   \centering
    \includegraphics[width=10cm]{quadratique.png}
    \caption{Graphe de l'analyse quadratique discriminante des données test}
   \end{figure}
   
-  On voit que les séparations des classes, contrairement à l'analyse linéaire, sont courbes
-  et donc englobe mieux les données de chaque classe. C'est pourquoi il semble qu'il y ait moins
-  d'erreurs sur la classification de la classe rouge.\\
+  On voit que les séparations des classes, contrairement à l'analyse
+  linéaire, sont courbes et donc englobe mieux les données de chaque
+  classe. C'est pourquoi il semble qu'il y ait moins d'erreurs sur la
+  classification de la classe rouge.\\
   
-  Par cette méthode, nous obtenons un taux de bonne classification de 90\% pour les données test.
-  On peut voir que pour ces données, la meilleure analyse est la quadratique, car elle a un meilleur
-  taux de bonne classification.
+  Par cette méthode, nous obtenons un taux de bonne classification de
+  90\% pour les données test.  On peut voir que pour ces données, la
+  meilleure analyse est la quadratique, car elle a un meilleur taux de
+  bonne classification.
   
   \section{Classification de données réelles : Iris}
   
   \subsection{Analyse linéaire discriminante (LDA)}
   
-  Nous allons maintenant appliquer l'analyse linéaire discriminante sur des données réelles afin
-  de voir si cette méthode est aussi efficace quel que soit le type de données. Nous obtenons pour les 
-  données de l'Iris un taux de bonne classification de 97\%, ce qui est supérieur à des données 
-  gaussiennes. Nous avons alors la classification suivante :\\
+  Nous allons maintenant appliquer l'analyse linéaire discriminante
+  sur des données réelles afin de voir si cette méthode est aussi
+  efficace quel que soit le type de données. Nous obtenons pour les
+  données de l'Iris un taux de bonne classification de 97\%, ce qui
+  est supérieur à des données gaussiennes. Nous avons alors la
+  classification suivante :\\
   
   \newpage
-  \begin{figure}[h]
-   \center
+  \begin{figure}[H]
+   \centering
    \includegraphics[width=10cm]{iris_lineaire.png}
    \caption{Graphe de l'analyse linéaire discriminante des données test de l'Iris}
   \end{figure}
   
   \subsection{Analyse quadratique discriminante (QDA)}
   
-  Nous avons également utilisé une analyse quadratique, ce qui nous a donné un taux de bonne 
-  classification de 96\%. On remarque que cette fois, sur des données réelles, l'analyse linéaire
-  est meilleure que l'analyse quadratique.
+  Nous avons également utilisé une analyse quadratique, ce qui nous a
+  donné un taux de bonne classification de 96\%. On remarque que cette
+  fois, sur des données réelles, l'analyse linéaire est meilleure que
+  l'analyse quadratique.
   
-  \begin{figure}[h]
-   \center
+  \begin{figure}[H]
+   \centering
    \includegraphics[width=10cm]{iris_quadratique.png}
    \caption{Graphe de l'analyse quadratique discriminante des données test de l'Iris}
   \end{figure}
   
-  On remarque une fois encore que l'analyse quadratique possède des séparations courbes,
-  mais cela n'intervient pas sur les données, car celle-ci se mélange très peu.
+  On remarque une fois encore que l'analyse quadratique possède des
+  séparations courbes, mais cela n'intervient pas sur les données, car
+  celle-ci se mélange très peu.
   
   %TODO inversion des données
   %Sa il faudrait que tu essaye parce que moi j'obtient un taux de bonne classifiation
   %en linéaire qui est le même que le quadratique sans inversion.
   
   \section*{Conclusion}
-  Nous avons donc vu lors de ce TP, comment effectuer des analyses discriminantes dans le but
-  de classer les données d'une image. Cependant, cette méthode nécessite d'avoir une base de connaissance % pour pas dire données d'apprentissage
-  pour effectuer la séparation des données. Nous avons également vu que l'analyse linéaire et quadratique
-  sont des méthodes très efficaces, mais qui sont plus performantes sur certain type de donnée. 
+  Nous avons donc vu lors de ce TP, comment effectuer des analyses
+  discriminantes dans le but de classer les données d'une
+  image. Cependant, cette méthode nécessite d'avoir une base de
+  connaissance % pour pas dire données d'apprentissage 
+  pour effectuer
+  la séparation des données. Nous avons également vu que l'analyse
+  linéaire et quadratique sont des méthodes très efficaces, mais qui
+  sont plus performantes sur certain type de donnée.
 \end{document}  
