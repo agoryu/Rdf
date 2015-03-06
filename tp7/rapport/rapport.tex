@@ -137,15 +137,113 @@
   \begin{figure}[H]
     \center
    \includegraphics[width=8cm]{donnees_apprentissage.png}
-   \caption{Données d'apprentissage}
+   \caption{Graphique des données d'apprentissage}
   \end{figure}
+  
+  Nous pouvons voir que les données sont regroupé par classe pour les données d'apprentissage.
   
   \begin{figure}[H]
   \center
    \includegraphics[width=8cm]{donnees_test.png}
-   \caption{Données de test}
+   \caption{Graphique des données de test}
   \end{figure}
   
-  On peut voir que les données d'une même classe sont regroupé 
+  Les données de test adopte le même comportement que les données d'apprentissage.
+  
+  \section{Analyse en composantes principale}
+  
+  Tout d'abord, nous calculons la co-variance des données d'apprentissage dans le but de déterminer
+  l'axe le plus adapté à l'analyse des données. Nous déterminons cette axe en prenant comme vecteur
+  le vecteur propre de la valeur propre la plus élevé.\\
+  
+  \begin{lstlisting}[caption=Calcule de l'axe discriminant]
+  Vp <- eigen(covariance)
 
+  #affichage de la pente
+  pente <- Vp$vectors[2,1]/Vp$vectors[1,1]
+  abline(a = 0, b = pente, col = "blue")
+  \end{lstlisting}
+
+  Le but de cette démarche est de projeter les données étudiées sur cette droite. Pour cela, il
+  faut calculer le vecteur de chaque donnée qui va permettre de positionner celle-ci sur l'axe 
+  discriminant.\\
+  
+  \begin{lstlisting}[caption=Projection des données d'apprentissage sur l'axe discriminant]
+  #produit scalaire
+  ScalarProduct_app <- x_app
+  ScalarProduct_app <- x_app %*% (Vp$vectors[,1] / sqrt(sum(Vp$vectors[,1]*Vp$vectors[,1])))
+
+  #projection des points
+  x_app_ACP <- x_app
+  x_app_ACP[,1] = ScalarProduct_app * Vp$vectors[1,1]
+  x_app_ACP[,2] = ScalarProduct_app * Vp$vectors[2,1]
+  \end{lstlisting}
+  
+  \section{Classification par analyse linéaire discriminante}
+  
+  Nous pouvons maintenant classer les données projetées grâce à une analyse linéaire discriminante. Nous 
+  déterminons grâce à cette analyse que le taux d'erreur de la classification des données est de 84\%.
+  
+  \begin{figure}[H]
+  \center
+   \includegraphics[width=9cm]{apprentissage_acp.png}
+   \caption{Graphique des données d'apprentissage classifié par analyse linéaire discriminante}
+  \end{figure}
+
+  Les données sont alors classifié de la manière suivante :
+  \begin{center}
+  \begin{tabular}{|c|c|c|c|}
+   \hline
+   classe & R & V & B\\
+   \hline
+   R & 66 & 32 & 2 \\
+   \hline
+   V & 12 & 88 & 0 \\
+   \hline
+   B & 0 & 0 & 100 \\
+   \hline
+  \end{tabular}
+  \end{center}
+
+  On peut voir dans ce tableau qu'il n'y a aucune erreur sur la classe bleu. En revanche, il n'y a que 66\%
+  de données de la classe rouge qui sont correcte.\\
+  
+  Nous avons effectué la même classification avec les données tests. Nous obtenons un taux de bonne classification
+  de 87\%.
+  
+  \begin{figure}[H]
+  \center
+   \includegraphics[width=9cm]{test_acp.png}
+   \caption{Graphique des données de test classifié par analyse linéaire discriminante}
+  \end{figure}
+  
+  Les données sont alors classifié de la manière suivante :
+  \begin{center}
+  \begin{tabular}{|c|c|c|c|}
+   \hline
+   classe & R & V & B\\
+   \hline
+   R & 69 & 30 & 1 \\
+   \hline
+   V & 6 & 94 & 0 \\
+   \hline
+   B & 0 & 0 & 100 \\
+   \hline
+  \end{tabular}
+  \end{center}
+  
+  Les résultats sont à peu prêt équivalant aux données d'apprentissage, c'est à nouveau la classe rouge
+  qui à le plus grand taux d'erreur.
+  
+  
+  
 \end{document}  
+
+%apprentissage -> 0,97
+%95  4  1
+%1 99  0
+%1  0 99
+%test -> 0,96
+%93  5  2
+%2 98  0
+%2  0 98

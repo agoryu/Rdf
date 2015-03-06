@@ -73,3 +73,38 @@ shape[assigne_app$class==2]=2
 shape[assigne_app$class==3]=3
 # Affichage des projections apprentissage classees
 plot(x_test,col=couleur2,pch=shape,xlab = "X1", ylab = "X2")
+
+# #produit scalaire
+# ScalarProduct_app <- x_app
+# ScalarProduct_app <- x_app %*% (Vp$vectors[,1] / sqrt(sum(Vp$vectors[,1]*Vp$vectors[,1])))
+# 
+# #projection des points
+# x_app_ACP <- x_app
+# x_app_ACP[,1] = ScalarProduct_app * Vp$vectors[1,1]
+# x_app_ACP[,2] = ScalarProduct_app * Vp$vectors[2,1]
+# 
+# #affichage des points projetes
+# points(x_app_ACP[classe_app==1,], col="red")
+# points(x_app_ACP[classe_app==2,], col="green")
+# points(x_app_ACP[classe_app==3,], col="blue")
+# 
+# #////////////////// ALD ///////////////////////
+# x_app_ACP.lda<-lda(ScalarProduct_app, classe_app)
+# assigne_app<-predict(x_app_ACP.lda, newdata = ScalarProduct_app)
+# # Estimation des taux de bonnes classifications
+# table_classification_app <-table(classe_app, assigne_app$class)
+# print("matrice de confusion :")
+# print(table_classification_app)
+# 
+# # table of correct class vs. classification
+# diag(prop.table(table_classification_app, 1))
+# # total percent correct
+# taux_bonne_classif_app <-sum(diag(prop.table(table_classification_app)))
+# print(paste("taux de bonne classification", taux_bonne_classif_app))
+# 
+# # forme : les classe d'assignation fournie par l'ALD
+# shape<-rep(1,n_app)
+# shape[assigne_app$class==2]=2
+# shape[assigne_app$class==3]=3
+# # Affichage des projections apprentissage classees
+# plot(x_app,col=couleur2,pch=shape,xlab = "X1", ylab = "X2")
