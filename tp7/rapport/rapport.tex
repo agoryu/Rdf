@@ -130,6 +130,11 @@
   \clearpage
   
   \section*{Introduction}
+  Lors de ce TP, nous cherchons à passer d'une représentation de la classification de données
+  bi-dimensionnelle à une représentation mono-dimensionnelle. Pour cela, nous nous servons de
+  deux méthode : l'analyse en composantes principales et l'analyse factorielle discriminante.
+  Afin de déterminer la méthode la plus performante pour notre cas d'étude, nous avons classifié
+  les données projeté avec une analyse linéaire discriminante.
  
   \section{Données d'apprentissage}
   Dans un premier temps, nous avons affiché les données d'apprentissage et les données de test.
@@ -179,18 +184,29 @@
   x_app_ACP[,2] = ScalarProduct_app * Vp$vectors[2,1]
   \end{lstlisting}
   
-  \section{Classification par analyse linéaire discriminante}
+  \begin{figure}[H]
+  \center
+   \includegraphics[width=9cm]{apprentissage_acp.png}
+   \caption{Graphique des données d'apprentissage projeté sur la droite}
+  \end{figure}
+  
+  Nous pouvons voir sur ce graphique qu'il y a une zone sur l'axe discriminant où il y de nombreuses
+  données de la classe rouge qui sont projetées au même endroit que des données de la classe verte.
+  Cela risque de provoquer quelques erreurs lors de la classification des données.
+  
+  \subsection{Classification par analyse linéaire discriminante}
   
   Nous pouvons maintenant classer les données projetées grâce à une analyse linéaire discriminante. Nous 
   déterminons grâce à cette analyse que le taux d'erreur de la classification des données est de 84\%.
   
   \begin{figure}[H]
   \center
-   \includegraphics[width=9cm]{apprentissage_acp.png}
+   \includegraphics[width=9cm]{apprentissage_classifie.png}
    \caption{Graphique des données d'apprentissage classifié par analyse linéaire discriminante}
   \end{figure}
 
-  Les données sont alors classifié de la manière suivante :
+  Nous avons créé un tableau contenant la position des données afin de connaître quels classes
+  comportent le plus d'erreur de classification. Les données sont alors classifié de la manière suivante :
   \begin{center}
   \begin{tabular}{|c|c|c|c|}
    \hline
@@ -213,7 +229,8 @@
   
   \begin{figure}[H]
   \center
-   \includegraphics[width=9cm]{test_acp.png}
+  \includegraphics[width=9cm]{test_acp.png}
+   \includegraphics[width=9cm]{test_classifie.png}
    \caption{Graphique des données de test classifié par analyse linéaire discriminante}
   \end{figure}
   
@@ -233,9 +250,56 @@
   \end{center}
   
   Les résultats sont à peu prêt équivalant aux données d'apprentissage, c'est à nouveau la classe rouge
-  qui à le plus grand taux d'erreur.
+  qui à le plus grand taux d'erreur. Les résultats de cette classification sont trop juste car les erreurs
+  de classification se concentre sur une classe plus que sur les deux autres dans notre exemple.
   
+  \section{Analyse factorielle discriminante}
   
+  Le but de cette méthode est de rechercher l'attribut qui maximise la distance entre
+  les moyennes de chaque classe et minimise la dispersion intra-classe. Pour cela nous
+  devons d'abord calculer les matrices dispersion intra et inter-classe.
+  
+  \subsection{Estimation des moyennes et co-variances des classes}
+  Nous allons dans un premier temps estimer la moyenne de chaque classe dans le but
+  de calculer la matrice dispersion inter-classe. Nous obtenons la moyenne de chaque 
+  classe avec la macro suivante : 
+  
+  \begin{lstlisting}
+    mean1 <- colMeans(x_app[classe_app==1,])
+    mean2 <- colMeans(x_app[classe_app==2,])
+    mean3 <- colMeans(x_app[classe_app==3,])
+  \end{lstlisting}
+
+  Nous pouvons alors calculer la matrice dispersion inter-classe de la manière suivante :
+  
+  \begin{lstlisting}
+    Sb=(mean1-mean)%*%t(mean1-mean)+
+      (mean2-mean)%*%t(mean2-mean)+
+      (mean3-mean)%*%t(mean3-mean)
+  \end{lstlisting}
+  
+  Pour la matrice dispersion intra-classe, nous calculons la matrice de co-variance de chaque
+  classe, puis nous calculons la matrice dispersion comme ce-ci : 
+  
+  \begin{lstlisting}
+    Sw=S1+S2+S3
+  \end{lstlisting}
+  
+  Il reste à calculer l'équation de la droite avec la macro suivante : 
+  
+  \begin{lstlisting}
+    invSw= solve(Sw)
+    invSw_by_Sb= invSw %*% Sb
+    Vp<- eigen(invSw_by_Sb)
+  \end{lstlisting}
+  
+  Nous obtenons le résultat suivant : 
+  
+  \begin{figure}[H]
+  \center
+   \includegraphics[width=9cm]{apprentissage_acp.png}
+   \caption{Graphique des données d'apprentissage classifié par analyse linéaire discriminante}
+  \end{figure}
   
 \end{document}  
 
