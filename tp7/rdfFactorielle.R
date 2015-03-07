@@ -10,32 +10,42 @@ library("lattice")
 (load(file='x_test.data'))
 (load(file='classe_test.data'))
 
-#//////////// TEST ////////////////
-n_test <- 300
+n_app <- 300
 
-couleur2<-rep('red',n_test)
-couleur2[classe_test==2]='green'
-couleur2[classe_test==3]='blue'
+couleur<-rep('red',n_app)
+couleur[classe_app==2]='green'
+couleur[classe_app==3]='blue'
 
-plot(x_test, col = couleur2, main="test")
+plot(x_test, col = couleur, main="donnees de test")
 
-#//////////// APPRENTISSAGE ////////////////
-n_test <- 300
+# moyenne classe1
+mean <- colMeans(x_app)
+mean1 <- colMeans(x_app[classe_app==1,])
+mean2 <- colMeans(x_app[classe_app==2,])
+mean3 <- colMeans(x_app[classe_app==3,])
 
-couleur<-rep('red',n_test)
-couleur[classe_test==2]='green'
-couleur[classe_test==3]='blue'
+print(paste("mean : ", mean))
+print(paste("mean 1 : ", mean1))
+print(paste("mean 2 : ", mean2))
+print(paste("mean 3 : ", mean3))
+# covariance intra-classe classe 1
+S1 <- cov(x_app[classe_app==1,])
+S2 <- cov(x_app[classe_app==2,])
+S3 <- cov(x_app[classe_app==3,])
 
-plot(x_test, col = couleur, main="donnees d'apprentissage")
+Sw=S1+S2+S3
+# covariance inter-classe
+Sb=(mean1-mean)%*%t(mean1-mean)+
+  (mean2-mean)%*%t(mean2-mean)+
+  (mean3-mean)%*%t(mean3-mean)
 
-#calcul de la covariance
-covariance <- cov(x_test)
-print("matrice de la covariance")
-print(covariance)
+# Resolution equation
+invSw= solve(Sw)
+invSw_by_Sb= invSw %*% Sb
+Vp<- eigen(invSw_by_Sb)
 
-Vp <- eigen(covariance)
-
-#affichage de la pente
+# Affichage de la droite correspondant au vecteur propre
+# dont la valeur propre la plus elevee
 pente <- Vp$vectors[2,1]/Vp$vectors[1,1]
 abline(a = 0, b = pente, col = "blue")
 
@@ -72,7 +82,7 @@ shape<-rep(1,n_app)
 shape[assigne_app$class==2]=2
 shape[assigne_app$class==3]=3
 # Affichage des projections apprentissage classees
-plot(x_test,col=couleur2,pch=shape,xlab = "X1", ylab = "X2")
+plot(x_test,col=couleur,pch=shape,xlab = "X1", ylab = "X2")
 
 # #produit scalaire
 # ScalarProduct_app <- x_app
