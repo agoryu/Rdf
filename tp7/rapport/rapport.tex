@@ -131,7 +131,7 @@
   
   \section*{Introduction}
   Lors de ce TP, nous cherchons à passer d'une représentation de la classification de données
-  bi-dimensionnelle à une représentation mono-dimensionnelle. Pour cela, nous nous servons de
+  bi-dimensionnelles à une représentation mono-dimensionnelle. Pour cela, nous nous servons de
   deux méthodes : l'analyse en composantes principales et l'analyse factorielle discriminante.
   Afin de déterminer la méthode la plus performante pour notre cas d'étude, nous avons classifié
   les données projetées avec une analyse linéaire discriminante.
@@ -145,7 +145,7 @@
    \caption{Graphique des données d'apprentissage}
   \end{figure}
   
-  Nous pouvons voir que les données sont regroupé par classe pour les données d'apprentissage.
+  Nous pouvons voir que les données sont regroupées par classe pour les données d'apprentissage.
   
   \begin{figure}[H]
   \center
@@ -158,10 +158,10 @@
   \section{Analyse en composantes principale}
   
   Tout d'abord, nous calculons la co-variance des données d'apprentissage dans le but de déterminer
-  l'axe le plus adapté à l'analyse des données. Nous déterminons cette axe en prenant comme vecteur
-  le vecteur propre de la valeur propre la plus élevé.\\
+  l'axe le plus adapté à l'analyse des données. Nous déterminons cet axe en prenant comme vecteur
+  le vecteur propre de la valeur propre la plus élevée.\\
   
-  \begin{lstlisting}[caption=Calcule de l'axe discriminant]
+  \begin{lstlisting}[caption=Calcul de l'axe discriminant]
   Vp <- eigen(covariance)
 
   #affichage de la pente
@@ -187,7 +187,7 @@
   \begin{figure}[H]
   \center
    \includegraphics[width=9cm]{apprentissage_acp.png}
-   \caption{Graphique des données d'apprentissage projeté sur la droite}
+   \caption{Graphique des données d'apprentissage projetées sur la droite}
   \end{figure}
   
   Nous pouvons voir sur ce graphique qu'il y a une zone sur l'axe discriminant où il y de nombreuses
@@ -202,11 +202,11 @@
   \begin{figure}[H]
   \center
    \includegraphics[width=9cm]{apprentissage_classifie.png}
-   \caption{Graphique des données d'apprentissage classifié par analyse linéaire discriminante}
+   \caption{Graphique des données d'apprentissage classifiées par analyse linéaire discriminante}
   \end{figure}
 
-  Nous avons créé un tableau contenant la position des données afin de connaître quels classes
-  comportent le plus d'erreur de classification. Les données sont alors classifié de la manière suivante :
+  Nous avons créé un tableau contenant la position des données afin de connaître quelles classes
+  comportent le plus d'erreur de classification. Les données sont alors classifiées de la manière suivante :
   \begin{center}
   \begin{tabular}{|c|c|c|c|}
    \hline
@@ -221,8 +221,8 @@
   \end{tabular}
   \end{center}
 
-  On peut voir dans ce tableau qu'il n'y a aucune erreur sur la classe bleu. En revanche, il n'y a que 66\%
-  de données de la classe rouge qui sont correcte.\\
+  On peut voir dans ce tableau qu'il n'y a aucune erreur sur la classe bleue. En revanche, il n'y a que 66\%
+  de données de la classe rouge qui sont correctes.\\
   
   Nous avons effectué la même classification avec les données tests. Nous obtenons un taux de bonne classification
   de 87\%.
@@ -231,10 +231,10 @@
   \center
   \includegraphics[width=9cm]{test_acp.png}
    \includegraphics[width=9cm]{test_classifie.png}
-   \caption{Graphique des données de test classifié par analyse linéaire discriminante}
+   \caption{Graphique des données de test classifiées par analyse linéaire discriminante}
   \end{figure}
   
-  Les données sont alors classifié de la manière suivante :
+  Les données sont alors classifiées de la manière suivante :
   \begin{center}
   \begin{tabular}{|c|c|c|c|}
    \hline
@@ -250,8 +250,8 @@
   \end{center}
   
   Les résultats sont à peu prêt équivalant aux données d'apprentissage, c'est à nouveau la classe rouge
-  qui à le plus grand taux d'erreur. Les résultats de cette classification sont trop juste car les erreurs
-  de classification se concentre sur une classe plus que sur les deux autres dans notre exemple.
+  qui a le plus grand taux d'erreur. Les résultats de cette classification sont trop justes car les erreurs
+  de classification se concentrent sur une classe plus que sur les deux autres dans notre exemple.
   
   \section{Analyse factorielle discriminante}
   
@@ -279,7 +279,7 @@
   \end{lstlisting}
   
   Pour la matrice dispersion intra-classe, nous calculons la matrice de co-variance de chaque
-  classe, puis nous calculons la matrice dispersion comme ce-ci : 
+  classe, puis nous calculons la matrice dispersion comme ceci : 
   
   \begin{lstlisting}
     Sw=S1+S2+S3
@@ -302,8 +302,8 @@
   \end{figure}
   
   On voit que l'axe disciminant possède une pente plus importante que dans une analyse en 
-  composantes principales. Cela permet une meilleur séparation des classes rouge et verte, car
-  on peu voir que les projetés des données de la classe verte sont beaucoup moins mélangé 
+  composantes principales. Cela permet une meilleure séparation des classes rouge et verte, car
+  on peut voir que les projetés des données de la classe verte sont beaucoup moins mélangées 
   que dans l'analyse précédente. Pour vérifier cela, nous avons effectué une analyse linéaire
   discriminante, ce qui nous donne un taux de bonne classification de 97\%, ce qui est bien
   meilleur qu'une analyse en composantes principales. 
@@ -331,11 +331,11 @@
   \end{tabular}
   \end{center}
   
-  On voit que les erreurs que nous avions précédemment avec la classe rouge on était grandement
-  diminué.\\
+  On voit que les erreurs que nous avions précédemment avec la classe rouge ont été grandement
+  diminuées.\\
   
   Nous avons effectué les mêmes analyses sur les données de test. Le taux de bonne classification de ces 
-  données est de 96\%. Là encore, l'analyse factorielle fournit de meilleur résultat que l'analyse en composante
+  données est de 96\%. Là encore, l'analyse factorielle fournit de meilleurs résultats que l'analyse en composante
   principale.\\
   
   \begin{figure}[H]
@@ -364,9 +364,9 @@
   \end{tabular}
   \end{center}
   
-  Donc l'analyse factorielle est meilleur que l'analyse en composante de par sa pente, qui est plus
+  Donc, l'analyse factorielle est meilleure que l'analyse en composante de par sa pente, qui est plus
   grande et qui permet ainsi d'avoir une distance assez importante entre les classes tout en
-  regroupant un maximum les données de chacune d'entre elle.
+  regroupant un maximum les données de chacune d'entre elles.
   
   \section{Comparaison classification dans l'espace d'origine bi-dimensionnel vs sur le premier axe}
   Maintenant que nous connaissons les taux de bonne classification sur le premier axe, nous allons
@@ -379,12 +379,12 @@
     \caption{Analyse linéaire discriminante sur l'espace d'origine}
   \end{figure}
   
-  L'analyse dans l'espace d'origine reste meilleur que celle sur le premier axe, car l'espace bidimensionnel
-  ne projete pas les données ce qui évite quelques erreurs.
+  L'analyse dans l'espace d'origine reste meilleure que celle sur le premier axe, car l'espace bidimensionnel
+  ne projete pas les données, ce qui évite quelques erreurs.
   %TODO question 10 a voir
   
   \section{Conclusion}
-  Nous avons vu qu'il n'existe pas de méthode d'analyse adapté à toutes les situation. L'analyse discriminante dans 
+  Nous avons vu qu'il n'existe pas de méthode d'analyse adaptée à toutes les situations. L'analyse discriminante dans 
   l'espace d'origine obtient un meilleur taux de bonne classification mais n'est pas le plus performant en temps
   de calcul.
   
