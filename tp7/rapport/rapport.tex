@@ -134,7 +134,7 @@
   bi-dimensionnelle à une représentation mono-dimensionnelle. Pour cela, nous nous servons de
   deux méthode : l'analyse en composantes principales et l'analyse factorielle discriminante.
   Afin de déterminer la méthode la plus performante pour notre cas d'étude, nous avons classifié
-  les données projeté avec une analyse linéaire discriminante.
+  les données projetées avec une analyse linéaire discriminante.
  
   \section{Données d'apprentissage}
   Dans un premier temps, nous avons affiché les données d'apprentissage et les données de test.
@@ -301,7 +301,7 @@
    \caption{Graphique des données d'apprentissage après analyse factorielle discriminante}
   \end{figure}
   
-  On voit que l'axe disciminant possède une pent plus importante que dans une analyse en 
+  On voit que l'axe disciminant possède une pente plus importante que dans une analyse en 
   composantes principales. Cela permet une meilleur séparation des classes rouge et verte, car
   on peu voir que les projetés des données de la classe verte sont beaucoup moins mélangé 
   que dans l'analyse précédente. Pour vérifier cela, nous avons effectué une analyse linéaire
@@ -335,7 +335,7 @@
   diminué.\\
   
   Nous avons effectué les mêmes analyses sur les données de test. Le taux de bonne classification de ces 
-  données est de 96\%. La encore l'analyse factorielle fournit de meilleur résultat que l'analyse en composante
+  données est de 96\%. Là encore, l'analyse factorielle fournit de meilleur résultat que l'analyse en composante
   principale.\\
   
   \begin{figure}[H]
@@ -364,7 +364,10 @@
   \end{tabular}
   \end{center}
   
-  %Q9 plus ou moin fait lorsqu'on parle de la pente de la courbe
+  Donc l'analyse factorielle est meilleur que l'analyse en composante de par sa pente, qui est plus
+  grande et qui permet ainsi d'avoir une distance assez importante entre les classes tout en
+  regroupant un maximum les données de chacune d'entre elle.
+  
   \section{Comparaison classification dans l'espace d'origine bi-dimensionnel vs sur le premier axe}
   Maintenant que nous connaissons les taux de bonne classification sur le premier axe, nous allons
   les comparer à ceux de l'espace d'origine. Nous obtenons un taux de bonne classification dans l'espace
@@ -376,10 +379,14 @@
     \caption{Analyse linéaire discriminante sur l'espace d'origine}
   \end{figure}
   
+  L'analyse dans l'espace d'origine reste meilleur que celle sur le premier axe, car l'espace bidimensionnel
+  ne projete pas les données ce qui évite quelques erreurs.
   %TODO question 10 a voir
   
   \section{Conclusion}
-  %TODO
+  Nous avons vu qu'il n'existe pas de méthode d'analyse adapté à toutes les situation. L'analyse discriminante dans 
+  l'espace d'origine obtient un meilleur taux de bonne classification mais n'est pas le plus performant en temps
+  de calcul.
   
   \newpage
   \section{Annexe}
@@ -445,7 +452,7 @@
 
   \end{lstlisting}
   
-  \begin{lstlisting}[caption=Macro de l'analyse en composante principale]
+  \begin{lstlisting}[caption=Macro de l'analyse factorielle discriminante]
   (load(file='x_app.data'))
   (load(file='classe_app.data'))
   (load(file='x_test.data'))
