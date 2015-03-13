@@ -51,28 +51,28 @@
 
 
 \lstset{
-    language=Scilab,
-    captionpos=b,
-    extendedchars=true,
-    frame=lines,
-    numbers=left,
-    numberstyle=\tiny,
-    numbersep=5pt,
-    keepspaces=true,
-    breaklines=true,
-    showspaces=false,
-    showstringspaces=false,
-    breakatwhitespace=false,
-    stepnumber=1,
-    showtabs=false,
-    tabsize=3,
-    basicstyle=\small\ttfamily,
-    backgroundcolor=\color{ligthyellow},
-    keywordstyle=\color{ligthblue},
-    morekeywords={include, printf, uchar},
-    identifierstyle=\color{darkblue},
-    commentstyle=\color{darkgreen},
-    stringstyle=\color{darkred},
+  language=Scilab,
+  captionpos=b,
+  extendedchars=true,
+  frame=lines,
+  numbers=left,
+  numberstyle=\tiny,
+  numbersep=5pt,
+  keepspaces=true,
+  breaklines=true,
+  showspaces=false,
+  showstringspaces=false,
+  breakatwhitespace=false,
+  stepnumber=1,
+  showtabs=false,
+  tabsize=3,
+  basicstyle=\small\ttfamily,
+  backgroundcolor=\color{ligthyellow},
+  keywordstyle=\color{ligthblue},
+  morekeywords={include, printf, uchar},
+  identifierstyle=\color{darkblue},
+  commentstyle=\color{darkgreen},
+  stringstyle=\color{darkred},
 }
 
 
@@ -116,13 +116,13 @@
 % Begin content
 % --------------------------------------
 \begin{document}
-
-% Set language to english
+  
+  % Set language to english
   \selectlanguage{francais}
-
+  
   % Start the page counting
   \pagenumbering{arabic}
-
+  
   \maketitle
   
   \mbox{}
@@ -142,26 +142,42 @@
   la longueur du séparle et la largeur et la hauteur du pétale.\\
   
   \begin{figure}[H]
-  \center
-   \includegraphics[width=9cm]{resultat/separation_espece.png}
-   \caption{Graphique de séparation des données des trois espèces d'iris}
+    \center
+    \includegraphics[width=9cm]{resultat/separation_espece.png}
+    \caption{Graphique de séparation des données des trois espèces d'iris}
   \end{figure}
-
+  
   Nous appliquons la classification K-means sur ces données afin de voir si celui-ci sépare correctement les données.
   Le principe de l'algorithme du K-means est de minimiser la distance entre le centre d'une classe et les données
   qui la constitue. Pour cela, ces centres sont le plus éloigné entre eux à la première itération, puis ils se 
   déplacent à chaque itération jusqu'à se retrouver au centre des données d'une classe.\\
   
+  %TODO réfléchir à pourquoi on a des données qui ont deux formes
   Lorsque nous effectuons cette algorithme sur les données Iris avec quinze itération, nous pouvons voir que l'un des centres se trouve 
   entre deux classes tandis que les deux autres se retrouvent sur la même classe.
   
   \begin{figure}[H]
-  \center
-   \includegraphics[width=9cm]{resultat/kmeans.png}
-   \caption{Résultat de la classification des données Iris par K-means}
+    \center
+    \includegraphics[width=9cm]{resultat/kmeans.png}
+    \caption{Résultat de la classification des données Iris par K-means}
   \end{figure}
   
   %TODO suite de la premiere partie -> reprendre en 1.3
+  \begin{tabular}[|c|c|c|c|c|]
+    \hline
+    iteration & centre 1 & centre 2 & centre 3 & taux bonne classification\\
+    \hline
+    1 & (5.17,) & (,) & (,) & \\
+    \hline
+    2 & (,) & (,) & (,) & \\
+    \hline
+    3 & (,) & (,) & (,) & \\
+    \hline
+    4 & (,) & (,) & (,) & \\
+    \hline
+    5 & (,) & (,) & (,) & \\
+    \hline
+  \end{tabular}
   
   \section{Segmentation d'une image de textures par classification non supervisée des pixels}
   Maintenant nous allons segmenter l'image des gâteaux étudié lors du TP3 grâce à la classification
@@ -170,12 +186,22 @@
   que l'autre est parfaitement à la verticale.
   
   \begin{figure}[H]
-  \center
-   \includegraphics[width=9cm]{resultat/image_combine.png}
-   \caption{Graphique des données des deux images de gâteaux}
+    \center
+    \includegraphics[width=9cm]{resultat/image_combine.png}
+    \caption{Graphique des données des deux images de gâteaux}
   \end{figure}
   
   Nous effectuons la classification des données précédente avec K-means en 30 itération. Le résultat
-  nous donne une classification 
+  nous donne une classification diagonale avec comme premier centre le centre de la forme horizontale et 
+  comme second centre le bas de la forme verticale. Cette algorithme n'a donc pas pris une classe par forme,
+  mais à légèrement découpé la forme verticale.
+  
+  \begin{figure}[H]
+    \center
+    \includegraphics[width=9cm]{resultat/classification_gateau.png}
+    \caption{Résultat de la classification de K-means des données des deux images de gâteaux}
+  \end{figure}
+  
+  %TODO ajout des résultats
   
 \end{document}  
