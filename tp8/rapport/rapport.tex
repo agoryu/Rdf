@@ -131,15 +131,15 @@
   
   \section*{Introduction}
   Jusque là nous avons vu des méthodes de classification supervisée, c'est à dire qu'elles produisaient
-  des règle automatiquement à partir de données fournit au préalable. 
+  des règles automatiquement à partir de données fournies au préalable. 
   Lors de ce TP, nous allons voir une méthode non supervisée qui est la méthode du K-means. Cette méthode
-  va permettre de séparer les données de l'image en plusieurs groupe sans fournir de base données. Nous allons
+  va permettre de séparer les données de l'image en plusieurs groupes sans fournir de base de données. Nous allons
   nous servir de cette technique afin de trouver le seuil le plus approprié à la binarisation d'une image.
   
   \section{Classification des données Iris par la méthode K-means}
   Dans un premier temps, nous classifions les données Iris en trois classes représentant les trois espèces
-  d'iris. Pour différencier les iris nous avons quatre caractéristiques fournit dans les données : la largeur et
-  la longueur du séparle et la largeur et la hauteur du pétale.\\
+  d'iris. Pour différencier les iris, nous avons quatre caractéristiques fournies dans les données : la largeur et
+  la longueur du sépale et la largeur et la hauteur du pétale.\\
   
   \begin{figure}[H]
     \center
@@ -149,12 +149,12 @@
   
   Nous appliquons la classification K-means sur ces données afin de voir si celui-ci sépare correctement les données.
   Le principe de l'algorithme du K-means est de minimiser la distance entre le centre d'une classe et les données
-  qui la constitue. Pour cela, ces centres sont le plus éloigné entre eux à la première itération, puis ils se 
+  qui la constituent. Pour cela, ces centres sont le plus éloigné entre eux à la première itération, puis ils se 
   déplacent à chaque itération jusqu'à se retrouver au centre des données d'une classe.\\
   
   %TODO réfléchir à pourquoi on a des données qui ont deux formes
-  Lorsque nous effectuons cette algorithme sur les données Iris avec quinze itérations, nous pouvons voir que l'un des centres se trouve 
-  entre deux classes tandis que les deux autres se retrouvent sur la même classe.
+  Lorsque nous effectuons cet algorithme sur les données Iris avec quinze itérations, nous pouvons voir que l'un des centres se trouve 
+  entre deux classes, tandis que les deux autres se retrouvent sur la même classe.
   
   \begin{figure}[H]
     \center
@@ -162,10 +162,10 @@
     \caption{Résultat de la classification des données Iris par K-means}
   \end{figure}
   
-  Afin de détecter d'oû vienne les erreurs, nous avons répété le processus précédent cinq fois en y ajoutant
-  une variable permettant de calculer les erreurs. Ainsi nous voyons que le centre se déplace est atteint une
+  Afin de détecter d'où viennent les erreurs, nous avons répété le processus précédent cinq fois en y ajoutant
+  une variable permettant de calculer les erreurs. Ainsi nous voyons que le centre se déplace et atteint une
   position permettant de bien séparer chaque classe. Voici un tableau comportant la position de chaque centre
-  sur les cinq itération, ainsi que le taux d'erreur de la classification.\\
+  sur les cinq itérations, ainsi que le taux d'erreurs de la classification.\\
   
   \begin{center}
   \begin{tabular}{|c|c|c|c|c|}
@@ -186,9 +186,9 @@
   \end{center}
   
   %la pas sur mais je vois pas quoi en conclure.
-  On ne remarque pas de gros changement entre les itérations, à part pour le point 1 entre les itérations
-  4 et 5. De plus, le taux d'erreur varie, mais il revient sur d'ancienne valeur, ce qui signifie que les 
-  cinq itération que nous venons de réaliser ne servent pas et que les centres étaient proche de leur 
+  On ne remarque pas de gros changements entre les itérations, à part pour le point 1 entre les itérations
+  4 et 5. De plus, le taux d'erreurs varie, mais il revient sur d'anciennes valeurs, ce qui signifie que les 
+  cinq itérations que nous venons de réaliser ne servent pas et que les centres étaient proche de leur 
   état final.
   
   %TODO ajout de l'image après les 5 itérations
@@ -196,9 +196,9 @@
   %TODO faire la suite
   
   \section{Segmentation d'une image de textures par classification non supervisée des pixels}
-  Maintenant nous allons segmenter l'image des gâteaux étudié lors du TP3 grâce à la classification
-  K-means. Nous créons une matrice composé des données des deux images. Nous pouvons voir que le nuage
-  de point est composé de deux forme distincte : l'une est à l'horizontale et relativement grosse, tandis 
+  Maintenant nous allons segmenter l'image des gâteaux étudiée lors du TP3 grâce à la classification
+  K-means. Nous créons une matrice composée des données des deux images. Nous pouvons voir que le nuage
+  de points est composé de deux formes distinctes : l'une est à l'horizontale et relativement grosse, tandis 
   que l'autre est parfaitement à la verticale.
   
   \begin{figure}[H]
@@ -207,10 +207,10 @@
     \caption{Graphique des données des deux images de gâteaux}
   \end{figure}
   
-  Nous effectuons la classification des données précédente avec K-means en 30 itération. Le résultat
-  nous donne une classification diagonale avec comme premier centre le centre de la forme horizontale et 
-  comme second centre le bas de la forme verticale. Cette algorithme n'a donc pas pris une classe par forme,
-  mais à légèrement découpé la forme verticale.
+  Nous effectuons la classification des données précédentes avec K-means en 30 itérations. Le résultat
+  nous donne une classification diagonale avec comme premier centre, le centre de la forme horizontale et 
+  comme second centre le bas de la forme verticale. Cet algorithme n'a donc pas pris une classe par forme,
+  mais a légèrement découpé la forme verticale.
   
   \begin{figure}[H]
     \center
