@@ -202,8 +202,17 @@
   %TODO faire la suite
   
   \section{Segmentation d'une image de textures par classification non supervisée des pixels}
-  Maintenant nous allons segmenter l'image étudiée lors du TP3 grâce à la classification
-  K-means. Nous créons une matrice composée des données des deux images. Nous pouvons voir que le nuage
+  Maintenant nous allons segmenter l'image des cercles étudiée lors du TP3 grâce à la classification
+  K-means. Nous disposons des images d'intensités de gris et de textures.
+  
+  \begin{figure}[H]
+    \center
+    \includegraphics[width=3cm]{resultat/rdf-2-classes-texture-1.png}
+    \includegraphics[width=3cm]{resultat/rdf-2-classes-texture-1-text.png}
+    \caption{À gauche l'image des intensités de gris. À droite l'image de texture.}
+  \end{figure}
+  
+  Nous créons une matrice composée des données des deux images. Nous pouvons voir que le nuage
   de points est composé de deux formes distinctes : l'une est à l'horizontale et relativement grosse, tandis 
   que l'autre est parfaitement à la verticale.
   
@@ -215,8 +224,13 @@
   
   Nous effectuons la classification des données précédentes avec K-means en 30 itérations. Le résultat
   nous donne une classification diagonale avec comme premier centre, le centre de la forme horizontale et 
-  comme second centre le bas de la forme verticale. Cet algorithme n'a donc pas pris une classe par forme,
-  mais a légèrement découpé la forme verticale.
+  comme second centre le bas de la forme verticale.\\
+  
+  Nous regroupons ensuite les points en fonction de la distance avec les deux centres trouvées. 
+  Un premier groupe de points plus proches du premier centre et un second groupe de points plus 
+  proches du second centre.\\
+  
+  Nous constatons que cette méthode n'est pas optimale, car la classe verticale est légèrement coupé.\\
   
   \begin{figure}[H]
     \center
@@ -224,6 +238,12 @@
     \caption{Résultat de la classification de K-means des données des deux images}
   \end{figure}
   
-  %TODO ajout des résultats
+  Pour finir, nous reconstruisons l'image binaire correspondante\ldots
+  
+  \begin{figure}[H]
+    \center
+    \includegraphics[width=3cm]{resultat/segmentation_cercle.png}
+    \caption{Segmentation en fonction de l'image des intensités de gris et de l'image de texture.}
+  \end{figure}
   
 \end{document}  
