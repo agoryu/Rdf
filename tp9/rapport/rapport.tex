@@ -1,0 +1,152 @@
+  % --------------------------------------
+% Document Class
+% --------------------------------------
+\documentclass[a4paper,11pt]{article}
+% --------------------------------------
+
+
+
+% --------------------------------------
+% Use Package
+% --------------------------------------
+
+
+\usepackage[francais]{babel}
+%\usepackage{ucs}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{makeidx}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[hidelinks]{hyperref} 
+\usepackage{geometry}
+%\usepackage{lastpage}
+%\usepackage{marginnote}
+\usepackage{fancyhdr}
+%\usepackage{titlesec}
+%\usepackage{framed}
+\usepackage{amsmath}
+\usepackage{empheq}
+\usepackage{array}
+\usepackage{multicol}
+%\usepackage{adjustbox}
+
+% insert code
+\usepackage{listings}
+
+% define our color
+\usepackage{xcolor}
+
+% code color
+\definecolor{ligthyellow}{RGB}{250,247,220}
+\definecolor{darkblue}{RGB}{5,10,85}
+\definecolor{ligthblue}{RGB}{1,147,128}
+\definecolor{darkgreen}{RGB}{8,120,51}
+\definecolor{darkred}{RGB}{160,0,0}
+
+% other color
+\definecolor{ivi}{RGB}{141,107,185}
+
+
+\lstset{
+  language=R,
+  captionpos=b,
+  extendedchars=true,
+  frame=lines,
+  numbers=left,
+  numberstyle=\tiny,
+  numbersep=5pt,
+  keepspaces=true,
+  breaklines=true,
+  showspaces=false,
+  showstringspaces=false,
+  breakatwhitespace=false,
+  stepnumber=1,
+  showtabs=false,
+  tabsize=3,
+  basicstyle=\small\ttfamily,
+  backgroundcolor=\color{ligthyellow},
+  keywordstyle=\color{ligthblue},
+  morekeywords={include, printf, uchar},
+  identifierstyle=\color{darkblue},
+  commentstyle=\color{darkgreen},
+  stringstyle=\color{darkred},
+}
+
+
+% --------------------------------------
+
+
+
+% --------------------------------------
+% Page setting
+% --------------------------------------
+%\pagestyle{empty}
+\setlength{\headheight}{15pt}
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{2}
+
+\makeatletter
+\@addtoreset{chapter}{part}
+\makeatother 
+
+\hypersetup{         % parametrage des hyperliens
+  colorlinks=true,      % colorise les liens
+  breaklinks=true,      % permet les retours à la ligne pour les liens trop longs
+  urlcolor= blue,       % couleur des hyperliens
+  linkcolor= black,     % couleur des liens internes aux documents (index, figures, tableaux, equations,...)
+  citecolor= green      % couleur des liens vers les references bibliographiques
+}
+
+% --------------------------------------
+
+% --------------------------------------
+% Information
+% --------------------------------------
+\title{Compte-rendu TP9 Rdf : Arbres de décision}
+\author{Elliot VANEGUE et Gaëtan DEFLANDRE}
+% --------------------------------------
+
+\definecolor{myColor}{rgb}{0.5, 0.1, 0.75}
+
+% --------------------------------------
+% Begin content
+% --------------------------------------
+\begin{document}
+  
+  % Set language to english
+  \selectlanguage{francais}
+  
+  % Start the page counting
+  \pagenumbering{arabic}
+  
+  \maketitle
+  
+  \mbox{}
+  \newpage
+  \clearpage
+  
+  \section*{Introduction}
+   Durant ce TP, nous allons voir une nouvelle méthode permettant la séparation des données à partir
+   d'un arbre de décision. Le but est de diviser des données en plusieurs étapes et en prenant à chaque fois
+   le meilleurs attributs pour diviser le plus efficacement l'ensemble de données que nous avons.
+
+  \section{Question de bon sens}
+  
+  \section{Jeu du pendu}
+  Durant cet exercice, nous allons travailler avec une base de données contenant des noms d'animaux. Il nous
+  faudra réaliser un algorithme qui va rechercher le nom d'un animal que l'utilisateur aura choisi.\\
+  
+  L'algorithme que nous développons utilise un arbre de décision afin d'optimiser la séléction d'attributs qui
+  divisera les ensemble de nom. Pour commencer, nous créons un tableau dont chaque indice représente le numéro
+  d'une lettre et qui stock le nombre de mot qui utilise une certaine lettre. Cela nous permet de calculer
+  la probabilité qu'une lettre soit dans un mot avec le calcul suivant :
+  $$ p = h / n $$
+  n : nombre de mot\\
+  h : tableau construit précédement\\
+  p : probabilité qu'une lettre apparaisse dans un mot\\
+  
+\end{document}  
