@@ -3,8 +3,9 @@ source ("rdfAnimaux.txt")
 source ("rdfFonction.R")
 
 n <- length(noms)
+partage(noms, 0)
 #print(!is.na(match("pou", noms)))
-jouer(noms)
+#jouer(noms)
 # indice <- getIndice(noms)
 # 
 # print(indice["ensembleA"])

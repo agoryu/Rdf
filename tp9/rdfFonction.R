@@ -83,20 +83,19 @@ containLetter <- function(letter, word) {
   return(FALSE);
 }
 
-# partage <- function(ens) {
-#   
-#   if(length(ens) == 0)
-#     return ()
-#   
-#   attribut <- getIndice(ens)
-#   
-#   lettre1 <- partage(attribut["ensembleA"])
-#   lettre2 <- partage(attribut["ensembleS"])
-#   
-#   return c(lettre1, lettre2)
-# }
+partage <- function(ens, cpt) {
+  
+  if(length(ens) <= 1)
+    return ()
+  
+  attribut <- getIndice(ens)
+  print(paste(cpt, int2st(attribut$pos)))
+  
+  partage(attribut$ensembleA, cpt+1)
+  partage(attribut$ensembleS, cpt+1)
+  
+}
 
-#affichage arbre
 int2st <- function(x) {
   x <- x+96
   mode(x) <- "raw"
