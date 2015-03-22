@@ -5,7 +5,7 @@ str2int <- function(x) {
 getIndice <- function(ens) {
   
   #taille de l'ensemble
-  n <- length(noms)
+  n <- length(ens)
   
   #creation d'une matrice de taille 26 sur nb mot de booleen
   #indique quel lettre sont presentent pour chaque mot
@@ -55,18 +55,19 @@ jouer <- function(ens) {
   size <- nchar(mot)
   tmpEns <- ens
   
-  for(i in 1:size) {
+  while(length(tmpEns) != 1) {
     res <- getIndice(tmpEns)
     
-    if(containLetter(res["pos"], mot) == TRUE) {
-      tmpEns = res["ensembleA"]
-      print(res["pos"])
+     print(paste("lettre = ", int2st(res$pos)))
+    
+    if(containLetter(res$pos, mot) == TRUE) {
+      tmpEns <- res$ensembleA
     } else {
-      tmpEns = res["ensembleS"]
+      tmpEns <- res$ensembleS
     }
-    print(tmpEns)
-    print(length(tmpEns))
   }
+
+  print(paste("mot = ", tmpEns))
 }
 
 containLetter <- function(letter, word) {
@@ -98,6 +99,6 @@ containLetter <- function(letter, word) {
 #affichage arbre
 int2st <- function(x) {
   x <- x+96
-  mode(x) <- "new"
+  mode(x) <- "raw"
   return(rawToChar(x))
 }
