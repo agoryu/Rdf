@@ -31,6 +31,7 @@
 \usepackage{empheq}
 \usepackage{array}
 \usepackage{multicol}
+\usepackage{csquotes}
 %\usepackage{adjustbox}
 
 % insert code
@@ -135,7 +136,17 @@
    le meilleurs attributs pour diviser le plus efficacement l'ensemble de données que nous avons.
 
   \section{Question de bon sens}
-  %TODO
+  Pour la question 1, si le joueur B est sur de pouvoir gagner en quatre propositions alors cela signifie
+  que N vaut 23. Imaginons que pour trouver la réponse, B séléctionne à chacune de ces questions la moitié
+  de l'ensemble qu'il a pu déterminé précédemment. Nous aurons alors un nombre à trois branches avec les réponses
+  \enquote{oui}, \enquote{plus} et \enquote{moins} d'une profondeur de quatre. Nous finirons donc sur un 
+  arbre à $2^n$ feuilles où n est le nombre de proposition. Mais il faut également prendre en compte les nombres que B a proposé. Il y a alors
+  $\sum_{i=0}^n 2^i$ nombre possible.\\
+  
+  S'il faut exactement quatre proposition à B pour trouver le nombre séléctionné par A, cela signifie que B peut 
+  supprimer tous les nombres qui sépare la racine des feuilles, donc la somme que nous avons déterminé précédemment.
+  Il reste alors $2^n$ nombre possible, soit seize proposition à faire.
+  
   \section{Jeu du pendu}
   Durant cet exercice, nous allons travailler avec une base de données contenant des noms d'animaux. Il nous
   faudra réaliser un algorithme qui va rechercher le nom d'un animal que l'utilisateur aura choisi.\\
