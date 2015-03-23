@@ -163,18 +163,21 @@
   Cela va nous permettre de calculer l'entropie pour chaque lettre. L'entropie est un nombre qui mesure
   l'incertitude de données. Dans notre cas nous prenons l'entropie le plus élevé. Cela permet de prendre
   le nombre qui va séparer au mieux deux classes. Cette valeur ce mesure avec le calcule suivant :
-  $$entropie = -(log2(p ^ p) + log2(pInv ^ pInv))$$
-  où pInv est la probabilité inverse de p.\\
+  $$entropie = -(log2(p ^{p}) + log2(pInv ^{pInv}))$$
+  où pInv est la probabilité inverse de p soit $1-p$.\\
   
   Une fois que nous avons l'entropie, nous pouvons créer le jeu du pendu. Le jeu est composé d'une suite de question.
-  Une fois que l'utilisateur a choisi un mot dans la liste, l'ordinateur va tenter de le déterminer. Il va demander
-  si le lettre qu'il a déterminer est présente dans le mot. L'ordinateur aura au préalable divisé l'ensemble en 
-  deux autres ensemble : un qui est composé de la lettre qu'il a choisi et l'autre avec tous les autres mot. 
+  Une fois que l'utilisateur a choisi un nom dans la liste, l'ordinateur va déterminer ce nom, en minimisant le nombre de questions. Il va demander
+  si la lettre qu'il a déterminer est présente dans le mot. L'ordinateur aura au préalable divisé l'ensemble en 
+  deux autres ensemble : l'ensemble des noms composés de la lettre trouvé par l'algorithme et l'ensemble des autres mots. 
   Si la lettre est présente dans le mot, l'algorithme continuera sur le premier ensemble, sinon il prendra le second.\\
   
+  % A voir
   Lorsque nous regardons la profondeur de l'arbre de décision que nous avons créé pour le jeu, nous voyons que 
   sa prodondeur maximal est de neuf. Cela signifie que l'algorithme peut déterminer un mot en au plus neuf
   questions.
+  
+  % Mettre tableau des stats
   
   \section{Conclusion}
   Nous avons pu voir durant ce TP que la recherche d'une données parmis un ensemble fini grâce à un arbre de 
