@@ -3,7 +3,7 @@ source ("rdfAnimaux.txt")
 source ("rdfFonction.R")
 
 n <- length(noms)
-partage(noms, 0)
+calcArbre(noms, 0)
 #print(!is.na(match("pou", noms)))
 #jouer(noms)
 # indice <- getIndice(noms)

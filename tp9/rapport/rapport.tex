@@ -133,27 +133,27 @@
   \section*{Introduction}
    Durant ce TP, nous allons voir une nouvelle méthode permettant la séparation des données à partir
    d'un arbre de décision. Le but est de diviser des données en plusieurs étapes et en prenant à chaque fois
-   le meilleurs attributs pour diviser le plus efficacement l'ensemble de données que nous avons.
+   le meilleur attribut pour diviser le plus efficacement l'ensemble de données que nous avons.
 
   \section{Question de bon sens}
-  Pour la question 1, si le joueur B est sur de pouvoir gagner en quatre propositions alors cela signifie
-  que N vaut 23. Imaginons que pour trouver la réponse, B séléctionne à chacune de ces questions la moitié
-  de l'ensemble qu'il a pu déterminé précédemment. Nous aurons alors un nombre à trois branches avec les réponses
+  Pour la question 1, si le joueur B est sûr de pouvoir gagner en quatre propositions alors cela signifie
+  que N vaut 23. Imaginons que pour trouver la réponse, B sélectionne à chacune de ces questions la moitié
+  de l'ensemble qu'il a pu déterminer précédemment. Nous aurons alors un arbre à trois branches avec les réponses
   \enquote{oui}, \enquote{plus} et \enquote{moins} d'une profondeur de quatre. Nous finirons donc sur un 
-  arbre à $2^n$ feuilles où n est le nombre de proposition. Mais il faut également prendre en compte les nombres que B a proposé. Il y a alors
-  $\sum_{i=0}^n 2^i$ nombre possible.\\
+  arbre à $2^n$ feuilles où n est le nombre de proposition. Mais il faut également prendre en compte les nombres que B a proposés
+  durant le jeu. Il y a alors $\sum_{i=0}^n 2^i$ nombre possible.\\
   
-  S'il faut exactement quatre proposition à B pour trouver le nombre séléctionné par A, cela signifie que B peut 
-  supprimer tous les nombres qui sépare la racine des feuilles, donc la somme que nous avons déterminé précédemment.
-  Il reste alors $2^n$ nombre possible, soit seize proposition à faire.
+  S'il faut exactement quatre propositions à B pour trouver le nombre sélectionné par A, cela signifie que B peut 
+  supprimer tous les nombres qui séparent la racine des feuilles, donc la somme que nous avons déterminée précédemment.
+  Il reste alors $2^n$ nombre possible, soit seize propositions à faire.
   
   \section{Jeu du pendu}
   Durant cet exercice, nous allons travailler avec une base de données contenant des noms d'animaux. Il nous
   faudra réaliser un algorithme qui va rechercher le nom d'un animal que l'utilisateur aura choisi.\\
   
-  L'algorithme que nous développons utilise un arbre de décision afin d'optimiser la séléction d'attributs qui
-  divisera les ensemble de nom. Pour commencer, nous créons un tableau dont chaque indice représente le numéro
-  d'une lettre et qui stock le nombre de mot qui utilise une certaine lettre. Cela nous permet de calculer
+  L'algorithme que nous développons utilise un arbre de décision afin d'optimiser la sélection d'attributs qui
+  divisera les ensembles de noms. Pour commencer, nous créons un tableau dont chaque indice représente le numéro
+  d'une lettre et qui stocke le nombre de mots qui utilisent une lettre sur un indice. Cela nous permet de calculer
   la probabilité qu'une lettre soit dans un mot avec le calcul suivant :
   $$ p = h / n $$
   n : nombre de mot\\
@@ -161,123 +161,247 @@
   p : probabilité qu'une lettre apparaisse dans un mot\\
   
   Cela va nous permettre de calculer l'entropie pour chaque lettre. L'entropie est un nombre qui mesure
-  l'incertitude de données. Dans notre cas nous prenons l'entropie le plus élevé. Cela permet de prendre
-  le nombre qui va séparer au mieux deux classes. Cette valeur ce mesure avec le calcule suivant :
-  $$entropie = -(log2(p ^{p}) + log2(pInv ^{pInv}))$$
-  où pInv est la probabilité inverse de p soit $1-p$.\\
+  l'incertitude de données. Dans notre cas nous prenons l'entropie le plus élevée, ce qui permet de prendre
+  le nombre qui va séparer au mieux deux classes. Cette valeur se mesure avec le calcul suivant :
+  $$entropie = -(log2(p ^{p}) + log2(pInv ^{pInv}))$$ où pInv est la probabilité inverse de p soit $1-p$.\\
   
-  Une fois que nous avons l'entropie, nous pouvons créer le jeu du pendu. Le jeu est composé d'une suite de question.
+  Une fois que nous avons l'entropie, nous pouvons créer le jeu du pendu. Le jeu est composé d'une suite de questions.
   Une fois que l'utilisateur a choisi un nom dans la liste, l'ordinateur va déterminer ce nom, en minimisant le nombre de questions. Il va demander
-  si la lettre qu'il a déterminer est présente dans le mot. L'ordinateur aura au préalable divisé l'ensemble en 
-  deux autres ensemble : l'ensemble des noms composés de la lettre trouvé par l'algorithme et l'ensemble des autres mots. 
+  si la lettre qu'il a déterminée est présente dans le mot. L'ordinateur aura au préalable divisé l'ensemble en 
+  deux autres ensembles : l'ensemble des noms composés de la lettre trouvée par l'algorithme et l'ensemble des autres mots. 
   Si la lettre est présente dans le mot, l'algorithme continuera sur le premier ensemble, sinon il prendra le second.\\
   
-  % A voir
-  Lorsque nous regardons la profondeur de l'arbre de décision que nous avons créé pour le jeu, nous voyons que 
-  sa prodondeur maximal est de neuf. Cela signifie que l'algorithme peut déterminer un mot en au plus neuf
-  questions.
-  
-  % Mettre tableau des stats
+ Lorsque nous regardons la profondeur de l'arbre de décision que nous avons créé pour le jeu, nous voyons que
+sa profondeur maximale est de dix. Cela signifie que l'algorithme peut déterminer un mot en au plus dix
+questions. Parmi les mots qui requièrent le plus de questions, nous avons hareng et panthère. On voit que
+l'ensemble des lettres du mot hareng sont dans le mot panthère excepté le \enquote{g}.\\
+ 
+  \begin{tabular}{|c|c|}
+  \hline
+   mots les plus défavorable & hareng, merlan, panthere, roussette, tortue, varan\\
+   \hline
+   profondeur moyenne & 8.275\\
+   \hline
+  \end{tabular}
+
   
   \section{Conclusion}
-  Nous avons pu voir durant ce TP que la recherche d'une données parmis un ensemble fini grâce à un arbre de 
+  Nous avons pu voir durant ce TP que la recherche d'une données parmi un ensemble fini grâce à un arbre de 
   décision peut être très efficace sans demander un grand nombre de calcul.
   
   \section{Annexe}
   \begin{lstlisting}[caption=Ensemble des fonctions du TP]
-   getIndice <- function(ens) {
+   # --------------------------------------
+# Chargement de la base de noms d'animaux
+# --------------------------------------
+source ("rdfAnimaux.txt")
+# --------------------------------------
+
+
+# --------------------------------------
+# Fonctions
+# --------------------------------------
+str2int <- function(x) { strtoi(charToRaw(x),16L)-96 }
+
+int2str <- function(x) {
+  x <- x+96
+  mode(x) <- "raw"
+  return (rawToChar(x))
+}
+
+
+findBestLetter <- function(mat, n) {
+  h <- numeric(26)
   
-  #taille de l'ensemble
-  n <- length(ens)
-  
-  #creation d'une matrice de taille 26 sur nb mot de booleen
-  #indique quel lettre sont presentent pour chaque mot
-  mat = matrix(rep(0,26*n),nrow=26, ncol=n);
-  for (i in 1:n)
-  {
-    c = str2int(ens[i]);
-    mat[c,i] <- 1;
-  }
-  
-  #creation d'une liste de taille 26 avec le nombre de mot contenant chaque lettre
-  h <- vector(length=26)
-  for (i in 1:26)
-  {
+  for(i in 1:26){
     h[i] = sum(mat[i,])
   }
   
-  #probabilite qu'une lettre apparaisse dans un mot
-  p <- h / n
-  #inverse de la probabilite precedente
-  pInv <- 1 - p
+  # Passage entre 0 et 1 (probabilité)
+  h <- (h/n)
   
-  #calcul de l entropie
-  entropie <- -(log2(p ^ p) + log2(pInv ^ pInv))
+  hinv = 1-h
+  entropie = - (log2(h^h) + log2(hinv^hinv))
   
-  #position de la lettre la plus interessante a choisir
-  position <- which.max(entropie)
+  return (which.max(entropie))
+}
+
+
+findWord <- function(mat, n) {
   
-  ensA <- c()
-  ensS <- c()
+  # condition de fin de récursion
+  if(n==1){
+    return (mat[27,1])
+  }
   
-  for (i in 1:n)
-  {
-    if(mat[position,i] == 1 ){
-      ensA = c(ensA, ens[i])
-    } else {
-      ensS = c(ensS, ens[i])
+  best = findBestLetter(mat,n)
+  
+  print(paste("Ce mot contient-il la lettre '", int2str(best), "' ? (oui/non)", sep=""))
+  res <- readline()
+  
+  n_oui <- sum(mat[best,])
+  n_non <- n - n_oui
+  
+  mat_oui <- matrix(rep(0,27*n_oui),nrow=27, ncol=n_oui);
+  mat_non <- matrix(rep(0,27*n_non),nrow=27, ncol=n_non);
+  
+  cpt_oui <- 1
+  cpt_non <- 1
+  
+  for(i in 1:n){
+    if(mat[best,i]==1){
+      
+      mat_oui[,cpt_oui] = mat[,i]
+      cpt_oui <- cpt_oui+1
+      
+    } else if(mat[best,i]==0){
+      
+      mat_non[,cpt_non] = mat[,i]
+      cpt_non <- cpt_non+1
+      
     }
   }
   
-  return(list(pos = position, ensembleA = ensA, ensembleS = ensS))
-} 
+  if(res == "oui") {
+    return (findWord(mat_oui, n_oui))
+  } else if(res == "non") {
+    return (findWord(mat_non, n_non))
+  }
+}
 
-jouer <- function(ens) {
+traceArbre <- function(vnom, mat, n, depth) {
   
-  mot <- scan("",what="character",nlines=1);
-  size <- nchar(mot)
-  tmpEns <- ens
+  # condition de fin de récursion
+  if(n==1){
+    return (depth-1)
+  }
   
-  while(length(tmpEns) != 1) {
-    res <- getIndice(tmpEns)
-    
-     print(paste("lettre = ", int2st(res$pos)))
-    
-    if(containLetter(res$pos, mot) == TRUE) {
-      tmpEns <- res$ensembleA
-    } else {
-      tmpEns <- res$ensembleS
+  best = findBestLetter(mat,n)
+  
+  if(is.element(int2str(best), vnom)){
+    #print(paste("Lettre '", int2str(best), "' n° ", depth, " est presente", sep=""))
+    res <- "oui"
+  } else {
+    #print(paste("Lettre '", int2str(best), "' n° ", depth, " n'est pas presente", sep=""))
+    res <- "non"
+  } 
+  
+  
+  n_oui <- sum(mat[best,])
+  n_non <- n - n_oui
+  
+  mat_oui <- matrix(rep(0,27*n_oui),nrow=27, ncol=n_oui);
+  mat_non <- matrix(rep(0,27*n_non),nrow=27, ncol=n_non);
+  
+  cpt_oui <- 1
+  cpt_non <- 1
+  
+  for(i in 1:n){
+    if(mat[best,i]==1){
+      
+      mat_oui[,cpt_oui] = mat[,i]
+      cpt_oui <- cpt_oui+1
+      
+    } else if(mat[best,i]==0){
+      
+      mat_non[,cpt_non] = mat[,i]
+      cpt_non <- cpt_non+1
+      
     }
   }
+  
+  if(res == "oui") {
+    return (traceArbre(vnom, mat_oui, n_oui, depth+1))
+  } else if(res == "non") {
+    return (traceArbre(vnom, mat_non, n_non, depth+1))
+  }
+}
+# --------------------------------------
 
-  print(paste("mot = ", tmpEns))
+
+# --------------------------------------
+# Début macro
+# --------------------------------------
+
+
+# INITIALISATION
+
+# Nombre de mots
+n = length(noms)
+
+# mat est un tableau de bouléen, qui indique quelles
+# lettres sont présente dans chacun des mots.
+
+# Création du tableau
+mat = matrix(rep(0,27*n),nrow=27, ncol=n);
+
+# Construction du tableau
+for (i in 1:n)
+{
+  c = str2int(noms[i])
+  mat[c,i] <- 1
+  mat[27,i] <- i
 }
 
-containLetter <- function(letter, word) {
+
+# CHOIX DU MODE
+
+print("Choix du mode: (jeu/arbre/stat)")
+mode <- readline()
+
+stopifnot(is.element(mode,c("jeu","arbre","stat")))
+
+if(mode=="jeu"){
   
-  size <- nchar(word)
-  chaine <- unlist(strsplit(word, split=""))
+  # JEU
   
-  for(i in 1:size) {
-    if(str2int(chaine[i]) == letter) {
-      return(TRUE);
+  print("Pensez à un animal de la liste.")
+  
+  found_id = findWord(mat,n)
+  print(noms[found_id])
+  
+} else if(mode=="arbre"){
+  
+  # ARBRE
+  
+  print("Animal à chercher:")
+  nom <- readline()
+  
+  stopifnot(is.element(nom,noms))
+  
+  vnom <- strsplit(nom,'')[[1]]
+  
+  depth <- traceArbre(vnom, mat, n, 1)
+  print(paste("La profondeur de l'arbre pour le mot \"", nom, "\" est ", depth ,sep=""))
+  
+} else if(mode=="stat"){
+  
+  # STAT
+  
+  depth_max = 0.0
+  depth_tmp = 0.0
+  depth_moy = 0.0
+  id_d_max = 0.0
+  
+  for(i in 1:n){
+    vnom <- strsplit(noms[i],'')[[1]]
+    depth_tmp = traceArbre(vnom, mat, n, 1)
+    print(paste(depth_tmp, noms[i]))
+    depth_moy = depth_moy + depth_tmp
+    if(depth_tmp>depth_max){
+      depth_max = depth_tmp
+      id_d_max = i
     }
   }
-  return(FALSE);
+  
+  depth_moy = depth_moy/n
+  
+  print(paste("Le nombre de question moyenne est", depth_moy, sep=" "))
+  print(paste("Le not le plus dévaforable est", noms[id_d_max], "avec une profondeur de", depth_max, sep=" "))
 }
 
-calcArbre <- function(ens, cpt) {
-  
-  if(length(ens) <= 1)
-    return ()
-  
-  attribut <- getIndice(ens)
-  print(paste(cpt, int2st(attribut$pos)))
-  
-  calcArbre(attribut$ensembleA, cpt+1)
-  calcArbre(attribut$ensembleS, cpt+1)
-  
-}
+# --------------------------------------
+
   \end{lstlisting}
 
 \end{document}  

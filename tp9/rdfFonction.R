@@ -83,7 +83,7 @@ containLetter <- function(letter, word) {
   return(FALSE);
 }
 
-partage <- function(ens, cpt) {
+calcArbre <- function(ens, cpt) {
   
   if(length(ens) <= 1)
     return ()
@@ -91,8 +91,8 @@ partage <- function(ens, cpt) {
   attribut <- getIndice(ens)
   print(paste(cpt, int2st(attribut$pos)))
   
-  partage(attribut$ensembleA, cpt+1)
-  partage(attribut$ensembleS, cpt+1)
+  calcArbre(attribut$ensembleA, cpt+1)
+  calcArbre(attribut$ensembleS, cpt+1)
   
 }
 
