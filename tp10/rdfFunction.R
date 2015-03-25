@@ -21,17 +21,19 @@ splitImageArray <- function( images, rows, cols, height, width ) {
 bestAttribut <- function(ens) {
   
   #taille de l'ensemble
-  n <- length(ens)
+  n <- 400
   size <- 33 * 40
   h <- c(size)
   for (i in 1:size) {
+    h[i] = 0
     for(j in 1:400) {
-      h[i] = h[i] + ens[(i-1)*j+i]
+      h[i] = h[i] + ens[(j-1)*size+i]
     }
   }
   
-#   #probabilite qu'une lettre apparaisse dans un mot
-#   p <- h / n
+  #probabilite qu'une lettre apparaisse dans un mot
+  p <- h / n
+  print(p)
 #   #inverse de la probabilite precedente
 #   pInv <- 1 - p
 #   
