@@ -21,27 +21,34 @@ splitImageArray <- function( images, rows, cols, height, width ) {
 bestAttribut <- function(ens) {
   
   #taille de l'ensemble
-  n <- 400
   size <- 33 * 40
-  h <- c(size)
+  p <- c(40 * size)
+  
+  #pixel
   for (i in 1:size) {
-    h[i] = 0
-    for(j in 1:400) {
-      h[i] = h[i] + ens[(j-1)*size+i]
+    #visage
+    for(j in 1:40) {
+      p[j * size + i] = 0
+      #exemplaire visage
+      for(k in 1:8) {
+        p[j * size + i] = p[j * size + i] + ens[i + size * (k*j)]
+      }
+      #calcul moyenne
+      p[j * size + i] = p[j * size + i] / 8
     }
   }
   
-  #probabilite qu'une lettre apparaisse dans un mot
-  p <- h / n
-  print(p)
-#   #inverse de la probabilite precedente
-#   pInv <- 1 - p
-#   
-#   #calcul de l entropie
-#   entropie <- -(log2(p ^ p) + log2(pInv ^ pInv))
-#   
-#   #position de la lettre la plus interessante a choisir
-#   position <- which.max(entropie)
+  entropie <- c(size)
+  for(j in 1:size) {
+    for(i in 1:40) {
+      entropie[j] <- entropie[j] + p[size * i + j] * log(p[size * i + j])
+    }
+  }
+  
+  print(entropie)
+  #position de la lettre la plus interessante a choisir
+  position <- which.min(entropie)
+  return(position)
 #   
 #   ensA <- c()
 #   ensS <- c()
