@@ -1,3 +1,8 @@
+sizePicture <- 33 * 40
+nbApprentissage <- 8
+nbFace <- 40
+
+
 # Chargement d'une image en niveaux de gris
 rdfReadGreyImage <- function (nom) {
   image <- readImage (nom)
@@ -18,66 +23,50 @@ splitImageArray <- function( images, rows, cols, height, width ) {
   return (result);
 }
 
-bestAttribut <- function(ens) {
+countPixel <- function(ens) {
   
-  #taille de l'ensemble
-  size <- 33 * 40
-  p <- c(40 * size)
+  classCount <- c(sizePicture * nbFace)
+  nbPixel <- 0
   
   #pixel
-  for (i in 1:size) {
+  for (i in 1:sizePicture) {
+    
     #visage
-    for(j in 1:40) {
-      p[j * size + i] = 0
+    for(j in 1:nbFace) {
+      position <- j * sizePicture + i
+      classCount[position] = 0
+      
       #exemplaire visage
-      for(k in 1:8) {
-        p[j * size + i] = p[j * size + i] + ens[i + size * (k*j)]
+      for(k in 1:nbApprentissage) {
+        nbPixel = nbPixel + ens[i + sizePicture * (k*j)]
+        classCount[position] = classCount[position] + ens[i + sizePicture * (k*j)]
       }
-      #calcul moyenne
-      p[j * size + i] = p[j * size + i] / 8
     }
   }
   
-  entropie <- c(size)
-  for(j in 1:size) {
+  return(classCount)
+}
+  
+entropieVariation <- function(ens) {
+  
+  sizePicture <- 33 * 40
+  entropie <- c(sizePicture)
+  for(j in 1:sizePicture) {
+    entropie[j] = 0
     for(i in 1:40) {
-      entropie[j] <- entropie[j] + p[size * i + j] * log(p[size * i + j])
+      p <- classCount[sizePicture * i + j] / nbPixel
+      entropie[j] <- entropie[j] + p * log(p)
     }
   }
-  
+
   print(entropie)
   #position de la lettre la plus interessante a choisir
   position <- which.min(entropie)
   return(position)
-#   
-#   ensA <- c()
-#   ensS <- c()
-#   
-#   for (i in 1:n)
-#   {
-#     if(mat[position,i] == 1 ){
-#       ensA = c(ensA, ens[i])
-#     } else {
-#       ensS = c(ensS, ens[i])
-#     }
-#   }
-#   
-#   return(list(pos = position, ensembleA = ensA, ensembleS = ensS))
+
 } 
 
-createArbre <- function(ens) {
-  
-  mot <- scan("",what="character",nlines=1);
-  size <- nchar(mot)
-  tmpEns <- ens
-  
-  while(length(tmpEns) != 1) {
-    res <- getIndice(tmpEns)
-    
-    if(containLetter(res$pos, mot) == TRUE) {
-      tmpEns <- res$ensembleA
-    } else {
-      tmpEns <- res$ensembleS
-    }
-  }
+createTree <- function(ens) {
+  nbPixel <- countPixel(ens)
+  print(nbPixel)
 }
