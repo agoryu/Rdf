@@ -9,6 +9,6 @@ widthFace <- 660 / 20
 heightFace <- 800 / 20
 
 allFaces <- t( imageData( allFaces ) );
-stackedFaces = splitImageArray(allFaces, heightFace, widthFace, 20, 20)
+stackedFaces = splitImageArray(allFaces)
 
 createTree(stackedFaces)

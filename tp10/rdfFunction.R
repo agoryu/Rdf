@@ -13,11 +13,12 @@ rdfReadGreyImage <- function (nom) {
   }
 }
 
-splitImageArray <- function( images, rows, cols, height, width ) {
-  result <- array( , dim = c( height, width, rows * cols ) );
-  for ( i in 1:rows ) {
-    for ( j in 1:cols ) {
-      result[ , , (j-1)*rows+i ] <- images[((i-1)*height+1):(i*height), ((j-1)*width+1):(j*width)];
+splitImageArray <- function( images ) {
+  #result <- array( , dim = c( height, width, rows * cols ) );
+  result <- array( , dim = c( 40, 33, 400 ) );
+  for ( i in 1:20 ) {
+    for ( j in 1:20 ) {
+      result[ , , (j-1)*20+i ] <- images[((i-1)*40+1):(i*40), ((j-1)*33+1):(j*33)];
     }
   }
   return (result);
@@ -25,48 +26,39 @@ splitImageArray <- function( images, rows, cols, height, width ) {
 
 countPixel <- function(ens) {
   
-  classCount <- c(sizePicture * nbFace)
-  nbPixel <- 0
+#   classCount <- array( , dim = c( 40, 33, 40 * 30 ) )
+#   
+#   for(x in 1:33) {
+#     for(y in 1:40) {
+#       for(n in 1:nbFace) {
+#         classCount[ x, y, n] <- 0
+#         for(i in 1:nbApprentissage) {
+#           classCount[x, y, n] <- classCount[x, y, n] + ens[x, y, i+(n-1)*9]
+#         }
+#       }
+#     }
+#   }
   
-  #pixel
-  for (i in 1:sizePicture) {
-    
-    #visage
-    for(j in 1:nbFace) {
-      position <- j * sizePicture + i
-      classCount[position] = 0
-      
-      #exemplaire visage
-      for(k in 1:nbApprentissage) {
-        nbPixel = nbPixel + ens[i + sizePicture * (k*j)]
-        classCount[position] = classCount[position] + ens[i + sizePicture * (k*j)]
-      }
+  pc <- array(, dim=c(40, 33, 0) );
+  # pour chaque classe
+  for ( c in 0:40 ) {
+    csum <- matrix(rep(0, 33*40), nrow=33,ncol=40, byrow=TRUE)
+    # pour chaque image de la classe, dans le nombre pour l'apprentissage
+    for ( i in 1:8 ){
+      imgID <- (c * 10) + i
+      csum <- csum + ens[1,1,imgID]
     }
+    csum <- csum / 8
+    pc <- abind( pc, csum, along=3 )
   }
-  
-  return(classCount)
+  return ( pc )
 }
-  
-entropieVariation <- function(ens) {
-  
-  sizePicture <- 33 * 40
-  entropie <- c(sizePicture)
-  for(j in 1:sizePicture) {
-    entropie[j] = 0
-    for(i in 1:40) {
-      p <- classCount[sizePicture * i + j] / nbPixel
-      entropie[j] <- entropie[j] + p * log(p)
-    }
-  }
-
-  print(entropie)
-  #position de la lettre la plus interessante a choisir
-  position <- which.min(entropie)
-  return(position)
-
-} 
 
 createTree <- function(ens) {
   nbPixel <- countPixel(ens)
-  print(nbPixel)
+  print(length(ens[1,,]))
+  print(length(ens[,1,]))
+  print(length(ens[,,1]))
+  
+  #print(nbPixel)
 }
