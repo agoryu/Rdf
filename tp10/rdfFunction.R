@@ -2,7 +2,6 @@ sizePicture <- 33 * 40
 nbApprentissage <- 8
 nbFace <- 40
 
-
 # Chargement d'une image en niveaux de gris
 rdfReadGreyImage <- function (nom) {
   image <- readImage (nom)
@@ -13,52 +12,131 @@ rdfReadGreyImage <- function (nom) {
   }
 }
 
-splitImageArray <- function( images ) {
-  #result <- array( , dim = c( height, width, rows * cols ) );
-  result <- array( , dim = c( 40, 33, 400 ) );
+#recuperation et segmentation des donne
+#row = 40
+#col = 33
+splitImageArray <- function( images, nbImage, row, col, nbImage ) {
+  result <- array( , dim = c( row, col, nbImage ) );
   for ( i in 1:20 ) {
     for ( j in 1:20 ) {
-      result[ , , (j-1)*20+i ] <- images[((i-1)*40+1):(i*40), ((j-1)*33+1):(j*33)];
+      result[ , , (j-1)*20+i ] <- images[((i-1)*row+1):(i*row), ((j-1)*col+1):(j*col)];
     }
   }
   return (result);
 }
 
-countPixel <- function(ens) {
+#probabilite qu'un pixel soit dans une image
+probabilityOfPixel <- function(ens, present, row, col, nbClasse, nbExemplaire) {
   
-#   classCount <- array( , dim = c( 40, 33, 40 * 30 ) )
-#   
-#   for(x in 1:33) {
-#     for(y in 1:40) {
-#       for(n in 1:nbFace) {
-#         classCount[ x, y, n] <- 0
-#         for(i in 1:nbApprentissage) {
-#           classCount[x, y, n] <- classCount[x, y, n] + ens[x, y, i+(n-1)*9]
-#         }
-#       }
-#     }
-#   }
+  nbPicture <- length(ens[,,1])
+  result <- array( , dim = c( row, col ) )
+  result[,] <- 0
   
-  pc <- array(, dim=c(40, 33, 0) );
-  # pour chaque classe
-  for ( c in 0:40 ) {
-    csum <- matrix(rep(0, 33*40), nrow=33,ncol=40, byrow=TRUE)
-    # pour chaque image de la classe, dans le nombre pour l'apprentissage
-    for ( i in 1:8 ){
-      imgID <- (c * 10) + i
-      csum <- csum + ens[1,1,imgID]
+  for(i in 1:nbClasse) {
+    
+    for(j in 1:nbExemplaire) {
+      if(present[i,j] == 1) {
+        imgID <- ((i-1) * nbExemplaire) + j
+        #somme de pixel
+        result <- result + ens[,,imgID]
+      }
     }
-    csum <- csum / 8
-    pc <- abind( pc, csum, along=3 )
   }
-  return ( pc )
+  
+  #moyenne
+  result <- result / 400
+  return(result)
 }
 
-createTree <- function(ens) {
-  nbPixel <- countPixel(ens)
-  print(length(ens[1,,]))
-  print(length(ens[,1,]))
-  print(length(ens[,,1]))
+#calcul de l'entropie
+getEntropie <- function(ens) {
   
-  #print(nbPixel)
+  p <- ens
+  pInv <- 1 - ens
+  return(-(log(p ^ p) + log(pInv ^ pInv)))
+}
+
+#retourne le nombre de classe encore presente
+checkNbClasse <- function(ens) {
+  
+  cpt <- 0
+  for(i in 1:40) {
+    if(sum(ens[i,]) > 0) {
+      cpt <- cpt +1
+    }
+  }
+  return(cpt)
+}
+
+#contruit l'arbre permettant de savoir si une image est présente ou non
+constructBooleanTab <- function() {
+  stackedFacesI <- array( , dim = c( 40, 10 ) );
+  for(i in 1:40) {
+    for(j in 1:10) {
+      if(j <= 8)
+        stackedFacesI[i,j] <- 1
+      else 
+        stackedFacesI[i,j] <- 0
+    }
+  }
+  return(stackedFacesI)
+}
+
+getTree <- function(pos, ens, present, response) {
+  
+  x <- pos %/% 33
+  y <- pos %% 33
+  cpt <- 0
+  
+  if(x == 0) x = 1
+  if(y == 0) y = 1
+  
+  for (i in 1:40)
+  {
+    for(j in 1:10) {
+      cpt <- cpt+1
+      
+      if(present[i,j] == 1) {
+        if(ens[x, y, cpt] != response[x,y]){
+          present[i,j] <- 0
+        }
+      }
+    }
+  }
+  return(present)
+}
+
+findFace <- function(stackedFaces, stackedFacesI, response) {
+  
+  cpt <- 0
+  
+  #while(checkNbClasse(stackedFacesI) > 1) {
+  while(cpt < 39) {
+    
+    print(paste("passage ", cpt))
+    cpt <- cpt + 1
+    
+    #probabilite qu'un pixel soit dans une image
+    proba <- probabilityOfPixel(stackedFaces, stackedFacesI)
+    
+    #recuperation de l'entropie
+    entropie <- getEntropie(proba)
+    
+    #meilleur position
+    position <- which.max(entropie)
+    
+    stackedFacesI <- getTree(position, stackedFaces, stackedFacesI, response)
+    print(stackedFacesI)
+  }
+  
+  if(checkNbClasse(stackedFacesI) == 1) {
+    for(i in 1:40) {
+      if(sum(ens[i,]) > 0) {
+        print(paste("le visage selectionne appartient a la classe ", i))
+        return(i)
+      }
+    } 
+  } else {
+    print("il n'y a pas de solution")
+  }
 }
