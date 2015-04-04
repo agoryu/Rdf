@@ -53,23 +53,105 @@ readUSPSdata <- function( folder ) {
 	return ( list(data, labels) );
 }
 
-probabilityPixelOfClass <- function( data3D, labels, nnumber, napp ){
-    pc <- array(, dim=c(16, 16, 0) );
+getNAppMask <- function(nnumber, napp) {
+
+    vec <- rep(FALSE, nnumber*10)
 
     # pour chaque classe
     for ( c in 0:9 ) {
-        csum <- matrix(rep(0, 16*16), nrow=16,ncol=16, byrow=TRUE)
 
         # pour chaque image de la classe, dans le nombre pour l'apprentissage 
         for ( i in 1:napp ){
             imgID <- (c * nnumber) + i
-            csum <- csum + data3D[,,imgID]
+            vec[imgID] <- TRUE
+        }
+    }
+    
+    return ( vec )
+}
+
+probabilityPixelOfClassInNApp <- function( data3D, labels, nnumber, napp, mask ) {
+
+    # width
+    W <- 16
+    # heigth
+    H <- 16
+
+    pc <- array(, dim=c(W, H, 0) );
+
+    # pour chaque classe
+    for ( c in 0:9 ) {
+        csum <- matrix(rep(0, W*H), nrow=H,ncol=W, byrow=TRUE)
+        cpt <- 0
+
+        # pour chaque image de la classe, dans les images d'apprentissage 
+        for ( i in 1:napp ){
+            imgID <- (c * nnumber) + i
+            if (mask[imgID]){
+                csum <- csum + data3D[,,imgID]
+                cpt <- cpt + 1
+            }
         }
 
-        csum <- csum / napp
+        csum <- csum / cpt
         pc <- abind( pc, csum, along=3 )
     }
 
     return ( pc )
 }
 
+computeEntropy <- function( pc ) {
+ 
+    # width
+    W <- 16
+    # heigth
+    H <- 16
+
+    sum <- matrix(rep(0, W*H), nrow=H,ncol=W, byrow=TRUE)
+
+    for ( c in 0:9 ){
+        sum <- sum + ( log2(pc[,,c+1]^pc[,,c+1]) )
+    }
+
+    return ( - sum )
+}
+
+whichImgContain <- function( row, col, data, nnumber ) {
+
+    vec <- rep(FALSE, nnumber*10)
+
+    for ( i in 1:(nnumber*10) ) {
+        if ( data[row,col,i] == 1 ) {
+            vec[i] <- TRUE
+        }
+    }
+
+    return ( vec )
+}
+
+# Donne la probabilité que l'image fait partie de la classe 
+# Image dont on parle est celle testé, les calculs on produit 
+# le mask ici en param, en testant l'image
+getProbaComeFromClass <- function( mask, napp) {
+    
+    
+    vsum <- rep(0,10)
+
+    # pour chaque classe
+    for ( c in 0:9 ) {
+
+        # pour chaque image de la classe, dans les images d'apprentissage 
+        for ( i in 1:napp ){
+
+            imgID <- (c * nnumber) + i
+            if (mask[imgID]){
+                vsum[c+1] <- vsum[c+1] + 1 
+            }
+        }
+
+        vsum[c+1] <- vsum[c+1] / napp
+    }
+
+    return ( vsum )
+
+}
