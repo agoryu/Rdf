@@ -53,6 +53,8 @@ readUSPSdata <- function( folder ) {
 	return ( list(data, labels) );
 }
 
+# Retourne un vecteur de booléen de taille le nombre total d'images.
+# Mettant à vrai les images d'apprentissage et à faux les images de test.
 getNAppMask <- function(nnumber, napp) {
 
     vec <- rep(FALSE, nnumber*10)
@@ -70,6 +72,8 @@ getNAppMask <- function(nnumber, napp) {
     return ( vec )
 }
 
+# Retourne la probabilité pour chaque pixel, s'il appartient aux classes, 
+# parmi les images du masque `mask`
 probabilityPixelOfClassInNApp <- function( data3D, labels, nnumber, napp, mask ) {
 
     # width
@@ -100,6 +104,9 @@ probabilityPixelOfClassInNApp <- function( data3D, labels, nnumber, napp, mask )
     return ( pc )
 }
 
+# Retourne l'entropie calculée avec la formule du cours, avec prise 
+# en compte des classes.
+# L'entropie maximale donne le pixels qui sépare les images au mieux.
 computeEntropy <- function( pc ) {
  
     # width
@@ -116,6 +123,9 @@ computeEntropy <- function( pc ) {
     return ( - sum )
 }
 
+# Retourne un vecteur de booléen de taille, le nombre total d'image.
+# TRUE:  le pixel de position `row`, `col` est blanc (à 1)
+# FALSE: le pixel de position `row`, `col` est noir (à 0)
 whichImgContain <- function( row, col, data, nnumber ) {
 
     vec <- rep(FALSE, nnumber*10)
@@ -129,7 +139,7 @@ whichImgContain <- function( row, col, data, nnumber ) {
     return ( vec )
 }
 
-# Donne la probabilité que l'image fait partie de la classe 
+# Retourne la probabilité que l'image fait partie de la classe 
 # Image dont on parle est celle testé, les calculs on produit 
 # le mask ici en param, en testant l'image
 getProbaComeFromClass <- function( mask, napp) {
@@ -155,3 +165,53 @@ getProbaComeFromClass <- function( mask, napp) {
     return ( vsum )
 
 }
+
+# --------------------------------
+
+# Fonction principale qui utile une grande partie des autres fonctions
+# Retourne la classe probable de l'image de test `imgtest`
+findClassFromImgtest <- function( imgtest, data, labels, nnumber, napp, mask ) {
+
+    curentMask <- mask
+
+    repeat {
+
+        pc <- probabilityPixelOfClassInNApp(data, labels, nnumber, napp, curentMask)
+
+        entropy <- computeEntropy(pc)
+
+        # condition d'arret
+        if ( is.nan(sum(entropy)) || sum(curentMask)<250 ){
+            # on s'arrete: 
+            # si il y a des nan dans la matrice entropy
+            # ou 
+            # si on a déja fait beaucoup d'itération
+            break
+        }
+
+        bestPixel <- which.max(entropy)
+
+        best.row <- bestPixel %% 16 
+        if( best.row==0 ){
+            best.row <- 16
+        }
+
+        # on arroundit au supérieur car les indices commence à 1
+        best.col <- ceiling( bestPixel/16 )
+
+        imagesWithBest <- whichImgContain(best.row, best.col, data, nnumber)
+
+        if(imgtest[best.row,best.col] == 1) {
+            curentMask <- imagesWithBest & curentMask
+        } else {
+            curentMask <- !imagesWithBest & curentMask
+        }
+
+    }
+
+    proba <- getProbaComeFromClass(curentMask, napp)
+
+    # on fait -1 car le chiffre 0 commence a l'indice 1
+    return  ( which.max(proba) - 1 )
+}
+

@@ -30,8 +30,9 @@ output <- readUSPSdata("usps")
 data <- output[[1]]
 labels <- output[[2]]
 
-# la moitié des images sont d'apprentissage
-napp <- 1100/2
+# la moitié des images sont d'apprentissage (800 sur 1100)
+napp <- 800
+ntest <- nnumber - napp
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # IMAGE TESTE
@@ -44,60 +45,46 @@ napp <- 1100/2
 #
 # ----------------------
 
-#imgtest <- data[,,850] # 0
-#imgtest <- data[,,1700] # 1
-#imgtest <- data[,,2769] # 2
-#imgtest <- data[,,3820] # 3
-#imgtest <- data[,,4777] # 4
+imgtest <- data[,,851] # 0
+#imgtest <- data[,,1902] # 1
+#imgtest <- data[,,3008] # 2
+#imgtest <- data[,,4120] # 3
+#imgtest <- data[,,5207] # 4
+#imgtest <- data[,,6487] # 5
+#imgtest <- data[,,7409] # 6
+#imgtest <- data[,,8888] # 7
+#imgtest <- data[,,9609] # 8
 #imgtest <- data[,,10996] # 9
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 # image considere pour le calcul de l'entropie
 nappMask <- getNAppMask(nnumber, napp)
-curentMask <- nappMask
+
+foundClass <- findClassFromImgtest( imgtest, data, labels, nnumber, napp, nappMask )
+
+print(paste("L'image testé appartient probablement à la classe", foundClass))
 
 
-# /!\ pour le moment c'est du bricolage
-# a mi-chemin entre respect du cours et fait maison
 
+# -----------------------------------------
+# Taux de bonne classification
+# -----------------------------------------
 
-repeat {
+vecBC <- rep(FALSE, ntest*10)
 
-    pc <- probabilityPixelOfClassInNApp(data, labels, nnumber, napp, curentMask)
-
-    entropy <- computeEntropy(pc)
-
-    # condition d'arret
-    if ( is.nan(sum(entropy)) ){
-        # si il y a des nan dans la matrix entropy on s'arrete    
-        break
+for (c in 0:9){
+    print(paste("Test sur la classe", c))
+    for (i in 1:(ntest)){
+        idData <- (c*nnumber) + napp + i
+        idVecBC <- (c*ntest) + i
+        foundClass <- findClassFromImgtest( data[,,idData], data, labels, nnumber, napp, nappMask )
+        if(foundClass == labels[idData]){
+            vecBC[idVecBC] = TRUE   
+        }
     }
-
-    bestPixel <- which.max(entropy)
-
-    best.row <- bestPixel %% 16 
-    if( best.row==0 ){
-        best.row <- 16
-    }
-
-    # on arroundit au supérieur car les indices commence à 1
-    best.col <- ceiling( bestPixel/16 )
-
-    imagesWithBest <- whichImgContain(best.row, best.col, data, nnumber)
-
-    if(imgtest[best.row,best.col] == 1) {
-        curentMask <- imagesWithBest & curentMask
-    } else {
-        curentMask <- !imagesWithBest & curentMask
-    }
-
-    print(paste("Nombre de pixels restant", (sum(curentMask))))
-
 }
 
-proba <- getProbaComeFromClass(curentMask, napp)
-# on fait -1 car le chiffre 0 commence a l'indice 1
-print(paste("L'image testé appartient probablement à la classe", (which.max(proba)-1)))
-#print(paste("Probabilité: ", (max(proba))))
+tauxBC <- sum(vecBC) / length(vecBC)
 
+print(paste("Taux de bonne clasification", tauxBC))
