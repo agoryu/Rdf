@@ -1,0 +1,317 @@
+  % --------------------------------------
+% Document Class
+% --------------------------------------
+\documentclass[a4paper,11pt]{article}
+% --------------------------------------
+
+
+
+% --------------------------------------
+% Use Package
+% --------------------------------------
+
+
+\usepackage[francais]{babel}
+%\usepackage{ucs}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{makeidx}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[hidelinks]{hyperref} 
+\usepackage{geometry}
+%\usepackage{lastpage}
+%\usepackage{marginnote}
+\usepackage{fancyhdr}
+%\usepackage{titlesec}
+%\usepackage{framed}
+\usepackage{amsmath}
+\usepackage{empheq}
+\usepackage{array}
+\usepackage{multicol}
+\usepackage{csquotes}
+%\usepackage{adjustbox}
+
+% insert code
+\usepackage{listings}
+
+% define our color
+\usepackage{xcolor}
+
+% code color
+\definecolor{ligthyellow}{RGB}{250,247,220}
+\definecolor{darkblue}{RGB}{5,10,85}
+\definecolor{ligthblue}{RGB}{1,147,128}
+\definecolor{darkgreen}{RGB}{8,120,51}
+\definecolor{darkred}{RGB}{160,0,0}
+
+% other color
+\definecolor{ivi}{RGB}{141,107,185}
+
+
+\lstset{
+  language=R,
+  captionpos=b,
+  extendedchars=true,
+  frame=lines,
+  numbers=left,
+  numberstyle=\tiny,
+  numbersep=5pt,
+  keepspaces=true,
+  breaklines=true,
+  showspaces=false,
+  showstringspaces=false,
+  breakatwhitespace=false,
+  stepnumber=1,
+  showtabs=false,
+  tabsize=3,
+  basicstyle=\small\ttfamily,
+  backgroundcolor=\color{ligthyellow},
+  keywordstyle=\color{ligthblue},
+  morekeywords={include, printf, uchar},
+  identifierstyle=\color{darkblue},
+  commentstyle=\color{darkgreen},
+  stringstyle=\color{darkred},
+}
+
+
+% --------------------------------------
+
+
+
+% --------------------------------------
+% Page setting
+% --------------------------------------
+%\pagestyle{empty}
+\setlength{\headheight}{15pt}
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{2}
+
+\makeatletter
+\@addtoreset{chapter}{part}
+\makeatother 
+
+\hypersetup{         % parametrage des hyperliens
+  colorlinks=true,      % colorise les liens
+  breaklinks=true,      % permet les retours à la ligne pour les liens trop longs
+  urlcolor= blue,       % couleur des hyperliens
+  linkcolor= black,     % couleur des liens internes aux documents (index, figures, tableaux, equations,...)
+  citecolor= green      % couleur des liens vers les references bibliographiques
+}
+
+% --------------------------------------
+
+% --------------------------------------
+% Information
+% --------------------------------------
+\title{Compte-rendu TP10 Rdf : Arbres de décision et reconnaissance de visages}
+\author{Elliot VANEGUE et Gaëtan DEFLANDRE}
+% --------------------------------------
+
+\definecolor{myColor}{rgb}{0.5, 0.1, 0.75}
+
+% --------------------------------------
+% Begin content
+% --------------------------------------
+\begin{document}
+  
+  % Set language to english
+  \selectlanguage{francais}
+  
+  % Start the page counting
+  \pagenumbering{arabic}
+  
+  \maketitle
+  
+  \mbox{}
+  \newpage
+  \clearpage
+  
+  \section*{Introduction}
+  Durant ce TP, nous avons cherché à reconnaître des chiffres grâce à l'utilisation d'arbre
+  de décision. La différence avec le TP que nous avons eu précédemment est que nous avons 
+  plusieurs image du même chiffre, ce qui implique une gestion de classe. Chaque classe étant
+  un chiffre. Nous allons devoir contruire un arbre sur la base d'image d'apprentissage et tester
+  cet arbre avec des images de test afin de voir si cet algorithme reconnaît facilement les chiffres.
+  
+  \section{Préparation des données}
+  Pour ce TP, nous travaillons avec une base de chiffre stocké dans plusieurs images. Nous avons dans un premier temps
+  du décomposer ces image en plusieurs matrice représentant chaque chiffre avec leur différent exemplaire. Pour cela, nous avons utilisé les 
+  fonctions suivante : 
+  
+  \begin{lstlisting}[caption=Fonction de décomposition de la base]
+    splitImageArray <- function( images, nbImage, row, col, nbImage ) {
+      result <- array( , dim = c( row, col, nbImage ) );
+      for ( i in 1:20 ) {
+        for ( j in 1:20 ) {
+          result[ , , (j-1)*20+i ] <- images[((i-1)*row+1):(i*row), ((j-1)*col+1):(j*col)];
+        }
+      }
+      return (result);
+    }
+  \end{lstlisting}
+  
+  Caractéristique du tableau dans l'exemple des chiffres :
+  \begin{itemize}
+   \item première et deuxième dimension : taille d'une image (16x16)
+   \item troisième dimension : nombre total d'image (11000)
+  \end{itemize}
+
+  \section{Méthodologie}
+  Afin de pouvoir calculer l'entropie, nous avons besoin dans un premier temps de calculer la probabilité qu'un 
+  pixel soit présent dans une classe. Pour cela nous fesons l'adition de toutes les images d'une classe,
+  ce qui revient à aditionner la valeur de chaque exemplaire d'un pixel.
+  
+  \begin{lstlisting}[caption=Fonction de calcul de la probabilité de la présence d'un pixel]
+    probabilityPixelOfClassInNApp <- function( data3D, labels, nnumber, napp, mask ) {
+
+      # width
+      W <- 16
+      # heigth
+      H <- 16
+
+      pc <- array(, dim=c(W, H, 0) );
+
+      # pour chaque classe
+      for ( c in 0:9 ) {
+        csum <- matrix(rep(0, W*H), nrow=H,ncol=W, byrow=TRUE)
+        cpt <- 0
+
+        # pour chaque image de la classe, dans les images d'apprentissage 
+        for ( i in 1:napp ){
+            imgID <- (c * nnumber) + i
+            if (mask[imgID]){
+                csum <- csum + data3D[,,imgID]
+                cpt <- cpt + 1
+            }
+        }
+
+        csum <- csum / cpt
+        pc <- abind( pc, csum, along=3 )
+      }
+
+      return ( pc )
+   }
+  \end{lstlisting}
+  
+  Le paramètre \enquote{mask} est un tableau qui permet de déterminer si l'image traité dans la boucle doit être 
+  prix en compte pour le calcul ou non. Cela permet de différencier les images d'apprentissage des images de test.
+  Cette probabilité va nous permettre de calculer l'entropie comme nous l'avons fait dans le TP précédent mais sur chacune
+  des classes et non pas sur chacun des éléments (exemplaire de chiffre).
+  
+  \begin{lstlisting}[caption=Fonction de calcul de l'entropie]
+   computeEntropy <- function( pc ) {
+ 
+      # width
+      W <- 16
+      # heigth
+      H <- 16
+      sum <- matrix(rep(0, W*H), nrow=H,ncol=W, byrow=TRUE)
+      for ( c in 0:9 ){
+        sum <- sum + ( log2(pc[,,c+1]^pc[,,c+1]) )
+      }
+      return ( - sum )
+   }
+  \end{lstlisting}
+  
+  \section{Sélection de pixel}
+  Pour sélectionner le pixel qui sera le noeud permettant de partager l'ensemble en deux, nous prenons
+  l'entropie la plus élevé. Nous pouvons alors chercher dans quel ensemble l'image se trouve en regardant si
+  elle possède le pixel sélectionné ou non. Ainsi nous éliminons toutes les images qui n'ont pas le même pixel
+  que le chiffre recherché. Nous effectuons ce calcule jusqu'à ce qu'il n'y est plus qu'une seul classe parmis les 
+  images.
+  
+  \begin{lstlisting}[caption=Algorithme principal du TP]
+   # nombre d'image par classe
+   nnumber <- 1100
+
+   # largeur et hauteur d'une image d'un chiffre
+   width <- 16
+   heigth <- 16
+
+   # lecture des images binaires
+   output <- readUSPSdata("usps")
+
+   data <- output[[1]]
+   labels <- output[[2]]
+
+   # la moitié des images sont d'apprentissage
+   napp <- 1100/2
+
+   # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   # IMAGE TESTE
+   # attention il faut prendre une image dont l'indice n'est pas dans napp
+   # Tous les 1100 images on passe a une autre classe (autre chiffre),
+   # Les images de 1 à 550 sont d'apprentissage.
+   #
+   # Par exemple de 1 à 550 c'est l'apprentissage des images de 0 et 
+   # de 4401 à 4950 c'est l'apprentissage des images de 4
+   #
+   # ----------------------
+
+   #imgtest <- data[,,850] # 0
+   #imgtest <- data[,,1700] # 1
+   #imgtest <- data[,,2769] # 2
+   #imgtest <- data[,,3820] # 3
+   #imgtest <- data[,,4777] # 4
+   #imgtest <- data[,,10996] # 9
+
+   # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+   # image considere pour le calcul de l'entropie
+   nappMask <- getNAppMask(nnumber, napp)
+   curentMask <- nappMask
+
+   # /!\ pour le moment c'est du bricolage
+   # a mi-chemin entre respect du cours et fait maison
+
+   repeat {
+
+     pc <- probabilityPixelOfClassInNApp(data, labels, nnumber, napp, curentMask)
+
+     entropy <- computeEntropy(pc)
+
+     # condition d'arret
+     if ( is.nan(sum(entropy)) ){
+        # si il y a des nan dans la matrix entropy on s'arrete    
+        break
+     }
+
+     bestPixel <- which.max(entropy)
+
+     best.row <- bestPixel %% 16 
+     if( best.row==0 ){
+        best.row <- 16
+     }
+
+     # on arroundit au supérieur car les indices commence à 1
+     best.col <- ceiling( bestPixel/16 )
+
+     imagesWithBest <- whichImgContain(best.row, best.col, data, nnumber)
+
+     if(imgtest[best.row,best.col] == 1) {
+        curentMask <- imagesWithBest & curentMask
+     } else {
+        curentMask <- !imagesWithBest & curentMask
+     }
+
+     print(paste("Nombre de pixels restant", (sum(curentMask))))
+
+  }
+
+  proba <- getProbaComeFromClass(curentMask, napp)
+  # on fait -1 car le chiffre 0 commence a l'indice 1
+  print(paste("L'image testé appartient probablement à la classe", (which.max(proba)-1)))
+  \end{lstlisting}
+  
+  \section*{Conclusion}
+  Nous avons pu voir que cette méthode de reconnaissance de forme ne permet pas d'avoir un résultat
+  très fiable. En effet plusieurs chiffres, sont mal reconnu par l'algorithme étudié lors de ce TP.
+  La valeur des pixels sur une image en dégradé de gris ne suffit donc pas, il faudrait utiliser 
+  d'avantage de paramètre comme la couleur de la peau ou la position de certaines caractèristique du visage
+  pour rendre cette algorithme plus fiable.
+  
+\end{document}  
