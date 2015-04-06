@@ -1,15 +1,21 @@
+# -----------------------------------------------
 # Chargement des fonctions externes
+# -----------------------------------------------
+
 library ("EBImage")
 library( abind );
 source ("rdfTools.R")
+
+
+
 
 # -----------------------------------------------
 # Images des chiffres:
 # width : 528px
 # height: 544px
-# colonne de chiffre: 32 complètes + 1 non complète
+# colonne de chiffre: 32 completes + 1 non complete
 # ligne de chiffre: 34
-# Soit 32col * 34row + 1col(12 chiffre)
+# Soit 32col * 34row + 1col(12 chiffres)
 #
 # Les chiffres dans les images:
 # width: 16px
@@ -17,12 +23,9 @@ source ("rdfTools.R")
 # -----------------------------------------------
 
 
-# nombre d'image par classe
-nnumber <- 1100
-
-# largeur et hauteur d'une image d'un chiffre
-width <- 16
-heigth <- 16
+# -----------------------------------------------
+# DATA ET VARIABLES UTILIES
+# -----------------------------------------------
 
 # lecture des images binaires
 output <- readUSPSdata("usps")
@@ -30,20 +33,36 @@ output <- readUSPSdata("usps")
 data <- output[[1]]
 labels <- output[[2]]
 
-# la moitié des images sont d'apprentissage (800 sur 1100)
-napp <- 800
+# nombre d'images par classe
+nnumber <- 1100
+
+# la moitie des images sont d'apprentissage (550 sur 1100)
+napp <- 550
 ntest <- nnumber - napp
 
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-# IMAGE TESTE
-# attention il faut prendre une image dont l'indice n'est pas dans napp
+# largeur et hauteur d'une image d'un chiffre
+width <- 16
+heigth <- 16
+
+
+
+
+
+# -----------------------------------------------
+# TEST SUR UNE IMAGE DE TEST
+# -----------------------------------------------
+
+# >> ------------ >
+#
+# IMAGE TEST
+#
 # Tous les 1100 images on passe a une autre classe (autre chiffre),
 # Les images de 1 à 550 sont d'apprentissage.
 #
 # Par exemple de 1 à 550 c'est l'apprentissage des images de 0 et 
 # de 4401 à 4950 c'est l'apprentissage des images de 4
 #
-# ----------------------
+# -----------------
 
 imgtest <- data[,,851] # 0
 #imgtest <- data[,,1902] # 1
@@ -56,7 +75,7 @@ imgtest <- data[,,851] # 0
 #imgtest <- data[,,9609] # 8
 #imgtest <- data[,,10996] # 9
 
-# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+# < ------------ <<
 
 # image considere pour le calcul de l'entropie
 nappMask <- getNAppMask(nnumber, napp)
@@ -67,9 +86,12 @@ print(paste("L'image testé appartient probablement à la classe", foundClass))
 
 
 
-# -----------------------------------------
-# Taux de bonne classification
-# -----------------------------------------
+
+
+# -----------------------------------------------
+# TAUX DE BONNE CLASSIFICATION
+# (tests sur toutes les images de test)
+# -----------------------------------------------
 
 vecBC <- rep(FALSE, ntest*10)
 

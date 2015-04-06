@@ -1,6 +1,6 @@
-# ------------------------------------------------------
-# Ce fichier contient les fonctions utile pour le tp 10.
-# ------------------------------------------------------
+# -------------------------------------------------------
+# Ce fichier contient les fonctions utiles pour le tp 10.
+# -------------------------------------------------------
 
 # Chargement d'une image en niveaux de gris
 rdfReadGreyImage <- function (nom) {
@@ -53,8 +53,8 @@ readUSPSdata <- function( folder ) {
 	return ( list(data, labels) );
 }
 
-# Retourne un vecteur de booléen de taille le nombre total d'images.
-# Mettant à vrai les images d'apprentissage et à faux les images de test.
+# Retourne un vecteur de booleen de taille le nombre total d'images.
+# Mettant a vrai les images d'apprentissage et à faux les images de test.
 getNAppMask <- function(nnumber, napp) {
 
     vec <- rep(FALSE, nnumber*10)
@@ -72,7 +72,7 @@ getNAppMask <- function(nnumber, napp) {
     return ( vec )
 }
 
-# Retourne la probabilité pour chaque pixel, s'il appartient aux classes, 
+# Retourne la probabilite pour chaque pixel, s'il appartient aux classes, 
 # parmi les images du masque `mask`
 probabilityPixelOfClassInNApp <- function( data3D, labels, nnumber, napp, mask ) {
 
@@ -88,7 +88,8 @@ probabilityPixelOfClassInNApp <- function( data3D, labels, nnumber, napp, mask )
         csum <- matrix(rep(0, W*H), nrow=H,ncol=W, byrow=TRUE)
         cpt <- 0
 
-        # pour chaque image de la classe, dans les images d'apprentissage 
+        # pour chaque image de la classe, dans les images d'apprentissage
+        # et appartenant aux images du mask 
         for ( i in 1:napp ){
             imgID <- (c * nnumber) + i
             if (mask[imgID]){
@@ -106,7 +107,9 @@ probabilityPixelOfClassInNApp <- function( data3D, labels, nnumber, napp, mask )
 
 # Retourne l'entropie calculée avec la formule du cours, avec prise 
 # en compte des classes.
-# L'entropie maximale donne le pixels qui sépare les images au mieux.
+# L'entropie maximale donne le pixel qui separe les images au mieux.
+# Avec ce pixel on peut retrouver une liste d'images ayant ce pixel et 
+# une liste ne l'ayant pas. 
 computeEntropy <- function( pc ) {
  
     # width
@@ -123,13 +126,14 @@ computeEntropy <- function( pc ) {
     return ( - sum )
 }
 
-# Retourne un vecteur de booléen de taille, le nombre total d'image.
-# TRUE:  le pixel de position `row`, `col` est blanc (à 1)
-# FALSE: le pixel de position `row`, `col` est noir (à 0)
+# Retourne un vecteur de booleen de taille, le nombre total d'image.
+# vec[i] == TRUE : le pixel de position `row`, `col` est blanc (à 1) pour l'image i
+# vec[i] == FALSE: le pixel de position `row`, `col` est noir (à 0) pour l'image i
 whichImgContain <- function( row, col, data, nnumber ) {
 
     vec <- rep(FALSE, nnumber*10)
 
+    # pour chaque images dans data
     for ( i in 1:(nnumber*10) ) {
         if ( data[row,col,i] == 1 ) {
             vec[i] <- TRUE
@@ -140,8 +144,8 @@ whichImgContain <- function( row, col, data, nnumber ) {
 }
 
 # Retourne la probabilité que l'image fait partie de la classe 
-# Image dont on parle est celle testé, les calculs on produit 
-# le mask ici en param, en testant l'image
+# Image dont on parle est celle testé et dont les calculs on produit 
+# le masque `mask` avec les fonctions ci-dessus.
 getProbaComeFromClass <- function( mask, napp) {
     
     
